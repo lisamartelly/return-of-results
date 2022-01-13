@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<p>This is the page to enroll a participant</p>
+
+<h3>Enroll a New Participant:</h3>
+<div id="enrollment-form">
+    <form id="enrollment-form" name="enrollment-form" action="/enroll" method="POST" >
+        What study are you enrolling in?
+        <br>
+        <select id="study_id" name="study_id">
+            <option selected disabled>Choose here</option>
+            {% for study in studies %}
+            <option value="{{study.study_id}}" required>{{study.study_name}}</option>
+            {% endfor %} 
+        </select><br>
+        Participant First Name: <input type="text" id="fname" name="fname">
+        Participant Last Name: <input type="text" id="lname" name="lname"><br>
+        email: <input type="text" id="email" name="email"><br>
+        phone numner: <input type="text" id="phone" name="phone"><br>
+        <label for="dob">date of birth:</label>
+        <input type="date" id="dob" name="dob"
+            value="2000-01-01">
+
+        <input type="submit">
+    
+    </form>
+
+{% endblock %}

@@ -57,7 +57,15 @@ for k in range(100):
     p_domain = fake.free_email_domain()
     p_dob = fake.date_of_birth(minimum_age=0, maximum_age=60)
     p_email = f'{p_lname}.{p_fname}@{p_domain}'
-    study_id = randint(1,10)
+    # study_id = randint(1,10)
 
-    crud.create_participant(email=p_email, fname=p_fname, lname=p_lname, dob=p_dob, phone=p_phone, study_id=study_id)
+    crud.create_participant(email=p_email, fname=p_fname, lname=p_lname, dob=p_dob, phone=p_phone)
+
+# enroll each participant in a random study
+participants = crud.return_all_participants()
+for participant in participants:
+    crud.create_participantsstudies_link(
+        participant_id=participant.participant_id,
+        study_id=randint(1,10))
+
 

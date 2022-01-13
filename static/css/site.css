@@ -1,0 +1,16 @@
+
+#study {
+    border: 1px dotted #ccc;
+    padding: 3px;
+}
+#study ul {
+list-style-type: none;
+padding: 0;
+margin: 0;
+}
+#study ul li {
+padding: 5px 0;
+}
+#study ul li:hover {
+background: #eee;
+}

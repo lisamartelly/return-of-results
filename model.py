@@ -4,6 +4,16 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+class ParticipantsStudies(db.Model):
+    """Through table for participants and studies many to many setup"""
+
+    __tablename__ = "participants_studies"
+
+    participants_studies_id = db.Column(db.Integer, primary_key=True)
+    participant_id = db.Column(db.Integer, db.ForeignKey("participants.participant_id"), nullable=False)
+    study_id = db.Column(db.Integer, db.ForeignKey("studies.study_id"), nullable=False)
+
+
 class Participant(db.Model):
     """A study participant"""
 
@@ -17,38 +27,18 @@ class Participant(db.Model):
     lname = db.Column(db.String(30), nullable=False)
     dob = db.Column(db.DateTime, nullable=False)
     phone = db.Column(db.String(30), nullable=False)
-    study_id = db.Column(db.Integer, db.ForeignKey("studies.study_id"), nullable=False)
-
     #hcp info:
     hcp_fname = db.Column(db.String(30), nullable=True)
     hcp_lname = db.Column(db.String(30), nullable=True)
     hcp_phone = db.Column(db.String(30), nullable=True)
     hcp_email = db.Column(db.String, nullable=True)
     hcp_practice = db.Column(db.String, nullable=True)
-
     #relationships
     studies = db.relationship("Study", secondary="participants_studies", back_populates="participants")
     return_decisions = db.relationship("Return_Decision", back_populates="participants")
 
     def __repr__(self):
-        return f'<Participant participant_id={self.user_id} email={self.email} name={self.fname}>'
-
-class Investigator(db.Model):
-    """ create a healthcare provider """
-    __tablename__ = "investigators"
-
-    #Investigator info:
-    investigator_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
-    fname = db.Column(db.String(30), nullable=True)
-    lname = db.Column(db.String(30), nullable=True)
-    phone = db.Column(db.String(30), nullable=True)
-    email = db.Column(db.String, nullable=True)
-
-    studies = db.relationship("Study", back_populates="investigators")
-
-
-    def __repr__(self):
-        return f'<Investigator investigator_id={self.investigator_id} name={self.fname} {self.lname}>'
+        return f'<Participant participant_id={self.participant_id} email={self.email} name={self.fname}>'
 
 class Study(db.Model):
     """ Research study"""
@@ -59,17 +49,32 @@ class Study(db.Model):
     study_name = db.Column(db.String, nullable=True)
     investigational_product = db.Column(db.String, nullable=False)
     investigator_id = db.Column(db.Integer, db.ForeignKey("investigators.investigator_id"), nullable=False)
-
     # status codes: 1=planning 2=active 3=data locked 4=published
     status_code = db.Column(db.Integer, nullable=False)
-
     #relationships:
     participants = db.relationship("Participant", secondary="participants_studies", back_populates="studies")
-    investigators = db.relationship("Investigator", back_populates="studies")
+    investigator = db.relationship("Investigator", back_populates="studies")
     result_plans = db.relationship("Result_Plan", back_populates="studies")
 
     def __repr__(self):
-        return f'<Study study_id={self.study_id} name={self.name} investigator={self.investigator.fname} {self.investigator.lname}>'
+        return f'<Study study_id={self.study_id} name={self.study_name}>'
+
+class Investigator(db.Model):
+    """ create a healthcare provider """
+    
+    __tablename__ = "investigators"
+
+    #Investigator info:
+    investigator_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    fname = db.Column(db.String(30), nullable=True)
+    lname = db.Column(db.String(30), nullable=True)
+    phone = db.Column(db.String(30), nullable=True)
+    email = db.Column(db.String, nullable=True)
+
+    studies = db.relationship("Study", back_populates="investigator")
+
+    def __repr__(self):
+        return f'<Investigator investigator_id={self.investigator_id} name={self.fname} {self.lname}>'
 
 class Result_Plan(db.Model):
     """ Plan for whether to return a result"""
@@ -101,16 +106,6 @@ class Return_Decision(db.Model):
     def __repr__(self):
         return f'<Return Decision return_decision_id={self.return_decision_id} result_plan_id={self.result_plan_id} return_decision={self.return_decision}'
 
-class ParticipantsStudies(db.Model):
-    """Studies that a participant is enrolled in"""
-
-    __tablename__ = "participants_studies"
-
-    participants_studies_id = db.Column(db.Integer, primary_key=True)
-    participant_id = db.Column(db.Integer, db.ForeignKey("participants.participant_id"), nullable=False)
-    study_id = db.Column(db.Integer, db.ForeignKey("studies.study_id"), nullable=False)
-
-
 def connect_to_db(flask_app, db_uri="postgresql:///irr", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
@@ -128,4 +123,4 @@ if __name__ == "__main__":
     # too annoying; this will tell SQLAlchemy not to print out every
     # query it executes.
 
-    connect_to_db(app, echo=False)
+    connect_to_db(app)

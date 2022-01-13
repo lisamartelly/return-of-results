@@ -1,29 +1,56 @@
 'use strict';
 
 
-// function showResultPlans(evt) {
-//     evt.preventDefault();
-//     fetch('/plan-study-visits')
-//         .then(response => response.json())
-//         .then(response => {
-//         document.querySelector('#visit-section').innerHTML = response;
-//         });
-//   }
-  
-// document.querySelector('#submit_visits').addEventListener('click', showResultPlans);
+// function showStudies() {
+//     fetch('json_studies')
+//       .then(response => response.json())
+//       .then(responseData =>
 
-// add event listener to create elements on page for the new forms
-// the test details form will have to be refactored into JS
-
-function addTest(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    console.log(this)
-    const cln = document.getElementsByClassName("result")[0].cloneNode(true);
-    document.querySelector("#result-details").insertBefore(cln,this);
-    console.log('hello world')
-    return false;
+// inspired by: https://www.algolia.com/blog/engineering/how-to-implement-autocomplete-with-javascript-on-your-website/
+            
+var search_terms = ['apple', 'apple watch', 'apple macbook', 'apple macbook pro', 'iphone', 'iphone 12'];
+ 
+function autocompleteMatch(input) {
+  if (input == '') {
+    return [];
+  }
+  var reg = new RegExp(input)
+  return search_terms.filter(function(term) {
+	  if (term.match(reg)) {
+  	  return term;
+	  }
+  });
+}
+ 
+function showResults(val) {
+  res = document.getElementById("result");
+  res.innerHTML = '';
+  let list = '';
+  let terms = autocompleteMatch(val);
+  for (i=0; i<terms.length; i++) {
+    list += '<li>' + terms[i] + '</li>';
+  }
+  res.innerHTML = '<ul>' + list + '</ul>';
 }
 
-document.querySelector("#add-test").addEventListener('click', addTest); 
 
+// function showStudies(val) {
+//     res = document.getElementById("study");
+//     res.innerHTML = '';
+//     if (val == '') {
+//       return;
+//     }
+//     let list = '';
+//     fetch('/json_studies' + val)
+//     .then(response => response.json())
+//     .then(responseData => {
+//        for (i=0; i<responseData.length; i++) {
+//          list += '<li>' + responseData[i] + '</li>';
+//        }
+//        res.innerHTML = '<ul>' + list + '</ul>';
+//        return true;
+//      }).catch(function (err) {
+//        console.warn('Something went wrong.', err);
+//        return false;
+//      });
+//   }

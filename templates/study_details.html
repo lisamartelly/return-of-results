@@ -5,11 +5,20 @@
 <p>This is the study details</p>
 
 <h1>study name = {{study.study_name}}</h1>
+<h3>
+results:
+</h3>
 <p>
-results = 
 {% for result_plan in study.result_plans %}
-<li>{{result_plan}}</li>
+<li><b>visit:</b> {{result_plan.visit}} <b>test name:</b> {{result_plan.test_name}} <b>could it be urgent?</b> {{result_plan.urgency_potential}} <b>will it be returned?</b> {{result_plan.return_plan}} </li>
 </p>
+{% endfor %}
+
+<h3>participants:</h3>
+
+{% for participant in study.participants %}
+<li>{{participant}}</li>
+
 {% endfor %}
 
 {% endblock %}

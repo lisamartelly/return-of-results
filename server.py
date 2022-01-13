@@ -153,11 +153,46 @@ def plan_study():
 
     return redirect(f'/studies/{study.study_id}')
 
+# @app.route('/json_studies')
+# def return_all_studies():
+#     studies = crud.return_all_studies()
+#     study_list = [study.study_name for study in studies]
+#     return jsonify(study_list)
 
-@app.route('/enroll')
-def enroll_participant():
-    pass
+@app.route('/enroll-participant')
+def enroll_participant_form():
+    studies = crud.return_all_studies()
+    return render_template('enroll_participant.html', studies=studies)
 
+@app.route('/enroll', methods=["POST"])
+def create_participant_in_db():
+
+    my_data = request.form
+    for key in my_data:
+        print(f'form key,{key},{my_data[key]}')
+
+    email = request.form.get("email")
+    fname = request.form.get("fname")
+    lname = request.form.get("lname")
+    dob = request.form.get("dob")
+    phone = email = request.form.get("phone")
+    study_id = int(request.form.get("study_id"))
+
+    participant = crud.create_participant(email, fname, lname, dob, phone)
+    ps = crud.create_participantsstudies_link(participant.participant_id, study_id)
+    return redirect(f'/participants/{participant.participant_id}')
+
+@app.route('/participants')
+def show_all_participant():
+
+    participants = crud.return_all_participants()
+    return render_template('/participants.html', participants=participants)
+
+@app.route('/participants/<participant_id>')
+def show_participant_details(participant_id):
+    participant = crud.get_participant_by_id(participant_id)
+    print("participant.studies", participant.studies)
+    return render_template('participant_details.html', participant=participant)
 
 @app.route('/login')
 def login_user():

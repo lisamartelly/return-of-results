@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<p>This is the participant details</p>
+
+<h1>participant name = {{participant.fname}} {{participant.lname}} </h1>
+<h3>
+personal info:
+</h3>
+email = {{participant.email}}
+phone = {{participant.phone}}
+dob = {{participant.dob}}
+<p>
+<h3>studies that participant is in: </h3>
+{% for study in participant.studies %}
+<li><b>study:</b> {{study.study_name}} <b>status:</b> {{study.status_code}} 
+</p>
+{% endfor %}
+
+{% endblock %}

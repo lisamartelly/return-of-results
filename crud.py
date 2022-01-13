@@ -1,13 +1,13 @@
 """CRUD operations."""
 
-from model import db, Participant, Study, Investigator, Result_Plan, connect_to_db
+from model import db, Participant, Study, Investigator, Result_Plan, ParticipantsStudies, connect_to_db
 
 # CREATIONS
 
-def create_participant(email, fname, lname, dob, phone, study_id):
+def create_participant(email, fname, lname, dob, phone):
     """Create and return a new user."""
 
-    participant = Participant(email=email, fname=fname, lname=lname, dob=dob, phone=phone, study_id=study_id)
+    participant = Participant(email=email, fname=fname, lname=lname, dob=dob, phone=phone)
 
     db.session.add(participant)
     db.session.commit()
@@ -38,6 +38,19 @@ def create_study(investigator_id, study_name, investigational_product, status_co
     db.session.commit()
 
     return study
+
+def create_participantsstudies_link(participant_id, study_id):
+    """Create and return a new study."""
+
+    ps = ParticipantsStudies(
+        participant_id=participant_id,
+        study_id=study_id
+    )
+
+    db.session.add(ps)
+    db.session.commit()
+
+    return ps
 
 def create_result_plan(study_id, result_category, visit, urgency_potential, return_plan, test_name, return_timing):
     """Create and return a new study."""
