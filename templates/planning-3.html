@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<p>This is the planning page</p>
+
+<h3>Add each result for each visit:</h3>
+<div id="planning-form">
+
+{% for visit in dict_visits %}
+
+<form id="result-details" action="/plan-study" method="POST">
+    
+    <h3> {{ visit }} </h3>
+
+    {{ dict_visits }}
+
+    {% for i in range(dict_visits[visit]) %}
+
+    <div class="test" id={{visit}}> 
+        <br>
+
+        Test name:
+        <input type="text" name="{{visit}}-test{{i}}-test-name" required> 
+        <br>
+
+        Is there a possibility for this test result to be urgent?
+        <br>
+
+        <select id="{{visit}}-urgency-potential" name="{{visit}}-test{{i}}-urgency-potential">
+            <option selected disabled>Choose here</option>
+            <option value="yes" required>Yes</option>
+            <option value="no" required>No</option>
+        </select>
+        <br>
+
+        <!-- <input type="radio" id="{{visit}}-yes" name="urgency-potential" value="yes" required>
+        <label for="yes">Yes</label>
+        <input type="radio" id="{{visit}}-no" name="urgency-potential" value="no">
+        <label for="no">No</label><br> -->
+
+        How would you categorize this test result? <br>
+
+        <select id="{{visit}}-result_category" name="{{visit}}-test{{i}}-result_category">
+            <option selected disabled>Choose here</option>
+            <option value="actionable" required>Actionable</option>
+            <option value="personally-valuable" required>Personally Valuable</option>
+        </select>
+
+        <br>
+        <!-- <input type="radio" id="{{visit}}-actionable" name="result_category_code" value="1" required>
+        <label for="actionable">Actionable</label>
+        <input type="radio" id="{{visit}}-personally-valuable" name="result_category_code" value="2">
+        <label for="personally-valuable">Personally Valuable</label>
+        <input type="radio" id="{{visit}}-unknown" name="result_category_code" value="3">
+        <label for="unknown">Unknown Implications</label>
+        <br> -->
+
+        Are you going to return this result?
+        <br>
+        
+        <select id="{{visit}}-return_plan" name="{{visit}}-test{{i}}-return_plan">
+            <option selected disabled>Choose here</option>
+            <option value="yes" required>Yes</option>
+            <option value="no" required>No</option>
+        </select>
+        
+        When are you going to return this result?
+        <br>
+        <select id="{{visit}}-return_timing" name="{{visit}}-test{{i}}-return_timing">
+            <option selected disabled>Choose here</option>
+            <option value="during" required>During</option>
+            <option value="after" required>After</option>
+        </select>
+        
+        <!-- <input type="radio" id="{{visit}}-during" name="return_timing" value="during" required>
+        <label for="during">During the study</label><br>
+        <input type="radio" id="{{visit}}-after" name="return_timing" value="after">
+        <label for="after">After the study</label><br>
+        <input type="radio" id="{{visit}}-na" name="return_timing" value="na">
+        <label for="na">Not Applicable</label><br><br> -->
+    </div>
+
+    {% endfor %}
+    
+{% endfor %}
+
+<div>
+    <input type="submit"> 
+</div>
+    
+</form>
+
+{% endblock %}

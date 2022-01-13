@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<p>This is the planning 1 page</p>
+
+<h1> Plan to return results: </h1>
+<div id="planning-form">
+
+<!-- eventually toggle off with css -->
+<form id="result-details" action="/planning-2" method="POST">
+    <div class="study">
+        <label>Study name:</label>
+        <input type="text" name="study-name" required>
+        <label for="study-investigator">Investigator:</label>
+        <select id="study-investigator" name="study-investigator">
+            <option selected disabled>Choose here</option>
+            {% for investigator in investigators%}
+            <option value={{investigator.investigator_id}} required>{{investigator.lname}}, {{investigator.fname}}</option>
+            {% endfor %}
+        </select>
+        <br>At which study visits will you be collecting data?<br>
+        <input type="checkbox" name="visits" value="recruitment">
+        <label for="recruitment">Recruitment</label>
+        <input type="checkbox" name="visits" value="screening">
+        <label for="screening">Screening</label>
+        <input type="checkbox" name="visits" value="consent">
+        <label for="consent">Consent</label><br>
+        
+        <label for="num-visits">How many additional study visits will you have where you collect data?</label>
+        <input type="text" id="num-visits" name="num-visits"min="0" max="100">
+    </div>
+    <input type=submit>
+</form>
+
+
+{% endblock %}

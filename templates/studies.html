@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h1>These are the studies</h1>>
+
+<p>
+{% for study in studies %}
+<li><a href="/studies/{{study.study_id}}">name: {{study.study_name}}, status={{study.status_code}}</a></li>
+{% endfor %}
+</p>
+
+{% endblock %}

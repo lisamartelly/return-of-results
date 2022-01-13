@@ -1,0 +1,57 @@
+
+Step 1:
+When will you be collecting data? (checkboxes) - session cookies? dictionary?
+
+Step 2:
+What tests will you run? in each? (checkboxes) - session cookies? dictionary? name each?
+
+Step 3:
+branches for each - will it be urgent/actionable/personally valuable/unknown? - check for urgent, radio for other 3
+
+
+final data structure for PLANNING:
+
+{results : 
+    {
+    recruitment: 
+        { name_test : 
+            {   urgent: yes,
+                type: actionable,
+                return: yes
+                }, 
+        name_test2: 
+            {   urgent: yes,
+                type: actionable,
+                return: yes
+                }
+        },
+    },
+    { 
+    visit1 :
+        { name_test : 
+            {   urgent: yes,
+                type: actionable,
+                return: yes
+                }, 
+        name_test2: 
+            {   urgent: yes,
+                type: actionable,
+                return: yes
+                }
+        },
+    },
+    {
+    lastvisit:
+        { name_test : 
+            {   urgent: yes,
+                type: actionable,
+                return: yes
+                }, 
+        name_test2: 
+            {   urgent: yes,
+                type: actionable,
+                return: yes
+                }
+        }
+    }
+}
