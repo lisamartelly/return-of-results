@@ -7,7 +7,6 @@ from faker import Faker
 from jinja2 import StrictUndefined
 
 fake = Faker()
-
 app = Flask(__name__)
 
 # A secret key is needed to use Flask sessioning features
@@ -27,23 +26,15 @@ app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 def show_homepage():
     return render_template('home.html')
 
-
 @app.route('/studies')
 def show_studies():
     studies = crud.return_all_studies()
     return render_template('studies.html', studies=studies)
 
-
 @app.route('/studies/<study_id>')
 def show_study_details(study_id):
     study = crud.get_study_by_id(study_id)
     return render_template('study_details.html', study=study)
-
-# @app.route('/plan-study-visits', methods=["POST"])
-# def prep_for_results():
-#     """Return a list of visits to create tests and plans for"""
-
-#     return redirect('/planning-2')
 
 @app.route('/planning-1')
 def plan_one():
@@ -101,7 +92,6 @@ def plan_three():
         dict_visits = session['visits']
         return render_template('/planning-3.html', dict_visits=dict_visits)
 
-
 @app.route('/plan-study', methods=["POST"])
 def plan_study():
     """ after getting all needed data, process into result_plans and redirect to study details"""
@@ -140,10 +130,8 @@ def plan_study():
                 return_plan = False
 
             return_timing = request.form.get(f"{visit}-test{i}-return_timing")
-            
-            print()
+         
             result_plan = crud.create_result_plan(study_id, result_category, visit, urgency_potential, return_plan, test_name, return_timing)
-            print("result plan: ", result_plan)
 
     session['visits'] = ''
     session['study_name'] = ''
@@ -171,7 +159,7 @@ def create_participant_in_db():
     study_id = int(request.form.get("study_id"))
 
     participant = crud.create_participant(email, fname, lname, dob, phone)
-    ps = crud.create_participantsstudies_link(participant.participant_id, study_id)
+    crud.create_participantsstudies_link(participant.participant_id, study_id)
     return redirect(f'/decisions/{study_id}/{participant.participant_id}')
 
 @app.route('/decisions/<study_id>/<participant_id>')
@@ -191,12 +179,11 @@ def save_result_decisions(study_id, participant_id):
     for result in study.result_plans:
         return_decision_pre = request.form.get(f"{result.result_plan_id}-receive")
         if return_decision_pre =="yes": 
-                return_decision = True
+            return_decision = True
         else: 
             return_decision = False
         
         #check if updating or  making new
-        
         if crud.get_rd_by_rp_by_participant(participant_id, result):
             crud.update_return_decision(participant_id, result, return_decision)
         else:
