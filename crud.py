@@ -110,7 +110,19 @@ def get_participant_by_id(participant_id):
 
     return Participant.query.get(participant_id)
 
+def get_rd_by_rp_by_participant(participant_id, result):
+    """ return a participantsstudies link if a participant is already connected to a study"""
 
+    return Return_Decision.query.filter_by(result_plan_id = result.result_plan_id, participant_id = participant_id).all()
+
+# UPDATES
+
+def update_return_decision(participant_id, result, return_decision):
+    """Update rating"""
+    # rd = get_rd_by_rp_by_participant(participant_id, result)
+    # rd.update({"return_decision": return_decision})
+    Return_Decision.query.filter_by(result_plan_id = result.result_plan_id, participant_id = participant_id).update({"return_decision": return_decision})
+    db.session.commit()
 
 # def get_rating_by_movie_by_user(movie, user):
 #     """Return a ratings for a movie by a user"""

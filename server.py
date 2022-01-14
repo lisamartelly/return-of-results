@@ -190,14 +190,20 @@ def save_result_decisions(study_id, participant_id):
     study=crud.get_study_by_id(study_id)
     for result in study.result_plans:
         return_decision_pre = request.form.get(f"{result.result_plan_id}-receive")
-        if return_decision_pre =="Yes": 
+        if return_decision_pre =="yes": 
                 return_decision = True
         else: 
             return_decision = False
-        crud.create_result_decision(
-            participant_id=participant_id,
-            result_plan_id=result.result_plan_id,
-            return_decision=return_decision)
+        
+        #check if updating or  making new
+        
+        if crud.get_rd_by_rp_by_participant(participant_id, result):
+            crud.update_return_decision(participant_id, result, return_decision)
+        else:
+            crud.create_result_decision(
+                participant_id=participant_id,
+                result_plan_id=result.result_plan_id,
+                return_decision=return_decision)
     return redirect(f'/participants/{participant_id}')
     
 
