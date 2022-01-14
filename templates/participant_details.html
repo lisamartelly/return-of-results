@@ -14,8 +14,8 @@ dob = {{participant.dob}}<br>
 <p>
 <h3>studies that participant is in: </h3>
 {% for study in participant.studies %}
-    <p><b>study:</b> {{study.study_name}} <br><b>status:</b> {{study.status_code}}</p> <br><br>
-    <h3>results that will be returned and your decisions:</h3>
+    <h3><b>study:</b> {{study.study_name}}</h3> <br><p><b>status:</b> {{study.status_code}}</p> <br><br>
+    <h3>results that will be returned from {{study.study_name}} and your decisions:</h3>
         <p><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">click here to update decisions</a></p>
         {% for decision in participant.return_decisions %} 
             {% for result_plan in study.result_plans %} 

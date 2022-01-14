@@ -147,18 +147,26 @@ def enroll_participant_form():
 @app.route('/enroll', methods=["POST"])
 def create_participant_in_db():
 
+    # print("form", request.form)
     # my_data = request.form
     # for key in my_data:
     #     print(f'form key,{key},{my_data[key]}')
+    # return jsonify(request.form)
 
-    email = request.form.get("email")
-    fname = request.form.get("fname")
-    lname = request.form.get("lname")
-    dob = request.form.get("dob")
-    phone = email = request.form.get("phone")
-    study_id = int(request.form.get("study_id"))
+    if request.form.get("existing") == "yes":
+        participant = crud.get_participant_by_id(int(request.form.get("participant_id")))
+        study_id = int(request.form.get("study_id"))
 
-    participant = crud.create_participant(email, fname, lname, dob, phone)
+    elif request.form.get("existing") == "no":
+        email = request.form.get("email")
+        fname = request.form.get("fname")
+        lname = request.form.get("lname")
+        dob = request.form.get("dob")
+        phone = email = request.form.get("phone")
+        study_id = int(request.form.get("study_id"))
+
+        participant = crud.create_participant(email, fname, lname, dob, phone)
+
     crud.create_participantsstudies_link(participant.participant_id, study_id)
     return redirect(f'/decisions/{study_id}/{participant.participant_id}')
 

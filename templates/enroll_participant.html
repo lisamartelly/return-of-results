@@ -4,9 +4,27 @@
 
 <p>This is the page to enroll a participant</p>
 
+<h3>Enroll Existing Participant:</h3>
+<div id="existing-enrollment-form">
+    <form id="existing-enrollment-form" name="existing-enrollment-form" action="/enroll" method="POST" >
+        <input type="hidden" id="existing" name="existing" value="yes">
+        What study are you enrolling in?
+        <br>
+        <select id="study_id" name="study_id">
+            <option selected disabled>Choose here</option>
+            {% for study in studies %}
+            <option value="{{study.study_id}}" required>{{study.study_name}}</option>
+            {% endfor %} 
+        </select><br>
+        Participant ID: <input type="number" id="participant_id" name="participant_id">
+        <input type="submit">
+    
+    </form>
+
 <h3>Enroll a New Participant:</h3>
 <div id="enrollment-form">
     <form id="enrollment-form" name="enrollment-form" action="/enroll" method="POST" >
+        <input type="hidden" id="existing" name="existing" value="no">
         What study are you enrolling in?
         <br>
         <select id="study_id" name="study_id">
