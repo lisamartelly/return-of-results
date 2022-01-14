@@ -14,7 +14,19 @@ dob = {{participant.dob}}
 <p>
 <h3>studies that participant is in: </h3>
 {% for study in participant.studies %}
-<li><b>study:</b> {{study.study_name}} <b>status:</b> {{study.status_code}} 
+    <li><b>study:</b> {{study.study_name}} <b>status:</b> {{study.status_code}} 
+    <li>result decisions:
+        {% for decision in participant.return_decisions %}
+            {% for result_plan in study.result_plans %}
+                {% if decision.result_plan_id == result_plan.result_plan_id %}
+                    <li>id: {{decision.result_plan_id}} 
+                        name: {{decision.result_plan.test_name}} 
+                        decision: {{decision.return_decision}}</li>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </li>
+
 </p>
 {% endfor %}
 

@@ -54,7 +54,7 @@ class Study(db.Model):
     #relationships:
     participants = db.relationship("Participant", secondary="participants_studies", back_populates="studies")
     investigator = db.relationship("Investigator", back_populates="studies")
-    result_plans = db.relationship("Result_Plan", back_populates="studies")
+    result_plans = db.relationship("Result_Plan", back_populates="study")
 
     def __repr__(self):
         return f'<Study study_id={self.study_id} name={self.study_name}>'
@@ -88,7 +88,7 @@ class Result_Plan(db.Model):
     test_name = db.Column(db.String, nullable=False)
     return_timing = db.Column(db.String, nullable=True)
 
-    studies = db.relationship("Study", back_populates="result_plans")
+    study = db.relationship("Study", back_populates="result_plans")
 
     def __repr__(self):
         return f'<Result Plan result_plan_id={self.result_plan_id} return_plan={self.return_plan} test_name={self.test_name}'
@@ -100,7 +100,8 @@ class Return_Decision(db.Model):
     participant_id = db.Column(db.Integer, db.ForeignKey("participants.participant_id"), nullable=False)
     result_plan_id = db.Column(db.Integer, db.ForeignKey("result_plans.result_plan_id"), nullable=False)
     return_decision = db.Column(db.Boolean, nullable=False)
-    
+
+    result_plan = db.relationship("Result_Plan", backref="return_decisions")    
     participants = db.relationship("Participant", back_populates="return_decisions")
 
     def __repr__(self):

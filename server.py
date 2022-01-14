@@ -87,7 +87,6 @@ def plan_three():
     #     print(f'form key,{key},{my_data[key]}')
 
     # return jsonify(request.form)
-    print("session 3 before loop/temp dict: ",session)
     temp_dict=dict(session['visits'])
 
     #visit details from form:
@@ -96,7 +95,6 @@ def plan_three():
         temp_dict[visit] = num_visits
     
     session['visits'] = temp_dict
-    print("session 3, temp dict: ",session)
     if session['study_name'] == '':
         return redirect('/planning-1')
     else:
@@ -107,7 +105,7 @@ def plan_three():
 @app.route('/plan-study', methods=["POST"])
 def plan_study():
     """ after getting all needed data, process into result_plans and redirect to study details"""
-    print("session end: ", session)
+    # print("session end: ", session)
     # print("session['visits']: ", session['visits'])
     # my_data = request.form
     # for key in my_data:
@@ -153,12 +151,6 @@ def plan_study():
 
     return redirect(f'/studies/{study.study_id}')
 
-# @app.route('/json_studies')
-# def return_all_studies():
-#     studies = crud.return_all_studies()
-#     study_list = [study.study_name for study in studies]
-#     return jsonify(study_list)
-
 @app.route('/enroll-participant')
 def enroll_participant_form():
     studies = crud.return_all_studies()
@@ -167,9 +159,9 @@ def enroll_participant_form():
 @app.route('/enroll', methods=["POST"])
 def create_participant_in_db():
 
-    my_data = request.form
-    for key in my_data:
-        print(f'form key,{key},{my_data[key]}')
+    # my_data = request.form
+    # for key in my_data:
+    #     print(f'form key,{key},{my_data[key]}')
 
     email = request.form.get("email")
     fname = request.form.get("fname")
@@ -180,7 +172,37 @@ def create_participant_in_db():
 
     participant = crud.create_participant(email, fname, lname, dob, phone)
     ps = crud.create_participantsstudies_link(participant.participant_id, study_id)
-    return redirect(f'/participants/{participant.participant_id}')
+    return redirect(f'/decisions/{study_id}/{participant.participant_id}')
+
+@app.route('/decisions/<study_id>/<participant_id>')
+def get_result_decisions(study_id, participant_id):
+    """ ask participants which results they want to receive"""
+
+    study=crud.get_study_by_id(study_id)
+    participant=crud.get_participant_by_id(participant_id)
+
+    return render_template(f'/decisions.html', study=study, participant=participant)
+
+@app.route('/decide/<study_id>/<participant_id>', methods=["POST"])
+def save_result_decisions(study_id, participant_id):
+    """ save participant's decisions to receive results or not"""
+
+    study=crud.get_study_by_id(study_id)
+    for result in study.result_plans:
+        return_decision_pre = request.form.get(f"{result.result_plan_id}-receive")
+        if return_decision_pre =="Yes": 
+                return_decision = True
+        else: 
+            return_decision = False
+        crud.create_result_decision(
+            participant_id=participant_id,
+            result_plan_id=result.result_plan_id,
+            return_decision=return_decision)
+    return redirect(f'/participants/{participant_id}')
+    
+
+
+
 
 @app.route('/participants')
 def show_all_participant():

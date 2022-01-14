@@ -1,7 +1,7 @@
 """Automatically drop, recreate, and populate database"""
 
 import os
-from random import randint
+from random import randint, choice
 from faker import Faker
 import crud
 import model
@@ -38,14 +38,28 @@ study_names = [
     'Accuracy of At-Home Covid-19 Tests']
 
 for j in range(10):
-
     #create study details and study object
     investigator_id = randint(1,10)
     study_name = study_names[j]
     investigational_product = fake.unique.license_plate()
     status_code = randint(1,4)
     
-    crud.create_study(investigator_id=investigator_id, study_name=study_name, investigational_product=investigational_product, status_code=status_code)
+    study = crud.create_study(investigator_id=investigator_id, study_name=study_name, investigational_product=investigational_product, status_code=status_code)
+
+    #create three results to return per study:
+    for visit in ['recruitment', 'consent', 'study-visit-1']:
+        result_category = choice(['actionable','unknwon','personally valuable'])
+        urgency_potential = choice([True, False])
+        return_timing = choice(['during', 'after'])
+        result_plan = crud.create_result_plan(
+            study_id=study.study_id,
+            result_category=result_category,
+            visit=visit,
+            urgency_potential=urgency_potential,
+            return_plan=True,
+            test_name=f"{visit} test",
+            return_timing=return_timing)
+
 
 # create 10 participants per study
 for k in range(100):
@@ -67,5 +81,8 @@ for participant in participants:
     crud.create_participantsstudies_link(
         participant_id=participant.participant_id,
         study_id=randint(1,10))
+    crud.create_participantsstudies_link(
+        participant_id=participant.participant_id,
+        study_id=randint(1,10))
 
-
+#create fake results for each study
