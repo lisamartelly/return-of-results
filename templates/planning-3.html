@@ -27,28 +27,13 @@
         Is there a possibility for this test result to be urgent?
         <br>
 
-        <!-- <select id="{{visit}}-urgency-potential" name="{{visit}}-test{{i}}-urgency-potential">
-            <option selected disabled>Choose here</option>
-            <option value="yes" required>Yes</option>
-            <option value="no" required>No</option>
-        </select>
-        <br> -->
-
-        <input type="radio" id="{{visit}}-urgency-potential" name="{{visit}}-test{{i}}-urgency-potential" value="yes">
+        <input type="radio" id="{{visit}}-urgency-potential" name="{{visit}}-test{{i}}-urgency-potential" value="yes" required>
             <label>Yes</label><br>
         <input type="radio" id="{{visit}}-urgency-potential" name="{{visit}}-test{{i}}-urgency-potential" value="no">
             <label>No</label><br>
         <br>
 
         How would you categorize this test result? <br>
-
-        <!-- <select id="{{visit}}-result_category" name="{{visit}}-test{{i}}-result_category">
-            <option selected disabled>Choose here</option>
-            <option value="actionable" required>Actionable</option>
-            <option value="personally-valuable" required>Personally Valuable</option>
-        </select>
-
-        <br> -->
 
         <input type="radio" id="{{visit}}-result_category" name="{{visit}}-test{{i}}-result_category" value="actionable" required>
         <label for="{{visit}}-result_category">Actionable</label>
@@ -60,27 +45,15 @@
 
         Are you going to return this result?
         <br>
-        
-        <!-- <select id="{{visit}}-return_plan" name="{{visit}}-test{{i}}-return_plan">
-            <option selected disabled>Choose here</option>
-            <option value="yes" required>Yes</option>
-            <option value="no" required>No</option>
-        </select> -->
 
-        <input type="radio" id="{{visit}}-test{{i}}-return_plan" name="{{visit}}-test{{i}}-return_plan" value="yes">
+        <input type="radio" id="{{visit}}-test{{i}}-return_plan" name="{{visit}}-test{{i}}-return_plan" value="yes" required>
             <label>Yes</label><br>
         <input type="radio" id="{{visit}}-test{{i}}-return_plan" name="{{visit}}-test{{i}}-return_plan" value="no">
             <label>No</label><br>
         <br>
         
         When are you going to return this result?
-        <!-- <br>
-        <select id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing">
-            <option selected disabled>Choose here</option>
-            <option value="during" required>During</option>
-            <option value="after" required>After</option>
-        </select> -->
-        
+                
         <br>
         <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="during" required>
             <label for="during">During the study</label><br>

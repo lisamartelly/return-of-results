@@ -24,7 +24,67 @@ app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 @app.route('/')
 def show_homepage():
-    return render_template('home.html')
+    if "user" in session:
+        return render_template('home.html')
+    else:
+        return render_template('home-logged-out.html')
+
+@app.route('/login', methods=["POST"])
+def login_user():
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+    user_type = request.form.get("user-type")
+
+    if user_type == "investigator":
+        user = crud.get_investigator_by_email(email)
+        if user:
+            user_id = user.investigator_id
+    elif user_type == "participant":
+        user = crud.get_participant_by_email(email)
+        if user:
+            user_id = user.participant_id
+    
+    if user:
+        if password == user.password:
+            session['user'] = user.email
+            session['user_type'] = user_type
+            flash(f"logged in {user.email} {user.password}")
+        else:
+            flash("incorrect password, try again")
+    else:
+        flash("user not registered")
+
+    return redirect('/')
+
+@app.route('/register', methods=["POST"])
+def register_user():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    user_type = request.form.get("user-type")
+
+    #check if user in investigator or pt tables
+    if user_type == "investigator":
+        user = crud.get_investigator_by_email(email)
+    elif user_type == "participant":
+        user = crud.get_participant_by_email(email)
+
+    if user:
+        if user.password:
+            flash("account already registered")
+        else:
+            crud.add_password(user_type=user_type, email=email, password=password)
+    else:
+        flash("email not in system or registering under wrong category. contact administrator to be able to register")
+    
+    return redirect('/')
+    
+
+@app.route('/logout')
+def logout_user():
+    session.pop("user")
+    session.pop("user_type")
+    return render_template('home-logged-out.html')
 
 @app.route('/studies')
 def show_studies():
@@ -200,10 +260,6 @@ def save_result_decisions(study_id, participant_id):
                 result_plan_id=result.result_plan_id,
                 return_decision=return_decision)
     return redirect(f'/participants/{participant_id}')
-    
-
-
-
 
 @app.route('/participants')
 def show_all_participant():
@@ -216,10 +272,6 @@ def show_participant_details(participant_id):
     participant = crud.get_participant_by_id(participant_id)
     print("participant.studies", participant.studies)
     return render_template('participant_details.html', participant=participant)
-
-@app.route('/login')
-def login_user():
-    pass
 
 
 if __name__ == "__main__":

@@ -69,7 +69,8 @@ class Investigator(db.Model):
     fname = db.Column(db.String(30), nullable=True)
     lname = db.Column(db.String(30), nullable=True)
     phone = db.Column(db.String(30), nullable=True)
-    email = db.Column(db.String, nullable=True)
+    email = db.Column(db.String, unique=True, nullable=True)
+    password = db.Column(db.String, nullable=True)
 
     studies = db.relationship("Study", back_populates="investigator")
 

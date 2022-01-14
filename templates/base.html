@@ -19,14 +19,22 @@
                 <a class="nav-link" href="/planning-1">Planning</a>
                 <a class="nav-link" href="/studies">Studies</a>
                 <a class="nav-link" href="/enroll-participant">Enroll Participant</a>
-                <a class="nav-link" href="/participants">Participnats</a>
+                <a class="nav-link" href="/participants">Participants</a>
+                <a class="nav-link" href="/logout">Log Out</a>
             </div>
             </div>
         </div>
         </nav>
 
+    {% for msg in get_flashed_messages() %}
+    <p class="flash-msg">
+        {{ msg }}
+    </p>
+    {% endfor %}
+
 {% block body %}
     BODY OF PAGE GOES HERE
+    
 {% endblock %}
 <script src="/static/js/js.js"></script>
 </body>

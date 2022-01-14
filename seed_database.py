@@ -15,8 +15,12 @@ model.db.create_all()
 
 fake = Faker()
 
+#make specific investigator for testing
+investigator = crud.create_investigator(fname="admin fname", lname="admin lname", email="test@test.com", phone="123456")
+investigator.password = "test"
+
+#make fake investigators for db, no pws:
 for i in range(10):
-    # create investigator
     i_fname = fake.first_name()
     i_lname = fake.last_name()
     i_phone = fake.phone_number()

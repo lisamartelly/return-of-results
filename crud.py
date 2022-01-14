@@ -115,6 +115,14 @@ def get_rd_by_rp_by_participant(participant_id, result):
 
     return Return_Decision.query.filter_by(result_plan_id = result.result_plan_id, participant_id = participant_id).all()
 
+def get_participant_by_email(email):
+    
+    return Participant.query.filter(Participant.email == email).first()
+
+def get_investigator_by_email(email):
+    
+    return Investigator.query.filter(Investigator.email == email).first()
+
 # UPDATES
 
 def update_return_decision(participant_id, result, return_decision):
@@ -124,10 +132,14 @@ def update_return_decision(participant_id, result, return_decision):
     Return_Decision.query.filter_by(result_plan_id = result.result_plan_id, participant_id = participant_id).update({"return_decision": return_decision})
     db.session.commit()
 
-# def get_rating_by_movie_by_user(movie, user):
-#     """Return a ratings for a movie by a user"""
-#     return Rating.query.filter_by(movie=movie, user=user).all()
+def add_password(user_type, email, password):
+    """ add password to existing record of certain email"""
 
+    if user_type== "investigator":
+        Investigator.query.filter_by(email = email).update({"password": password})
+    elif user_type== "participant":
+        Participant.query.filter_by(email = email).update({"password": password})
+    db.session.commit()
 
 if __name__ == '__main__':
     from server import app
