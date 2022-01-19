@@ -6,24 +6,22 @@ function addHcp(evt) {
   const participantId = document.querySelector('#participant-id').innerHTML;
 
   const formInputs = {
-  fname: document.querySelector('#fname').value,
-  lname: document.querySelector('#lname').value,
-  email: document.querySelector('#email').value,
-  phone: document.querySelector('#phone').value,
-  practice: document.querySelector('#practice').value,
-  participantId: participantId
+  hcp_fname: document.querySelector('#fname').value,
+  hcp_lname: document.querySelector('#lname').value,
+  hcp_email: document.querySelector('#email').value,
+  hcp_phone: document.querySelector('#phone').value,
+  hcp_practice: document.querySelector('#practice').value,
   };
 
-  fetch('/add-hcp.json', {
+  fetch(`/update.json/${participantId}`, {
     method: 'POST',
     body: JSON.stringify(formInputs),
     headers: {'Content-Type': 'application/json',},
   })
-    .then(response => response.json())
-    .then(responseJson => {
-      console.log(responseJson)
+    .then(response => response.text())
+    .then(responseText => {
     document.querySelector("#hcp_form").style.display = "none";
-    document.querySelector("#form-submitted").innerHTML = `Added ${responseJson.hcp_fname} ${responseJson.hcp_lname} as your healthcare provider!`
+    document.querySelector("#form-submitted").innerHTML = responseText;
   })
 };
 document.querySelector('#hcp_form_button')?.addEventListener('click', addHcp)
@@ -38,11 +36,11 @@ function createHcpForm(evt) {
 	var form = document.createElement("form");
 
 	// Create an input element for Full Name
-	var FN = document.createElement("input");
-	FN.setAttribute("type", "text");
-  FN.setAttribute("id", "fname");
-	FN.setAttribute("name", "fname");
-	FN.setAttribute("placeholder", "Full Name");
+	var fname = document.createElement("input");
+	fname.setAttribute("type", "text");
+  fname.setAttribute("id", "fname");
+	fname.setAttribute("name", "fname");
+	fname.setAttribute("placeholder", "first name");
 
 	// Create an input element for date of birth
 	var DOB = document.createElement("input");
@@ -102,9 +100,9 @@ function createHcpForm(evt) {
   document.getElementById("hcp_update_form").appendChild(form);
         
 }
-document.querySelector('#update_hcp').addEventListener('click', createHcpForm)
+document.querySelector('#update_hcp')?.addEventListener('click', createHcpForm)
 
-function addHcpNew(evt) {
+function updateHcp(evt) {
   evt.preventDefault();
 
   const participantId = document.querySelector('#participant-id').innerHTML;
@@ -130,7 +128,7 @@ function addHcpNew(evt) {
     document.querySelector("#form-submitted").innerHTML = `Added ${responseJson.hcp_fname} ${responseJson.hcp_lname} as your healthcare provider!`
   })
 };
-document.querySelector('#submitTwo')?.addEventListener('click', addHcpNew)
+document.querySelector('#submitTwo')?.addEventListener('click', updateHcp)
 
 
 

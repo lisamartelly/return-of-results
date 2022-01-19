@@ -41,6 +41,9 @@ class Participant(db.Model):
     def __repr__(self):
         return f'<Participant participant_id={self.participant_id} email={self.email} name={self.fname}>'
 
+    def say_hello(self):
+        return 'hello!!!'
+
 class Study(db.Model):
     """ Research study"""
 

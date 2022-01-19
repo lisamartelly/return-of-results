@@ -126,7 +126,7 @@ def get_investigator_by_email(email):
 # UPDATES
 
 def update_return_decision(participant_id, result, return_decision):
-    """Update rating"""
+    """Update decision"""
     # rd = get_rd_by_rp_by_participant(participant_id, result)
     # rd.update({"return_decision": return_decision})
     Return_Decision.query.filter_by(result_plan_id = result.result_plan_id, participant_id = participant_id).update({"return_decision": return_decision})
@@ -141,17 +141,13 @@ def add_password(user_type, email, password):
         Participant.query.filter_by(email = email).update({"password": password})
     db.session.commit()
 
-def update_participant_hcp(participant_id, email, fname, lname, practice, phone):
-    """add healthcare provider info to participant"""
+def update_participant(jsondict, participant_id):
 
-    Participant.query.filter_by(participant_id = participant_id).update(
-        {"hcp_fname": fname,
-        "hcp_lname": lname,
-        "hcp_email": email,
-        "hcp_phone": phone,
-        "hcp_practice": practice}
-    )
-    db.session.commit()
+    participant = get_participant_by_id(participant_id)
+    for key in jsondict:
+        setattr(participant, key, jsondict[key])
+    db.session.commit()   
+    
 
 if __name__ == '__main__':
     from server import app

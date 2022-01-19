@@ -5,6 +5,7 @@ import jinja2
 import crud
 from faker import Faker
 from jinja2 import StrictUndefined
+import json
 
 fake = Faker()
 app = Flask(__name__)
@@ -291,26 +292,13 @@ def show_participant_details(participant_id):
     print("participant.studies", participant.studies)
     return render_template('participant_details.html', participant=participant)
 
-@app.route('/add-hcp.json', methods=["POST"])
-def add_hcp():
-    """ add HCP info to a participant's record in db"""
-    hcp_email = request.json.get("email")
-    hcp_fname = request.json.get("fname")
-    hcp_lname = request.json.get("lname")
-    hcp_practice = request.json.get("practice")
-    hcp_phone = request.json.get("phone")
-    participant_id = int(request.json.get("participantId"))
-
-    crud.update_participant_hcp(
-        participant_id=participant_id,
-        email=hcp_email,
-        fname=hcp_fname,
-        lname=hcp_lname,
-        practice=hcp_practice,
-        phone=hcp_phone)
-
-    return jsonify({'hcp_fname' : hcp_fname, 'hcp_lname': hcp_lname})
-
+@app.route('/update.json/<participant_id>', methods=["POST"])
+def add_hcp(participant_id):
+    """ update info in participant's record in db"""
+    jsondict = request.json
+    crud.update_participant(jsondict, participant_id)
+    
+    return 'Updated info, refresh for changes'
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
