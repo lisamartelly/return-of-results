@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Bootstrap CSS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
+
+    <!-- Your custom styles -->
+    <link rel="stylesheet" href="/static/css/site.css">     
+  </head>
+  <body>
+</head>
+<body>
+
+<div class="flex-container-generic">
+  <h1>Please register or login</h1>
+    <p class="flash-msg"></p>
+    {% for msg in get_flashed_messages() %}
+        {{ msg }}
+    </p>
+  {% endfor %}
+  <div id="login-items">
+    <div class="login-register-box" >
+      <h2>Create an Account</h2>
+        <form action="/register" method="POST">
+          <p>
+              Investigator or Participant?: <br>
+              <input type="radio" id="user-type" name="user-type" value="investigator" required>
+                  <label>Investigator</label><br>
+              <input type="radio" id="user-type" name="user-type" value="participant">
+                  <label>Participant</label><br>
+          </p>  
+          <p>
+            Email <input type="text" name="email">
+          </p>
+          <p>
+            Password <input type="password" name="password">
+          </p>
+            <button type="submit"> Register </button>
+        </form>
+    </div>
+
+  <div class = login-register-box >
+    <h2>Log In</h2>
+      <form action="/login" method="POST">
+        <p>
+            Investigator or Participant?: <br>
+            <input type="radio" id="user-type" name="user-type" value="investigator" required>
+                <label>Investigator</label><br>
+            <input type="radio" id="user-type" name="user-type" value="participant">
+                <label>Participant</label><br>
+        </p>
+        <p>
+          Email <input type="text" name="email">
+        </p>
+        <p>
+          Password <input type="password" name="password">
+        </p>
+        <p>
+          <button type="submit"> Login </button>
+        </p>
+      </form>
+  </div>
+</div>
+</div>
+
+
+
+<script src="/static/js/js.js"></script>
+</body>
+</html>

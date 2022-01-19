@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
-
+<div class="flex-container-generic">
 <div>
     <p>This is the participant details</p>
     <h1>participant name = {{participant.fname}} {{participant.lname}} </h1>
@@ -58,8 +58,7 @@
                 {% endif %}
             {% endfor %}
         {% endfor %}
-    
-
 {% endfor %}
+</div>
 
 {% endblock %}

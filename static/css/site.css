@@ -20,32 +20,10 @@ body {
     font-size: 20px;
 }
 
-.flex-container-home {
+.flex-container-generic {
     flex: 5;
     flex-direction: column;
     flex-wrap: nowrap;
-    display: flex;
-    justify-content: flex-start;
-}
-
-.flex-container-logged-out {
-    flex: 5;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    display: flex;
-    align-items: center;
-}
-
-.flex-container-planning {
-    flex: 5;
-    flex-direction: column;
-    display: flex;
-    justify-content: flex-start;
-}
-
-.flex-container-list {
-    flex: 5;
-    flex-direction: column;
     display: flex;
     justify-content: flex-start;
 }
@@ -71,11 +49,6 @@ a.nav-link {
     color: white;
     text-decoration: none;
 }
-
-/* a.nav-link:hover {
-    color: gray;
-    text-decoration: underline;
-} */
 
 .login-register-box {
     border: 3px solid black;
