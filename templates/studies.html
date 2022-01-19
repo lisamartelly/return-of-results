@@ -2,12 +2,16 @@
 
 {% block body %}
 
-<h1>These are the studies</h1>>
+<div class="flex-container-list">
+    <div class="page-header">
+        <h1> All Studies </h1>
+    </div>
 
-<p>
-{% for study in studies %}
-<li><a href="/studies/{{study.study_id}}">name: {{study.study_name}}, status={{study.status_code}}</a></li>
-{% endfor %}
-</p>
+    <ul class="page-list">
+    {% for study in studies %}
+    <li><a href="/studies/{{study.study_id}}">name: {{study.study_name}}, status={{study.status_code}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
 
 {% endblock %}

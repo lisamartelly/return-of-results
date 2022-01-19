@@ -141,6 +141,18 @@ def add_password(user_type, email, password):
         Participant.query.filter_by(email = email).update({"password": password})
     db.session.commit()
 
+def update_participant_hcp(participant_id, email, fname, lname, practice, phone):
+    """add healthcare provider info to participant"""
+
+    Participant.query.filter_by(participant_id = participant_id).update(
+        {"hcp_fname": fname,
+        "hcp_lname": lname,
+        "hcp_email": email,
+        "hcp_phone": phone,
+        "hcp_practice": practice}
+    )
+    db.session.commit()
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

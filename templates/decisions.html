@@ -2,16 +2,14 @@
 
 {% block body %}
 
-<p>This is the page to decide whether you want to receive each result</p>
 
 <h3>Decide which results you want to receive in the {{study.study_name}} study</h3>
 
 <div id="decision-form">
     <form id="decision-form" name="decision-form" action="/decide/{{study.study_id}}/{{participant.participant_id}}" method="POST" >
-        
         {% for result in study.result_plans %}
             {% if result.return_plan is sameas true %}
-                <p>Result: {{result.test_name}}</p><br>
+                Result: {{result.test_name}}<br>
                 Do you want to receive this?<br>
                 <input type="radio" id="{{result.result_plan_id}}-receive" name="{{result.result_plan_id}}-receive" value="yes">
                 <label>Yes</label><br>

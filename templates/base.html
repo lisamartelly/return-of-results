@@ -12,34 +12,28 @@
 <body>
 
     {% if "user" in session %}
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-left">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-                <a class="nav-link" href="/planning-1">Planning</a>
-                <a class="nav-link" href="/studies">Studies</a>
-                <a class="nav-link" href="/enroll-participant">Enroll Participant</a>
-                <a class="nav-link" href="/participants">Participants</a>
-                <a class="nav-link" href="/logout">Log Out</a>
-            </div>
-            </div>
+<div class=flex-container>
+    <div class="flex-nav">
+        <div id="top-half">
+        <a class="nav-link" href="/"><div class="nav-item">HOME</div></a>
+        <a class="nav-link" href="/planning-1"><div class="nav-item">PLANNING</div></a>
+        <a class="nav-link" href="/studies"><div class="nav-item">STUDIES</div></a> 
+        <a class="nav-link" href="/enroll-participant"><div class="nav-item">ENROLL</div></a> 
+        <a class="nav-link" href="/participants"><div class="nav-item">PARTICIPANTS</div></a>
         </div>
-        </nav>
-    
+        <div id="bottom-half">
+        <div style="padding: 10px"> Logged in as: {{session["user"]}}</div> 
+        <br>
+        <a class="nav-link" href="/logout"><div class="nav-item">Log Out</div></a> 
+        </div>
+    </div>
     {% endif %}
-
-    {% for msg in get_flashed_messages() %}
-    <p class="flash-msg">
-        {{ msg }}
-    </p>
-    {% endfor %}
 
 {% block body %}
     BODY OF PAGE GOES HERE
     
 {% endblock %}
+</div>
 <script src="/static/js/js.js"></script>
 </body>
 </html>

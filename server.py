@@ -49,11 +49,10 @@ def login_user():
         if password == user.password:
             session['user'] = user.email
             session['user_type'] = user_type
-            flash(f"logged in {user.email} {user.password}")
         else:
-            flash("incorrect password, try again")
+            flash("Incorrect password, try again.")
     else:
-        flash("user not registered")
+        flash("User not registered.")
 
     return redirect('/')
 
@@ -71,20 +70,22 @@ def register_user():
 
     if user:
         if user.password:
-            flash("account already registered")
+            flash("Account already registered.")
         else:
             crud.add_password(user_type=user_type, email=email, password=password)
     else:
-        flash("email not in system or registering under wrong category. contact administrator to be able to register")
-    
+        flash("Email not in system or registering under wrong category. Contact administrator to be able to register.")
     return redirect('/')
     
-
 @app.route('/logout')
 def logout_user():
-    session.pop("user")
-    session.pop("user_type")
-    return render_template('home-logged-out.html')
+    if "user" in session:
+        session.pop("user")
+        session.pop("user_type")
+        return render_template('home-logged-out.html')
+    else:
+        return render_template('home-logged-out.html')
+
 
 @app.route('/studies')
 def show_studies():
@@ -285,10 +286,30 @@ def show_all_participant():
 @app.route('/participants/<participant_id>')
 def show_participant_details(participant_id):
     if "user" not in session: return redirect('/')
-    
+
     participant = crud.get_participant_by_id(participant_id)
     print("participant.studies", participant.studies)
     return render_template('participant_details.html', participant=participant)
+
+@app.route('/add-hcp.json', methods=["POST"])
+def add_hcp():
+    """ add HCP info to a participant's record in db"""
+    hcp_email = request.json.get("email")
+    hcp_fname = request.json.get("fname")
+    hcp_lname = request.json.get("lname")
+    hcp_practice = request.json.get("practice")
+    hcp_phone = request.json.get("phone")
+    participant_id = int(request.json.get("participantId"))
+
+    crud.update_participant_hcp(
+        participant_id=participant_id,
+        email=hcp_email,
+        fname=hcp_fname,
+        lname=hcp_lname,
+        practice=hcp_practice,
+        phone=hcp_phone)
+
+    return jsonify({'hcp_fname' : hcp_fname, 'hcp_lname': hcp_lname})
 
 
 if __name__ == "__main__":

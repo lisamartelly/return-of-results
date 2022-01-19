@@ -2,16 +2,48 @@
 
 {% block body %}
 
-<p>This is the participant details</p>
+<div>
+    <p>This is the participant details</p>
+    <h1>participant name = {{participant.fname}} {{participant.lname}} </h1>
+    <h1>participant ID = <span id="participant-id">{{participant.participant_id}}</span> </h1>
+    <h3>
+    personal info:
+    </h3>
+    email = {{participant.email}}<br>
+    phone = {{participant.phone}}<br>
+    dob = {{participant.dob}}<br>
+</div>
 
-<h1>participant name = {{participant.fname}} {{participant.lname}} </h1>
-<h3>
-personal info:
-</h3>
-email = {{participant.email}}<br>
-phone = {{participant.phone}}<br>
-dob = {{participant.dob}}<br>
-<p>
+<div id="participant_hcp_info">
+    {% if participant.hcp_fname != None %}
+    <p>This is the participant's doctor's details</p>
+    <h1>doctor name = {{participant.hcp_fname}} {{participant.hcp_lname}} </h1>
+    email = {{participant.hcp_email}}<br>
+    phone = {{participant.hcp_phone}}<br>
+    practice = {{participant.hcp_practice}}<br>
+</div>
+
+<button id="update_hcp">
+    update doctor details
+</button>
+<p id="hcp_update_form"></p>
+
+{% endif %}
+
+<div id="participant_hcp_form">
+{% if participant.hcp_fname == None %}
+    <form id="hcp_form">
+        Doctor's First Name: <input type="text" id="fname" name="fname">
+        Doctor's Last Name: <input type="text" id="lname" name="lname"><br>
+        Doctor's email: <input type="text" id="email" name="email"><br>
+        Doctor's phone numner: <input type="text" id="phone" name="phone"><br>
+        Doctor's clinic/practice: <input type="text" id="practice" name="practice"><br>
+        <input type="submit" id="hcp_form_button" >
+    </form>
+</div>
+<div id="form-submitted"></div>
+{% endif %}
+
 <h3>studies that participant is in: </h3>
 {% for study in participant.studies %}
     <h3><b>study:</b> {{study.study_name}}</h3> <br><p><b>status:</b> {{study.status_code}}</p> <br><br>
@@ -28,7 +60,6 @@ dob = {{participant.dob}}<br>
         {% endfor %}
     
 
-</p>
 {% endfor %}
 
 {% endblock %}

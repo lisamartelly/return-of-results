@@ -1,16 +1,114 @@
 
-#study {
-    border: 1px dotted #ccc;
-    padding: 3px;
+body {
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+.flex-container {
+    display: flex;
+    height: 100vh;
 }
-#study ul {
-list-style-type: none;
-padding: 0;
-margin: 0;
+
+.flex-nav {
+    background-color: rgb(0, 70, 92);
+    color:white;
+    display: flex;
+    flex: 0 0 200px;
+    flex-direction: column;
+    justify-content: space-around;
+    text-decoration: none;
+    font-size: 20px;
 }
-#study ul li {
-padding: 5px 0;
+
+.flex-container-home {
+    flex: 5;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    display: flex;
+    justify-content: flex-start;
 }
-#study ul li:hover {
-background: #eee;
+
+.flex-container-logged-out {
+    flex: 5;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    display: flex;
+    align-items: center;
 }
+
+.flex-container-planning {
+    flex: 5;
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.flex-container-list {
+    flex: 5;
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.page-header {
+    background-color: lightblue;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-item {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left:10px
+}
+.nav-item:hover {
+    background-color: purple;
+}
+
+a.nav-link {
+    color: white;
+    text-decoration: none;
+}
+
+/* a.nav-link:hover {
+    color: gray;
+    text-decoration: underline;
+} */
+
+.login-register-box {
+    border: 3px solid black;
+    width: 300px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    margin: 10px;
+    padding: 10px;
+}
+
+#login-items {
+    display: flex;
+    flex-direction: row;
+}
+
+#homepage-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.task-box-home {
+    border: 3px solid black;
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    margin: 10px;
+    padding: 10px;
+}
+
+.page-list {
+    display: flex;
+    flex-direction: column;
+}
+
