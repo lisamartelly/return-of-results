@@ -12,14 +12,16 @@
 <body>
 
 <div class="flex-container-generic">
-  <h1>Please register or login</h1>
-    <p class="flash-msg"></p>
+  <div class="page-header">
+    <h1> Please register or login </h1>
+  </div>
+  <div id="flash-msg" class="flex-row">
     {% for msg in get_flashed_messages() %}
-        {{ msg }}
-    </p>
+    <p>{{ msg }}</p>
+  </div>
   {% endfor %}
-  <div id="login-items">
-    <div class="login-register-box" >
+  <div class="flex-row">
+    <div class="flex-box-generic" >
       <h2>Create an Account</h2>
         <form action="/register" method="POST">
           <p>
@@ -39,7 +41,7 @@
         </form>
     </div>
 
-  <div class = login-register-box >
+  <div class = "flex-box-generic" >
     <h2>Log In</h2>
       <form action="/login" method="POST">
         <p>

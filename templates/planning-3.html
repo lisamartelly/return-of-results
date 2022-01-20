@@ -14,21 +14,15 @@
 <form id="result-details" action="/plan-study" method="POST">
     
     <h3> {{ visit }} </h3>
-
-    {{ dict_visits }}
-
     {% for i in range(dict_visits[visit]) %}
-
     <div class="test" id={{visit}}> 
         <br>
-
         Test name:
         <input type="text" name="{{visit}}-test{{i}}-test-name" required> 
         <br>
 
         Is there a possibility for this test result to be urgent?
         <br>
-
         <input type="radio" id="{{visit}}-urgency-potential" name="{{visit}}-test{{i}}-urgency-potential" value="yes" required>
             <label>Yes</label><br>
         <input type="radio" id="{{visit}}-urgency-potential" name="{{visit}}-test{{i}}-urgency-potential" value="no">
@@ -36,7 +30,6 @@
         <br>
 
         How would you categorize this test result? <br>
-
         <input type="radio" id="{{visit}}-result_category" name="{{visit}}-test{{i}}-result_category" value="actionable" required>
         <label for="{{visit}}-result_category">Actionable</label>
         <input type="radio" id="{{visit}}-result_category" name="{{visit}}-test{{i}}-result_category" value="personally valuable">
@@ -47,15 +40,13 @@
 
         Are you going to return this result?
         <br>
-
         <input type="radio" id="{{visit}}-test{{i}}-return_plan" name="{{visit}}-test{{i}}-return_plan" value="yes" required>
             <label>Yes</label><br>
         <input type="radio" id="{{visit}}-test{{i}}-return_plan" name="{{visit}}-test{{i}}-return_plan" value="no">
             <label>No</label><br>
         <br>
         
-        When are you going to return this result?
-                
+        When are you going to return this result?     
         <br>
         <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="during" required>
             <label for="during">During the study</label><br>
@@ -64,9 +55,7 @@
         <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="na">
             <label for="na">Not Applicable</label><br><br>
     </div>
-
     {% endfor %}
-    
 {% endfor %}
 
 <div>

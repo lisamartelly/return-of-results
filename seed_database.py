@@ -55,12 +55,13 @@ for j in range(10):
         result_category = choice(['actionable','unknwon','personally valuable'])
         urgency_potential = choice([True, False])
         return_timing = choice(['during', 'after'])
+        return_plan = choice([True, False])
         result_plan = crud.create_result_plan(
             study_id=study.study_id,
             result_category=result_category,
             visit=visit,
             urgency_potential=urgency_potential,
-            return_plan=True,
+            return_plan=return_plan,
             test_name=f"{visit} test",
             return_timing=return_timing)
 
@@ -81,6 +82,7 @@ for k in range(100):
 
 # enroll each participant in a random study
 participants = crud.return_all_participants()
+
 for participant in participants:
     crud.create_participantsstudies_link(
         participant_id=participant.participant_id,
@@ -88,5 +90,14 @@ for participant in participants:
     crud.create_participantsstudies_link(
         participant_id=participant.participant_id,
         study_id=randint(1,10))
+
+# choose to receive all results available in each study enrolled in:
+
+for participant in participants:
+    for study in participant.studies:
+        for result in study.result_plans:
+            crud.create_result_decision(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, return_decision=True)
+
+
 
 #create fake results for each study

@@ -298,7 +298,7 @@ def add_hcp(participant_id):
     jsondict = request.json
     crud.update_participant(jsondict, participant_id)
     
-    return 'Updated info, refresh for changes'
+    return 'Changes saved!'
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

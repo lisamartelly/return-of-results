@@ -28,8 +28,7 @@ class Participant(db.Model):
     dob = db.Column(db.DateTime, nullable=False)
     phone = db.Column(db.String(30), nullable=False)
     #hcp info:
-    hcp_fname = db.Column(db.String(30), nullable=True)
-    hcp_lname = db.Column(db.String(30), nullable=True)
+    hcp_fullname = db.Column(db.String(100), nullable=True)
     hcp_phone = db.Column(db.String(30), nullable=True)
     hcp_email = db.Column(db.String, nullable=True)
     hcp_practice = db.Column(db.String, nullable=True)

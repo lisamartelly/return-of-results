@@ -20,6 +20,25 @@ body {
     font-size: 20px;
 }
 
+.nav-item {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left:10px
+}
+.nav-item:hover {
+    background-color: lightblue;
+    color: black;
+}
+a.nav-link {
+    color: white;
+    text-decoration: none;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+}
+
 .flex-container-generic {
     flex: 5;
     flex-direction: column;
@@ -27,7 +46,6 @@ body {
     display: flex;
     justify-content: flex-start;
 }
-
 .page-header {
     background-color: lightblue;
     height: 150px;
@@ -35,53 +53,56 @@ body {
     justify-content: center;
     align-items: center;
 }
-
-.nav-item {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left:10px
-}
-.nav-item:hover {
-    background-color: purple;
-}
-
-a.nav-link {
-    color: white;
-    text-decoration: none;
-}
-
-.login-register-box {
-    border: 3px solid black;
-    width: 300px;
+.flex-box-generic {
+    border: 2px solid rgb(0, 70, 92);
+    width: 35%;
     border-radius: 20px;
     background-color: #f4f4f4;
     margin: 10px;
     padding: 10px;
 }
 
-#login-items {
-    display: flex;
-    flex-direction: row;
+
+ul#participant-info {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
 }
 
-#homepage-boxes {
+ul#participant-hcp-info {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.flex-row {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    flex-direction: row;
-}
-
-.task-box-home {
-    border: 3px solid black;
-    width: 200px;
-    height: 200px;
-    border-radius: 20px;
-    background-color: #f4f4f4;
-    margin: 10px;
-    padding: 10px;
+    justify-content: center;
 }
 
 .page-list {
     display: flex;
     flex-direction: column;
+}
+
+.button {
+    color: rgb(0, 70, 92);
+    font-size:20px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid rgb(0, 70, 92);
+    cursor: pointer;
+}
+.button:hover {
+    color: white;
+    background-color: rgb(0, 70, 92);
+}
+
+#update-details-button {
+    width: 77%;
+    display: flex;
 }
 

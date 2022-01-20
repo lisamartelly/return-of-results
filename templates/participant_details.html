@@ -2,36 +2,35 @@
 
 {% block body %}
 <div class="flex-container-generic">
-<div>
-    <p>This is the participant details</p>
-    <h1>participant name = {{participant.fname}} {{participant.lname}} </h1>
-    <h1>participant ID = <span id="participant-id">{{participant.participant_id}}</span> </h1>
-    <h3>
-    personal info:
-    </h3>
-    email = {{participant.email}}<br>
-    phone = {{participant.phone}}<br>
-    dob = {{participant.dob}}<br>
-</div>
+    <div class="page-header">
+        <h1> Participant Details - {{participant.fname}} {{participant.lname}} </h1>
+    </div>
+    <div class="flex-row">
+        <div class="flex-box-generic">
+            <ul id="participant-info">
+                <li><h2>name: {{participant.fname}} {{participant.lname}}</h2></li>
+                <li><h2>participant ID: <span id="participant-id">{{participant.participant_id}}</span></h2></li>
+                <li id="email">email: <span>{{participant.email}}</span></li>
+                <li id="phone">phone: <span>{{participant.phone}}</span></li>
+                <li>dob: {{participant.dob}}</li>
+            </ul>
+        </div>
 
-<div id="participant_hcp_info">
-    {% if participant.hcp_fname != None %}
-    <p>This is the participant's doctor's details</p>
-    <h1>doctor name = {{participant.hcp_fname}} {{participant.hcp_lname}} </h1>
-    email = {{participant.hcp_email}}<br>
-    phone = {{participant.hcp_phone}}<br>
-    practice = {{participant.hcp_practice}}<br>
-</div>
+        <div class="flex-box-generic">
+            <ul id="participant-hcp-info">
+                <li><h2 id="hcp_fullname">doctor name: <span>{{participant.hcp_fullname}}</span></h2></li>
+                <li id="hcp_email">email: <span >{{participant.hcp_email}}</span></li>
+                <li id="hcp_phone">phone: <span >{{participant.hcp_phone}}</span></li>
+                <li id="hcp_practice">practice: <span >{{participant.hcp_practice}}</span></li>
+            </ul>
+        </div>
+    </div>
+        <div id="update-success" class="flex-center"></div><br>
+        <button id="update-details-button" class="button">Update Information</button>
+    
 
-<button id="update_hcp">
-    update doctor details
-</button>
-<p id="hcp_update_form"></p>
-
-{% endif %}
-
-<div id="participant_hcp_form">
-{% if participant.hcp_fname == None %}
+<!-- <div id="participant_hcp_form">
+{% if participant.hcp_fullname == None %}
     <form id="hcp_form">
         Doctor's First Name: <input type="text" id="fname" name="fname">
         Doctor's Last Name: <input type="text" id="lname" name="lname"><br>
@@ -42,23 +41,23 @@
     </form>
 </div>
 <br><div id="form-submitted"></div>
-{% endif %}
+{% endif %} -->
 
-<h3>studies that participant is in: </h3>
-{% for study in participant.studies %}
-    <h3><b>study:</b> {{study.study_name}}</h3> <br><p><b>status:</b> {{study.status_code}}</p> <br><br>
-    <h3>results that will be returned from {{study.study_name}} and your decisions:</h3>
-        <p><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">click here to update decisions</a></p>
-        {% for decision in participant.return_decisions %} 
-            {% for result_plan in study.result_plans %} 
-                {% if decision.result_plan_id == result_plan.result_plan_id and result_plan.return_plan == True %}
-                    <li><b>visit:</b> {{result_plan.visit}},
-                        <b>test name:</b> {{decision.result_plan.test_name}}, 
-                        <b>decision:</b> {{decision.return_decision}}</li>
-                {% endif %}
+    <h3>studies that participant is in: </h3>
+    {% for study in participant.studies %}
+        <h3><b>study:</b> {{study.study_name}}</h3> <p><b>status:</b> {{study.status_code}}</p> 
+        <h3>results that will be returned from {{study.study_name}} and your decisions:</h3>
+            <p><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">click here to update decisions</a></p>
+            {% for decision in participant.return_decisions %} 
+                {% for result_plan in study.result_plans %} 
+                    {% if decision.result_plan_id == result_plan.result_plan_id and result_plan.return_plan == True %}
+                        <li><b>visit:</b> {{result_plan.visit}}<br>
+                            <b>test name:</b> {{decision.result_plan.test_name}}<br>
+                            <b>decision:</b> {{decision.return_decision}}</li>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-{% endfor %}
+    {% endfor %}
 </div>
 
 {% endblock %}
