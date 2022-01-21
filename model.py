@@ -94,6 +94,7 @@ class Result_Plan(db.Model):
 
     study = db.relationship("Study", back_populates="result_plans")
     # return_decisions : the associated decisions for a plan
+    # result backrefs here for the associated plan of a result
 
     def __repr__(self):
         return f'<Result Plan result_plan_id={self.result_plan_id} return_plan={self.return_plan} test_name={self.test_name}'
@@ -119,9 +120,11 @@ class Result(db.Model):
    
     participant_id = db.Column(db.Integer, db.ForeignKey("participants.participant_id"), nullable=False)
     result_plan_id = db.Column(db.Integer, db.ForeignKey("result_plans.result_plan_id"), nullable=False)
+    result_plan = db.relationship("Result_Plan", backref="result")
 
     urgent = db.Column(db.Boolean, nullable=False)
     result_value = db.Column(db.String, nullable=True)
+    # "participant" backrefs here for all results of a participant
 
     def __repr__(self):
         return f'participant: {self.participant.participant_id}, result value: {self.result_value} result id: {self.result_id}'

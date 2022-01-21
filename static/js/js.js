@@ -19,7 +19,7 @@ function processEdits(elementId) {
   input.parentNode.removeChild(input);
 }
 
-document.querySelector('#update-details-button').addEventListener('click', (event) => {
+document.querySelector('#update-details-button')?.addEventListener('click', (event) => {
     const button = event.target;    
     if(button.textContent === 'Update Information') {
 
@@ -64,6 +64,7 @@ document.querySelector('#update-details-button').addEventListener('click', (even
     })
     }
 });
+
 
 
 

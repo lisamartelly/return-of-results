@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, Participant, Study, Investigator, Result_Plan, ParticipantsStudies, Return_Decision, connect_to_db
+from model import db, Participant, Study, Investigator, Result_Plan, ParticipantsStudies, Return_Decision, Result, connect_to_db
 
 # CREATIONS
 
@@ -83,6 +83,21 @@ def create_result_decision(participant_id, result_plan_id, return_decision):
     db.session.commit()
 
     return rd
+
+def create_result(participant_id, result_plan_id, urgent, result_value):
+    """Create and return a new result"""
+
+    result = Result(
+        participant_id = participant_id,
+        result_plan_id = result_plan_id,
+        urgent = urgent,
+        result_value = result_value,        
+    )
+
+    db.session.add(result)
+    db.session.commit()
+
+    return result
 
 # RETURN ALLS
 

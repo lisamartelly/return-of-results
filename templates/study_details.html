@@ -12,7 +12,7 @@ results:
 </h3>
 <p>
 {% for result_plan in study.result_plans %}
-<li><b>visit:</b> {{result_plan.visit}} <b>test name:</b> {{result_plan.test_name}} <b>could it be urgent?</b> {{result_plan.urgency_potential}} <b>will it be returned?</b> {{result_plan.return_plan}} </li>
+<li><b>ID</b> {{result_plan.result_plan_id}} <b>visit:</b> {{result_plan.visit}} <b>test name:</b> {{result_plan.test_name}} <b>could it be urgent?</b> {{result_plan.urgency_potential}} <b>will it be returned?</b> {{result_plan.return_plan}} </li>
 </p>
 {% endfor %}
 

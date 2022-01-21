@@ -300,6 +300,26 @@ def add_hcp(participant_id):
     
     return 'Changes saved!'
 
+@app.route('/results')
+def add_results():
+
+
+    return render_template('add-results.html')
+
+
+@app.route('/studies.json')
+def return_studies():
+    """ return JSON dict of all study objects in db"""
+    results = crud.return_all_studies()
+    studies = []
+
+    for study in results:
+        studies.append({"study_id": study.study_id, "study_name" : study.study_name})
+        # studies[study.study_id] = study.study_name
+            
+    return jsonify(studies)
+
+
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
     connect_to_db(app)
