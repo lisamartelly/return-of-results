@@ -304,6 +304,10 @@ def add_hcp(participant_id):
 def show_add_results_page():
     return render_template('add-results.html')
 
+@app.route('/TESTING')
+def SHOW_TESTING_PAGE():
+    return render_template('example.html')
+
 
 @app.route('/studies.json')
 def return_studies():
