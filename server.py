@@ -301,9 +301,7 @@ def add_hcp(participant_id):
     return 'Changes saved!'
 
 @app.route('/results')
-def add_results():
-
-
+def show_add_results_page():
     return render_template('add-results.html')
 
 
@@ -315,9 +313,42 @@ def return_studies():
 
     for study in results:
         studies.append({"study_id": study.study_id, "study_name" : study.study_name})
-        # studies[study.study_id] = study.study_name
             
     return jsonify(studies)
+
+@app.route('/visits-results.json/<study_id>')
+def return_visits(study_id):
+    """ return JSON dict of all study objects in db"""
+    study = crud.get_study_by_id(study_id)
+    results = []
+
+    for result in study.result_plans:
+        results.append({
+            "result_plan_id": result.result_plan_id, 
+            "test_name" : result.test_name,
+            "visit" : result.visit,
+            })
+            
+    return jsonify(results)
+
+@app.route('/create-result', methods=["POST"])
+def create_result():
+    """ create a single result using participant_id, result_plan_id, urgent, result_value"""
+
+    participant_id = request.json.get("participant_id")
+    result_plan_id = request.json.get("result_plan_id")
+    urgent = request.json.get("urgent")
+    result_value = request.json.get("result_value")
+
+    crud.create_result(
+        participant_id=participant_id,
+        result_plan_id=result_plan_id,
+        urgent=urgent,
+        result_value=result_value
+        )
+    
+    return redirect('/')
+
 
 
 if __name__ == "__main__":
