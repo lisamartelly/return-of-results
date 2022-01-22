@@ -340,19 +340,37 @@ def create_result():
     """ create a single result using participant_id, result_plan_id, urgent, result_value"""
 
     participant_id = request.json.get("participant_id")
-    result_plan_id = request.json.get("result_plan_id")
-    urgent = request.json.get("urgent")
-    result_value = request.json.get("result_value")
+    results = request.json.get("results")
+    for result in results:
+        result_plan_id = result.result_plan_id
+        urgent = result.urgent
+        result_value = result.result.value
 
-    crud.create_result(
-        participant_id=participant_id,
-        result_plan_id=result_plan_id,
-        urgent=urgent,
-        result_value=result_value
-        )
+        crud.create_result(
+            participant_id=participant_id,
+            result_plan_id=result_plan_id,
+            urgent=urgent,
+            result_value=result_value
+            )
     
-    return redirect('/')
+    return redirect(f'/participants/{participant_id}')
 
+@app.route('/check-participant.json/<participant_id>')
+def check_participant_id(participant_id):
+    """ json route to check if an inputted participant ID is existing before they are enrolled"""
+
+    participant = crud.get_participant_by_id(participant_id)
+    result = {}
+    if participant:
+        # return if participant is already in db
+        result['code'] = 1
+        result['msg'] = f'Enrolling: {participant.fname} {participant.lname}'
+    else:
+        # return if participant is not already in db
+        result['code'] = 0
+        result['msg'] = 'No participant with that ID exists, please check the ID or enroll as a new participant'
+        
+    return jsonify(result)
 
 
 if __name__ == "__main__":

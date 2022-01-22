@@ -7,7 +7,13 @@
 <h3>Enroll Existing Participant:</h3>
 <div id="existing-enrollment-form">
     <form id="existing-enrollment-form" name="existing-enrollment-form" action="/enroll" method="POST" >
+
         <input type="hidden" id="existing" name="existing" value="yes">
+        Participant ID: <input type="number" id="participant_id" name="participant_id" required>
+        <button id="participant_id_check">Next</button>
+        <p id="id_check_msg"></p>
+
+        <div id="study_selection">
         What study are you enrolling in?
         <br>
         <select id="study_id" name="study_id">
@@ -16,8 +22,9 @@
             <option value="{{study.study_id}}" required>{{study.study_name}}</option>
             {% endfor %} 
         </select><br>
-        Participant ID: <input type="number" id="participant_id" name="participant_id">
-        <input type="submit">
+        <button type="submit">Enroll</button>
+        </div>
+        
     
     </form>
 
@@ -47,4 +54,8 @@
 
 </div>
 
+{% endblock %}
+
+{% block js %} 
+<script src="/static/js/enrollment.js"></script>
 {% endblock %}
