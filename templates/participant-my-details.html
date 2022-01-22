@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="flex-container-generic">
+    <div class="page-header">
+        <h1> Participant Details - {{participant.fname}} {{participant.lname}} </h1>
+    </div>
+    <div class="flex-row">
+        <div class="flex-box-generic">
+            <ul id="participant-info">
+                <li><h2>name: {{participant.fname}} {{participant.lname}}</h2></li>
+                <li><h2>participant ID: <span id="participant-id">{{participant.participant_id}}</span></h2></li>
+                <li id="email">email: <span>{{participant.email}}</span></li>
+                <li id="phone">phone: <span>{{participant.phone}}</span></li>
+                <li>dob: {{participant.dob}}</li>
+            </ul>
+        </div>
+
+        <div class="flex-box-generic">
+            <ul id="participant-hcp-info">
+                <li><h2 id="hcp_fullname">doctor name: <span>{{participant.hcp_fullname}}</span></h2></li>
+                <li id="hcp_email">email: <span >{{participant.hcp_email}}</span></li>
+                <li id="hcp_phone">phone: <span >{{participant.hcp_phone}}</span></li>
+                <li id="hcp_practice">practice: <span >{{participant.hcp_practice}}</span></li>
+            </ul>
+        </div>
+    </div>
+        <div id="update-success" class="flex-center"></div><br>
+        <button id="update-details-button" class="button">Update Information</button>
+</div>
+
+{% endblock %}
+
+{% block js %} 
+<script src="/static/js/update-details.js"></script>
+{% endblock %}

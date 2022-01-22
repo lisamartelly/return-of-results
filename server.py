@@ -50,6 +50,8 @@ def login_user():
         if password == user.password:
             session['user'] = user.email
             session['user_type'] = user_type
+            session['user_id'] = user_id
+            print(session)
         else:
             flash("Incorrect password, try again.")
     else:
@@ -81,8 +83,9 @@ def register_user():
 @app.route('/logout')
 def logout_user():
     if "user" in session:
-        session.pop("user")
+        session.pop("user_email")
         session.pop("user_type")
+        session.pop("user_id")
         return render_template('home-logged-out.html')
     else:
         return render_template('home-logged-out.html')
@@ -285,7 +288,7 @@ def show_all_participant():
     return render_template('/participants.html', participants=participants)
 
 @app.route('/participants/<participant_id>')
-def show_participant_details(participant_id):
+def show_all_participant_details(participant_id):
     if "user" not in session: return redirect('/')
 
     participant = crud.get_participant_by_id(participant_id)
@@ -371,6 +374,36 @@ def check_participant_id(participant_id):
         result['msg'] = 'No participant with that ID exists, please check the ID or enroll as a new participant'
         
     return jsonify(result)
+
+# ROUTES FOR PARTICIPANT-ONLY VIEWS
+
+@app.route('/participant/my-details')
+def show_participant_their_details():
+    if "user" not in session: return redirect('/')
+
+    participant_id = session['user_id']
+    participant = crud.get_participant_by_id(participant_id)
+    print("participant.studies", participant.studies)
+    return render_template('participant-my-details.html', participant=participant)
+
+@app.route('/participant/my-studies')
+def show_participant_their_studies():
+    if "user" not in session: return redirect('/')
+
+    participant_id = session['user_id']
+    participant = crud.get_participant_by_id(participant_id)
+    print("participant.studies", participant.studies)
+    return render_template('participant-my-studies.html', participant=participant)
+
+@app.route('/participant/my-results')
+def show_participant_their_results():
+    if "user" not in session: return redirect('/')
+
+    participant_id = session['user_id']
+    participant = crud.get_participant_by_id(participant_id)
+    print("participant.studies", participant.studies)
+    return render_template('participant-my-results.html', participant=participant)
+
 
 
 if __name__ == "__main__":

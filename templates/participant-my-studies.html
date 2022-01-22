@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="flex-container-generic">
+    <div class="page-header">
+        <h1> Participant Studies - {{participant.fname}} {{participant.lname}} </h1>
+    </div>
+
+<h3>studies that participant is in: </h3>
+    {% for study in participant.studies %}
+    <h3><b>study:</b> {{study.study_name}}</h3> 
+    <p><b>status:</b> {{study.status_code}}</p> 
+    <p><b>ID:</b> {{study.study_id}}</p> 
+    {% endfor %}
+
+</div>
+
+{% endblock %}

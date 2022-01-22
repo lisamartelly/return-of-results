@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="flex-container-generic">
+    <div class="page-header">
+        <h1> Participant Results - {{participant.fname}} {{participant.lname}} </h1>
+    </div>
+
+{% for study in participant.studies %}
+
+<h3>results that will be returned from {{study.study_name}} and your decisions:</h3>
+<p><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">click here to update decisions</a></p>
+{% for decision in participant.return_decisions %} 
+    {% for result_plan in study.result_plans %} 
+        {% if decision.result_plan_id == result_plan.result_plan_id and result_plan.return_plan == True %}
+            <li><b>visit:</b> {{result_plan.visit}}<br>
+                <b>test name:</b> {{decision.result_plan.test_name}}<br>
+                <b>decision:</b> {{decision.return_decision}}</li>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+{% endfor %}
+
+<h3>results that belong to a participant</h3>
+    {% for result in participant.results %}
+    <li><b>study: {{result.result_plan.study.study_name}}</b>
+        <b>visit:</b> {{result.result_plan.visit}}<br>
+        <b>test name:</b> {{result.result_plan.visit}}<br>
+        <b>test value:</b> {{result.result_value}}</li>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
