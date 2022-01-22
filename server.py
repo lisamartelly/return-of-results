@@ -94,6 +94,7 @@ def logout_user():
 @app.route('/studies')
 def show_studies():
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
    
     studies = crud.return_all_studies()
     return render_template('studies.html', studies=studies)
