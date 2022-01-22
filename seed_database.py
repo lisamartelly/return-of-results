@@ -19,6 +19,10 @@ fake = Faker()
 investigator = crud.create_investigator(fname="admin fname", lname="admin lname", email="test@test.com", phone="123456")
 investigator.password = "test"
 
+#make specific participant for testing
+participant = crud.create_participant(email="test@test.com", fname="test fname", lname="test lname", dob="01/01/2020", phone="123456")
+participant.password = "test"
+
 #make fake investigators for db, no pws:
 for i in range(10):
     i_fname = fake.first_name()

@@ -102,6 +102,8 @@ def show_studies():
 @app.route('/studies/<study_id>')
 def show_study_details(study_id):
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
 
     study = crud.get_study_by_id(study_id)
     return render_template('study_details.html', study=study)
@@ -110,6 +112,8 @@ def show_study_details(study_id):
 def plan_one():
     """ gather study details"""
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
 
     investigators = crud.return_all_investigators()
     return render_template('planning-1.html', investigators=investigators)
@@ -118,6 +122,8 @@ def plan_one():
 def plan_two():
     """ get number of tests per each visit"""
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
 
     dict_visits = {visit: 0 for visit in request.form.getlist("visits")}
     investigator_id = request.form.get("study-investigator")
@@ -143,6 +149,8 @@ def plan_two():
 @app.route('/planning-3', methods=["POST"])
 def plan_three():
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
 
     """create result plan for each test in each visit"""
 
@@ -168,6 +176,8 @@ def plan_three():
 @app.route('/plan-study', methods=["POST"])
 def plan_study():
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
 
     """ after getting all needed data, process into result_plans and redirect to study details"""
     # print("session end: ", session)
@@ -217,6 +227,8 @@ def plan_study():
 @app.route('/enroll-participant')
 def enroll_participant_form():
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
 
     studies = crud.return_all_studies()
     return render_template('enroll_participant.html', studies=studies)
@@ -224,6 +236,8 @@ def enroll_participant_form():
 @app.route('/enroll', methods=["POST"])
 def create_participant_in_db():
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
 
     # print("form", request.form)
     # my_data = request.form
@@ -252,6 +266,8 @@ def create_participant_in_db():
 def get_result_decisions(study_id, participant_id):
     """ ask participants which results they want to receive"""
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
 
     study=crud.get_study_by_id(study_id)
     participant=crud.get_participant_by_id(participant_id)
@@ -262,6 +278,7 @@ def get_result_decisions(study_id, participant_id):
 def save_result_decisions(study_id, participant_id):
     """ save participant's decisions to receive results or not"""
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
 
     study=crud.get_study_by_id(study_id)
     for result in study.result_plans:
@@ -284,6 +301,7 @@ def save_result_decisions(study_id, participant_id):
 @app.route('/participants')
 def show_all_participant():
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
 
     participants = crud.return_all_participants()
     return render_template('/participants.html', participants=participants)
@@ -291,6 +309,7 @@ def show_all_participant():
 @app.route('/participants/<participant_id>')
 def show_all_participant_details(participant_id):
     if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
 
     participant = crud.get_participant_by_id(participant_id)
     print("participant.studies", participant.studies)
@@ -306,6 +325,9 @@ def add_hcp(participant_id):
 
 @app.route('/results')
 def show_add_results_page():
+    if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
     return render_template('add-results.html')
 
 @app.route('/TESTING')
@@ -315,6 +337,9 @@ def SHOW_TESTING_PAGE():
 
 @app.route('/studies.json')
 def return_studies():
+    if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
     """ return JSON dict of all study objects in db"""
     results = crud.return_all_studies()
     studies = []
@@ -327,6 +352,9 @@ def return_studies():
 @app.route('/visits-results.json/<study_id>')
 def return_visits(study_id):
     """ return JSON dict of all study objects in db"""
+    if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
     study = crud.get_study_by_id(study_id)
     results = []
 
@@ -341,6 +369,9 @@ def return_visits(study_id):
 
 @app.route('/create-result', methods=["POST"])
 def create_result():
+    if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
     """ create a single result using participant_id, result_plan_id, urgent, result_value"""
 
     participant_id = request.json.get("participant_id")
@@ -361,6 +392,9 @@ def create_result():
 
 @app.route('/check-participant.json/<participant_id>')
 def check_participant_id(participant_id):
+    if "user" not in session: return redirect('/')
+    if session["user_type"] != "investigator": return redirect('/')
+
     """ json route to check if an inputted participant ID is existing before they are enrolled"""
 
     participant = crud.get_participant_by_id(participant_id)

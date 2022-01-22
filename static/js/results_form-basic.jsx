@@ -1,6 +1,7 @@
 
 function ResultsForm() {
     // create form input of study names in dropdown 
+    
     const [studies, setStudies] = React.useState([]);
     React.useEffect(() =>  {
         fetch('/studies.json')
@@ -53,7 +54,7 @@ function ResultsForm() {
         const id = evt.target.value;
         setVisitSelected(id);
     }
-
+    
     // render form html
     return (
         <div>

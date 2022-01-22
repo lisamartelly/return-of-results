@@ -20,16 +20,33 @@
     {% if "user" in session %}
 <div class=flex-container>
     <div class="flex-nav">
+        <!-- nav bar for investigator (see everything and everyone) -->
+        {% if session["user_type"] == "investigator" %}
         <div id="top-half">
         <a class="nav-link" href="/"><div class="nav-item">HOME</div></a>
         <a class="nav-link" href="/planning-1"><div class="nav-item">PLANNING</div></a>
         <a class="nav-link" href="/studies"><div class="nav-item">STUDIES</div></a> 
         <a class="nav-link" href="/enroll-participant"><div class="nav-item">ENROLL</div></a> 
         <a class="nav-link" href="/participants"><div class="nav-item">PARTICIPANTS</div></a>
+        <a class="nav-link" href="/results"><div class="nav-item">ADD RESULTS</div></a>
         </div>
+        {% endif %}
+        
+        <!-- nav bar for participants (see only stuff about them) -->
+        {% if session["user_type"] == "participant" %}
+        <a class="nav-link" href="/"><div class="nav-item">HOME</div></a>
+        <a class="nav-link" href="/participant/my-details"><div class="nav-item">MY DETAILS</div></a>
+        <a class="nav-link" href="/participant/my-studies"><div class="nav-item">MY STUDIES</div></a>
+        <a class="nav-link" href="/participant/my-results"><div class="nav-item">MY RESULTS</div></a>
+        {% endif %}
+
         <div id="bottom-half">
-        <div style="padding: 10px"> Logged in as: {{session["user"]}}</div> 
-        <br>
+        <div style="padding: 10px"> 
+            Logged in as: {{session["user"]}}<br>
+            User type: {{session["user_type"]}}<br>
+            ID: {{session["user_id"]}}<br>
+        </div> 
+        
         <a class="nav-link" href="/logout"><div class="nav-item">Log Out</div></a> 
         </div>
     </div>
@@ -41,8 +58,8 @@
 {% endblock %}
 
 {% block js %}
-
 {% endblock %}
+
 </div>
 
 </body>
