@@ -100,8 +100,10 @@ for participant in participants:
 for participant in participants:
     for study in participant.studies:
         for result in study.result_plans:
-            crud.create_result_decision(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, return_decision=True)
-
+            if result.return_plan == True:
+                crud.create_result_decision(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, return_decision=True)
+            else:
+                crud.create_result_decision(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, return_decision=None)
 
 
 #create fake results for each study

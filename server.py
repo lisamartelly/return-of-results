@@ -76,6 +76,7 @@ def register_user():
             flash("Account already registered.")
         else:
             crud.add_password(user_type=user_type, email=email, password=password)
+            flash("Account registered, now please login")
     else:
         flash("Email not in system or registering under wrong category. Contact administrator to be able to register.")
     return redirect('/')
@@ -154,11 +155,6 @@ def plan_three():
 
     """create result plan for each test in each visit"""
 
-    # my_data = request.form
-    # for key in my_data:
-    #     print(f'form key,{key},{my_data[key]}')
-
-    # return jsonify(request.form)
     temp_dict=dict(session['visits'])
 
     #visit details from form:
@@ -175,18 +171,9 @@ def plan_three():
 
 @app.route('/plan-study', methods=["POST"])
 def plan_study():
+    """ after getting all needed data, process into result_plans and redirect to study details"""
     if "user" not in session: return redirect('/')
     if session["user_type"] != "investigator": return redirect('/')
-
-
-    """ after getting all needed data, process into result_plans and redirect to study details"""
-    # print("session end: ", session)
-    # print("session['visits']: ", session['visits'])
-    # my_data = request.form
-    # for key in my_data:
-    #     print(f'form key,{key},{my_data[key]}')
-
-    # return jsonify(request.form)
 
     # study details from session:
     study_name = session['study_name']
@@ -238,7 +225,6 @@ def create_participant_in_db():
     if "user" not in session: return redirect('/')
     if session["user_type"] != "investigator": return redirect('/')
 
-
     # print("form", request.form)
     # my_data = request.form
     # for key in my_data:
@@ -267,7 +253,6 @@ def get_result_decisions(study_id, participant_id):
     """ ask participants which results they want to receive"""
     if "user" not in session: return redirect('/')
     if session["user_type"] != "investigator": return redirect('/')
-
 
     study=crud.get_study_by_id(study_id)
     participant=crud.get_participant_by_id(participant_id)
@@ -378,9 +363,9 @@ def create_result():
     results = request.json.get("results")
     for result in results:
         result_plan_id = result["result_plan_id"]
-        if result["urgent"] == True:
+        if result["urgent"] is True:
             urgent = True
-        else: 
+        else:
             urgent = False
         result_value = result["result_value"]
 
