@@ -83,7 +83,7 @@ def register_user():
 @app.route('/logout')
 def logout_user():
     if "user" in session:
-        session.pop("user_email")
+        session.pop("user")
         session.pop("user_type")
         session.pop("user_id")
         return render_template('home-logged-out.html')
@@ -254,7 +254,7 @@ def create_participant_in_db():
         fname = request.form.get("fname")
         lname = request.form.get("lname")
         dob = request.form.get("dob")
-        phone = email = request.form.get("phone")
+        phone = request.form.get("phone")
         study_id = int(request.form.get("study_id"))
 
         participant = crud.create_participant(email, fname, lname, dob, phone)
@@ -313,7 +313,7 @@ def show_all_participant_details(participant_id):
 
     participant = crud.get_participant_by_id(participant_id)
     print("participant.studies", participant.studies)
-    return render_template('participant_details.html', participant=participant)
+    return render_template('participant_all_details.html', participant=participant)
 
 @app.route('/update.json/<participant_id>', methods=["POST"])
 def add_hcp(participant_id):
@@ -374,12 +374,15 @@ def create_result():
 
     """ create a single result using participant_id, result_plan_id, urgent, result_value"""
 
-    participant_id = request.json.get("participant_id")
+    participant_id = request.json.get("participantId")
     results = request.json.get("results")
     for result in results:
-        result_plan_id = result.result_plan_id
-        urgent = result.urgent
-        result_value = result.result.value
+        result_plan_id = result["result_plan_id"]
+        if result["urgent"] == True:
+            urgent = True
+        else: 
+            urgent = False
+        result_value = result["result_value"]
 
         crud.create_result(
             participant_id=participant_id,
@@ -388,7 +391,7 @@ def create_result():
             result_value=result_value
             )
     
-    return redirect(f'/participants/{participant_id}')
+    return "200 OK"
 
 @app.route('/check-participant.json/<participant_id>')
 def check_participant_id(participant_id):

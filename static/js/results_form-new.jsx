@@ -74,19 +74,22 @@ function ResultsForm() {
     
     let handleSubmit = (event) => {
         event.preventDefault();
+        const participantId = document.querySelector('#participant_id').value;
 
         const formInputs = {
-            participantId : document.querySelector('#participant_id').value,
+            participantId : participantId,
             results : formValues
             }    
-        alert(JSON.stringify(formInputs));
+        // alert(JSON.stringify(formInputs));
         fetch('/create-result', {
         method: 'POST',
         body: JSON.stringify(formInputs),
         headers: {'Content-Type': 'application/json',},
         })
-        .then(response => response.text())
-        .then(responseText => document.querySelector("#update-success").innerHTML = responseText)
+        .then (response => {
+            window.location.href =`/participants/${participantId}`;
+        })
+        
     }
 
     return (
