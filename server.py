@@ -1,8 +1,10 @@
 
 from flask import Flask, render_template, redirect, flash, session, request, jsonify
+from flask_mail import Mail, Message
 from model import connect_to_db
 import jinja2
 import crud
+import os
 from faker import Faker
 from jinja2 import StrictUndefined
 import json
@@ -22,6 +24,18 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 # This configuration option makes the Flask interactive debugger
 # more useful (you should remove this line in production though)
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
+
+# email configurations
+mail = Mail(app)
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
+app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
 
 @app.route('/')
 def show_homepage():
@@ -90,7 +104,6 @@ def logout_user():
         return render_template('home-logged-out.html')
     else:
         return render_template('home-logged-out.html')
-
 
 @app.route('/studies')
 def show_studies():
@@ -169,7 +182,7 @@ def plan_study():
     investigator_id = session['investigator_id']
     investigational_product = fake.unique.license_plate()
 
-    study = crud.create_study(investigator_id, study_name, investigational_product, status_code=1)
+    study = crud.create_study(investigator_id, study_name, investigational_product, status="Planning")
 
     #plan details from form:
     for visit in session['visits']:
@@ -242,7 +255,7 @@ def get_result_decisions(study_id, participant_id):
     study=crud.get_study_by_id(study_id)
     participant=crud.get_participant_by_id(participant_id)
 
-    return render_template(f'/decisions.html', study=study, participant=participant)
+    return render_template('/decisions.html', study=study, participant=participant)
 
 @app.route('/decide/<study_id>/<participant_id>', methods=["POST"])
 def save_result_decisions(study_id, participant_id):
@@ -282,15 +295,19 @@ def show_all_participant_details(participant_id):
     print("participant.studies", participant.studies)
     return render_template('participant_all_details.html', participant=participant)
 
-@app.route('/update.json/<participant_id>', methods=["POST"])
-def add_hcp(participant_id):
-    """ update info in participant's record in db"""
+@app.route('/update-by-attr.json/<category>/<item_id>', methods=["POST"])
+def update_attr_by_category_and_id(category, item_id):
+    """update attributes of participants or studies if already in db"""
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
     jsondict = request.json
-    crud.update_participant(jsondict, participant_id)
-    
-    return 'Changes saved!'
+    update = crud.update_attr_by_category_and_id(jsondict, category, item_id)
+
+    if update == 'success':
+        return 'Changes saved'
+    else:
+        return 'Error - try again'
+
 
 @app.route('/results')
 def show_add_results_page():
@@ -367,7 +384,7 @@ def return_participant_details(participant_id):
         study_obj = {}
         study_obj['study_name'] = study.study_name
         study_obj['study_id'] = study.study_id
-        study_obj['status'] = study.status_code
+        study_obj['status'] = study.status
         results['studies'].append(study_obj)
 
     return jsonify(results)
@@ -382,7 +399,7 @@ def return_study_details(study_id):
         'name' : study.study_name,
         'id' : study.study_id,
         'product' : study.investigational_product,
-        'status' : study.status_code,
+        'status' : study.status,
         'investigator_fname' : study.investigator.fname,
         'investigator_lname' : study.investigator.lname,
         }
@@ -462,6 +479,13 @@ def show_participant_their_results():
     print("participant.studies", participant.studies)
     return render_template('participant-my-results.html', participant=participant)
 
+@app.route("/email/<participant_id>")
+def send_email(participant_id):
+    participant=crud.get_participant_by_id(participant_id)
+    msg = Message('Hello', sender = 'return.of.results.dev@gmail.com', recipients = [participant.email])
+    msg.body = "Hello Flask message sent from Flask-Mail"
+    mail.send(msg)
+    return "Sent"
 
 
 if __name__ == "__main__":
