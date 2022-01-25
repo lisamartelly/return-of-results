@@ -50,9 +50,9 @@ for j in range(10):
     investigator_id = randint(1,10)
     study_name = study_names[j]
     investigational_product = fake.unique.license_plate()
-    status_code = randint(1,4)
+    status = choice(["Planning", "Active", "Closed/Analysis", "Published"])
     
-    study = crud.create_study(investigator_id=investigator_id, study_name=study_name, investigational_product=investigational_product, status_code=status_code)
+    study = crud.create_study(investigator_id=investigator_id, study_name=study_name, investigational_product=investigational_product, status=status)
 
     #create three results to return per study:
     for visit in ['recruitment', 'consent', 'study-visit-1']:
@@ -79,8 +79,8 @@ for k in range(100):
     p_phone = fake.phone_number()
     p_domain = fake.free_email_domain()
     p_dob = fake.date_of_birth(minimum_age=0, maximum_age=60)
-    p_email = f'{p_lname}.{p_fname}@{p_domain}'
-    # study_id = randint(1,10)
+    # p_email = f'{p_lname}.{p_fname}@{p_domain}'
+    p_email = 'return.of.results.dev@gmail.com'
 
     crud.create_participant(email=p_email, fname=p_fname, lname=p_lname, dob=p_dob, phone=p_phone)
 

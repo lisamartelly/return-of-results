@@ -21,7 +21,8 @@ class Participant(db.Model):
 
     participant_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     #personal info:
-    email = db.Column(db.String, unique=True, nullable=False)
+    #### REMINDER AFTER DEVELOPMENT TO CHANGE BACK TO UNIQUE EMAILS - UNIQUE = TRUE!!!!!
+    email = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=True)
     fname = db.Column(db.String(30), nullable=False)
     lname = db.Column(db.String(30), nullable=False)
@@ -52,8 +53,8 @@ class Study(db.Model):
     study_name = db.Column(db.String, nullable=True)
     investigational_product = db.Column(db.String, nullable=False)
     investigator_id = db.Column(db.Integer, db.ForeignKey("investigators.investigator_id"), nullable=False)
-    # status codes: 1=planning 2=active 3=data locked 4=published
-    status_code = db.Column(db.Integer, nullable=False)
+    # statuses: 1=planning 2=active 3=data locked 4=published
+    status = db.Column(db.String, nullable=False)
     #relationships:
     participants = db.relationship("Participant", secondary="participants_studies", back_populates="studies")
     investigator = db.relationship("Investigator", back_populates="studies")
@@ -96,7 +97,6 @@ class Result_Plan(db.Model):
     return_decision = db.relationship("Return_Decision", back_populates="result_plan")   
     result = db.relationship("Result", back_populates="result_plan")
 
-    # result backrefs here for the associated plan of a result
 
     def __repr__(self):
         return f'<Result Plan result_plan_id={self.result_plan_id} return_plan={self.return_plan} test_name={self.test_name}'
@@ -124,6 +124,7 @@ class Result(db.Model):
     result_plan_id = db.Column(db.Integer, db.ForeignKey("result_plans.result_plan_id"), nullable=False)
     urgent = db.Column(db.Boolean, nullable=False)
     result_value = db.Column(db.String, nullable=True)
+    notified = db.Column(db.Boolean, nullable=True)
 
     # "participant" backrefs here for all results of a participant
     result_plan = db.relationship("Result_Plan", back_populates="result")

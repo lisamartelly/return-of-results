@@ -348,6 +348,47 @@ def return_visits(study_id):
             
     return jsonify(results)
 
+@app.route('/participant-details.json/<participant_id>')
+def return_participant_details(participant_id):
+    """ return json object of select details about participant and their studies"""
+    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+
+    participant = crud.get_participant_by_id(participant_id)
+    results = {
+        'fname' : participant.fname,
+        'lname' : participant.lname,
+        'id' : participant.participant_id,
+        'phone': participant.phone,
+        'email': participant.email,
+        'studies': [],
+        }
+
+    for study in participant.studies:
+        study_obj = {}
+        study_obj['study_name'] = study.study_name
+        study_obj['study_id'] = study.study_id
+        study_obj['status'] = study.status_code
+        results['studies'].append(study_obj)
+
+    return jsonify(results)
+
+@app.route('/study-details.json/<study_id>')
+def return_study_details(study_id):
+    """ return json object of select details about study"""
+    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+
+    study = crud.get_study_by_id(study_id)
+    results = {
+        'name' : study.study_name,
+        'id' : study.study_id,
+        'product' : study.investigational_product,
+        'status' : study.status_code,
+        'investigator_fname' : study.investigator.fname,
+        'investigator_lname' : study.investigator.lname,
+        }
+
+    return jsonify(results)
+
 @app.route('/create-result', methods=["POST"])
 def create_result():
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')

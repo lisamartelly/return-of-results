@@ -6,12 +6,24 @@
     <div class="page-header">
         <h1> All Studies </h1>
     </div>
-
-    <ul class="page-list">
-    {% for study in studies %}
-    <li><a href="/studies/{{study.study_id}}">name: {{study.study_name}}, status={{study.status_code}}</a></li>
-    {% endfor %}
-    </ul>
+    <div class="flex-row list-page">
+        <div style="width: 40%">
+            <input type="text" id="searchInput" onkeyup="searchBar()" placeholder="Search for studies.."/>
+            
+            <ul id="itemsList">
+            {% for study in studies %}
+            <li class="detail-link"><a name="study" id={{study.study_id}} href="#">{{study.study_name}}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="details-container">
+            <div id="details-content"></div>
+        </div>
+    </div>
 </div>
+{% endblock %}
 
+{% block js %}
+<script src="/static/js/search-bar.js"></script>
+<script src="/static/js/detail-display.js"></script>
 {% endblock %}

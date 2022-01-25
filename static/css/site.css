@@ -48,7 +48,8 @@ a.nav-link {
 }
 .page-header {
     background-color: lightblue;
-    height: 150px;
+    min-height: 100px;
+    max-height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,6 +81,18 @@ ul#participant-hcp-info {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.list-page {
+    justify-content: space-between;
+}
+
+.details-content {
+    display: none;
+}
+.details-container {
+    display: flex none;
+    width: 50%;
 }
 
 .page-list {

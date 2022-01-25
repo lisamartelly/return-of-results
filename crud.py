@@ -24,14 +24,14 @@ def create_investigator(fname, lname, phone, email):
 
     return investigator
 
-def create_study(investigator_id, study_name, investigational_product, status_code):
+def create_study(investigator_id, study_name, investigational_product, status):
     """Create and return a new study."""
 
     study = Study(
         investigator_id=investigator_id,
         study_name=study_name,
         investigational_product=investigational_product,
-        status_code=status_code
+        status=status
         )
 
     db.session.add(study)
@@ -168,6 +168,26 @@ def update_participant(jsondict, participant_id):
     for key in jsondict:
         setattr(participant, key, jsondict[key])
     db.session.commit()   
+
+def update_study_status(jsondict, study_id):
+
+    study = get_study_by_id(study_id)
+    for key in jsondict:
+        setattr(study, key, jsondict[key])
+    db.session.commit()
+
+def update_attr_by_category_and_id(jsondict, category, item_id):
+    """ update any attribute of participant or study when specifying category and id"""
+    if category == "participant":
+        item = get_participant_by_id(item_id)
+    elif category == "study":
+        item = get_study_by_id(item_id)
+    
+    for key in jsondict:
+        setattr(item, key, jsondict[key])
+
+    db.session.commit()
+    return 'success'
     
 
 if __name__ == '__main__':

@@ -9,7 +9,7 @@
 <h3>studies that participant is in: </h3>
     {% for study in participant.studies %}
     <h3><b>study:</b> {{study.study_name}}</h3> 
-    <p><b>status:</b> {{study.status_code}}</p> 
+    <p><b>status:</b> {{study.status}}</p> 
     <p><b>ID:</b> {{study.study_id}}</p> 
     {% endfor %}
 

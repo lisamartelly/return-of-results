@@ -3,42 +3,69 @@
 {% block body %}
 
 <div class="flex-container-generic">
+    <div class="page-header">
+        <h1> Study Details - {{study.study_name}} </h1>
+    </div>
 
-<p>This is the study details</p>
+    <div>
+        <h2>ID: <span id="study-id">{{study.study_id}}</span></h2>
+        <h2>Status: <span id="db_status">{{study.status}}</span></h2>
+        <label>Update Status</label>
+        <select id="study_status">
+            <option value="none" selected disabled hidden>Change here</option>
+            <option value="Planning">Planning</option>
+            <option value="Active">Active</option>
+            <option value="Closed/Analysis">Closed/Analysis</option>
+            <option value="Published">Published</option>
+        </select>
+        <button id="change_study_status">Submit update</button>
+        <div id="update-success"></div>
 
-<h1>study name = {{study.study_name}}</h1>
-<h3>tests and return of results plan:</h3>
-<table>
-    <thead>
-        <tr>
-            <td><b>Test ID</b></td>
-            <td><b>Visit</b></td>
-            <td><b>Test Name</b></td>
-            <td><b>Urgency Potential</b></td>
-            <td><b>Return Plan</b></td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for result_plan in study.result_plans %}
-        <tr>
-            <td>{{result_plan.result_plan_id}}</td>
-            <td>{{result_plan.visit}}</td>
-            <td>{{result_plan.test_name}}</td>
-            <td>{{result_plan.urgency_potential}}</td>
-            <td>{{result_plan.return_plan}}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <h3>tests and return of results plan:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <td><b>Test ID</b></td>
+                    <td><b>Visit</b></td>
+                    <td><b>Test Name</b></td>
+                    <td><b>Urgency Potential</b></td>
+                    <td><b>Return Plan</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result_plan in study.result_plans %}
+                <tr>
+                    <td>{{result_plan.result_plan_id}}</td>
+                    <td>{{result_plan.visit}}</td>
+                    <td>{{result_plan.test_name}}</td>
+                    <td>{{result_plan.urgency_potential}}</td>
+                    <td>{{result_plan.return_plan}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-
-
-<h3>Study Participants:</h3>
-
-{% for participant in study.participants %}
-<li>{{participant.fname}} {{participant.lname}} - ID: {{participant.participant_id}}</li>
-{% endfor %}
-
+        <h3>Study Participants:</h3>
+        
+        <input type="text" id="searchInput" onkeyup="searchBar()" placeholder="Search for names.."/>
+        <div class="flex-row list-page">
+            <ul id="itemsList">
+                {% for participant in study.participants %}
+                <li class="detail-link"><a name="participant" id={{participant.participant_id}} href="#">{{participant.fname}} {{participant.lname}}</a></li>
+                {% endfor %}
+            </ul>
+            <div class="details-container">
+                <div id="details-content"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/search-bar.js"></script>
+<script src="/static/js/status-code.js"></script>
+<script src="/static/js/detail-display.js"></script>
 
 {% endblock %}
