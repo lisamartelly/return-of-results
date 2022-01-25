@@ -35,6 +35,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
+############# ROUTES FOR INVESTIGATOR-ONLY PAGES ######################
 
 @app.route('/')
 def show_homepage():
@@ -117,6 +118,65 @@ def show_study_details(study_id):
 
     study = crud.get_study_by_id(study_id)
     return render_template('study_details.html', study=study)
+
+@app.route('/enroll-participant')
+def enroll_participant_form():
+    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+
+    studies = crud.return_all_studies()
+    return render_template('enroll_participant.html', studies=studies)
+
+@app.route('/participants')
+def show_all_participant():
+    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+
+    participants = crud.return_all_participants()
+    return render_template('/participants.html', participants=participants)
+
+@app.route('/participants/<participant_id>')
+def show_all_participant_details(participant_id):
+    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+
+    participant = crud.get_participant_by_id(participant_id)
+    print("participant.studies", participant.studies)
+    return render_template('participant_all_details.html', participant=participant)
+
+@app.route('/results')
+def show_add_results_page():
+    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+
+    return render_template('add-results.html')
+
+########### ROUTES FOR PARTICIPANT-ONLY VIEWS #####################
+
+@app.route('/participant/my-details')
+def show_participant_their_details():
+    if "user" not in session: return redirect('/')
+
+    participant_id = session['user_id']
+    participant = crud.get_participant_by_id(participant_id)
+    print("participant.studies", participant.studies)
+    return render_template('participant-my-details.html', participant=participant)
+
+@app.route('/participant/my-studies')
+def show_participant_their_studies():
+    if "user" not in session: return redirect('/')
+
+    participant_id = session['user_id']
+    participant = crud.get_participant_by_id(participant_id)
+    print("participant.studies", participant.studies)
+    return render_template('participant-my-studies.html', participant=participant)
+
+@app.route('/participant/my-results')
+def show_participant_their_results():
+    if "user" not in session: return redirect('/')
+
+    participant_id = session['user_id']
+    participant = crud.get_participant_by_id(participant_id)
+    print("participant.studies", participant.studies)
+    return render_template('participant-my-results.html', participant=participant)
+
+##################### FORM PROCESSING AND OTHER REDIRECTS #############################
 
 @app.route('/planning-1')
 def plan_one():
@@ -212,22 +272,10 @@ def plan_study():
 
     return redirect(f'/studies/{study.study_id}')
 
-@app.route('/enroll-participant')
-def enroll_participant_form():
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
-
-    studies = crud.return_all_studies()
-    return render_template('enroll_participant.html', studies=studies)
-
+# PROCESS PARTICIPANT ENROLLMENT
 @app.route('/enroll', methods=["POST"])
 def create_participant_in_db():
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
-
-    # print("form", request.form)
-    # my_data = request.form
-    # for key in my_data:
-    #     print(f'form key,{key},{my_data[key]}')
-    # return jsonify(request.form)
 
     if request.form.get("existing") == "yes":
         participant = crud.get_participant_by_id(int(request.form.get("participant_id")))
@@ -246,6 +294,7 @@ def create_participant_in_db():
     crud.create_participantsstudies_link(participant.participant_id, study_id)
     return redirect(f'/decisions/{study_id}/{participant.participant_id}')
 
+# ASK PARTICIPANTS WHICH RESULTS THEY WANT TO RECEIVE
 @app.route('/decisions/<study_id>/<participant_id>')
 def get_result_decisions(study_id, participant_id):
     """ ask participants which results they want to receive"""
@@ -256,6 +305,7 @@ def get_result_decisions(study_id, participant_id):
 
     return render_template('/decisions.html', study=study, participant=participant)
 
+# PROCESS PARTICIPANT DECISION TO RECEIVE RESULTS
 @app.route('/decide/<study_id>/<participant_id>', methods=["POST"])
 def save_result_decisions(study_id, participant_id):
     """ save participant's decisions to receive results or not"""
@@ -269,7 +319,7 @@ def save_result_decisions(study_id, participant_id):
         else: 
             return_decision = False
         
-        #check if updating or  making new
+        #check if updating or making new
         if crud.get_rd_by_rp_by_participant(participant_id, result):
             crud.update_return_decision(participant_id, result, return_decision)
         else:
@@ -279,46 +329,59 @@ def save_result_decisions(study_id, participant_id):
                 return_decision=return_decision)
     return redirect(f'/participants/{participant_id}')
 
-@app.route('/participants')
-def show_all_participant():
+# PROCESS FORM TO CREATE A RESULT FOR A PARTICIPANT
+@app.route('/create-result', methods=["POST"])
+def create_result():
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
-    participants = crud.return_all_participants()
-    return render_template('/participants.html', participants=participants)
+    """ create a single result using participant_id, result_plan_id, urgent, result_value"""
 
-@app.route('/participants/<participant_id>')
-def show_all_participant_details(participant_id):
+    participant_id = request.json.get("participantId")
+    results = request.json.get("results")
+    for result in results:
+        result_plan_id = result["result_plan_id"]
+        if result["urgent"] is True:
+            urgent = True
+        else:
+            urgent = False
+        result_value = result["result_value"]
+
+        result = crud.create_result(
+            participant_id=participant_id,
+            result_plan_id=result_plan_id,
+            urgent=urgent,
+            result_value=result_value
+            )
+    
+    return redirect(f'/check-should-notify/{participant_id}')
+
+# CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT A RESULT
+@app.route('/check-should-notify')
+def check_if_should_notify_about_result(result_id):
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
-    participant = crud.get_participant_by_id(participant_id)
-    print("participant.studies", participant.studies)
-    return render_template('participant_all_details.html', participant=participant)
+    # after a result is submitted, check if the timing of returning that result matches with the status of that result
+    # if it does, double check that participant has not already been notified
+    # if they have not, call email participant
+    return
 
-@app.route('/update-by-attr.json/<category>/<item_id>', methods=["POST"])
-def update_attr_by_category_and_id(category, item_id):
-    """update attributes of participants or studies if already in db"""
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+# SEND A NOTIFICATION EMAIL
+@app.route("/email/<participant_id>")
+def send_email(participant_id):
+    participant=crud.get_participant_by_id(participant_id)
+    msg = Message('Hello', sender = 'return.of.results.dev@gmail.com', recipients = [participant.email])
+    msg.body = "Hello Flask message sent from Flask-Mail"
+    mail.send(msg)
+    return "Sent"
 
-    jsondict = request.json
-    update = crud.update_attr_by_category_and_id(jsondict, category, item_id)
+################## JSON ROUTES #############################
 
-    if update == 'success':
-        return 'Changes saved'
-    else:
-        return 'Error - try again'
-
-
-@app.route('/results')
-def show_add_results_page():
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
-
-    return render_template('add-results.html')
-
+# RETURN LIST OF ALL STUDIES
 @app.route('/studies.json')
 def return_studies():
+    """ return JSON dict of all study objects in db"""
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
-    """ return JSON dict of all study objects in db"""
     results = crud.return_all_studies()
     studies = []
 
@@ -327,6 +390,7 @@ def return_studies():
             
     return jsonify(studies)
 
+# CHECK IF PARTICIPANT IS ENROLLED IN STUDY
 @app.route('/study-participants.json/<study_id>/<participant_id>')
 def check_study_participants(study_id, participant_id):
     """ check if given participant ID is an enrolled study participants"""
@@ -347,9 +411,10 @@ def check_study_participants(study_id, participant_id):
         
     return jsonify(result)
 
+# RETURN ALL VISITS AND TESTS IN A STUDY
 @app.route('/visits-results.json/<study_id>')
 def return_visits(study_id):
-    """ return JSON dict of all study objects in db"""
+    """ return JSON list of all tests and all visits of a given study"""
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
     study = crud.get_study_by_id(study_id)
@@ -364,6 +429,7 @@ def return_visits(study_id):
             
     return jsonify(results)
 
+# RETURN DETAILS ABOUT A PARTICIPANT
 @app.route('/participant-details.json/<participant_id>')
 def return_participant_details(participant_id):
     """ return json object of select details about participant and their studies"""
@@ -388,6 +454,7 @@ def return_participant_details(participant_id):
 
     return jsonify(results)
 
+# RETURN SELECT DETAILS OF A STUDY
 @app.route('/study-details.json/<study_id>')
 def return_study_details(study_id):
     """ return json object of select details about study"""
@@ -405,30 +472,8 @@ def return_study_details(study_id):
 
     return jsonify(results)
 
-@app.route('/create-result', methods=["POST"])
-def create_result():
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
-    """ create a single result using participant_id, result_plan_id, urgent, result_value"""
 
-    participant_id = request.json.get("participantId")
-    results = request.json.get("results")
-    for result in results:
-        result_plan_id = result["result_plan_id"]
-        if result["urgent"] is True:
-            urgent = True
-        else:
-            urgent = False
-        result_value = result["result_value"]
-
-        crud.create_result(
-            participant_id=participant_id,
-            result_plan_id=result_plan_id,
-            urgent=urgent,
-            result_value=result_value
-            )
-    
-    return "200 OK"
 
 @app.route('/check-participant.json/<participant_id>')
 def check_participant_id(participant_id):
@@ -449,42 +494,22 @@ def check_participant_id(participant_id):
         
     return jsonify(result)
 
-# ROUTES FOR PARTICIPANT-ONLY VIEWS
+@app.route('/update-by-attr.json/<category>/<item_id>', methods=["POST"])
+def update_attr_by_category_and_id(category, item_id):
+    """update attributes of participants or studies if already in db"""
+    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
-@app.route('/participant/my-details')
-def show_participant_their_details():
-    if "user" not in session: return redirect('/')
+    jsondict = request.json
+    update = crud.update_attr_by_category_and_id(jsondict, category, item_id)
 
-    participant_id = session['user_id']
-    participant = crud.get_participant_by_id(participant_id)
-    print("participant.studies", participant.studies)
-    return render_template('participant-my-details.html', participant=participant)
+    if update == 'success':
+        return 'Changes saved'
+    else:
+        return 'Error - try again'
 
-@app.route('/participant/my-studies')
-def show_participant_their_studies():
-    if "user" not in session: return redirect('/')
 
-    participant_id = session['user_id']
-    participant = crud.get_participant_by_id(participant_id)
-    print("participant.studies", participant.studies)
-    return render_template('participant-my-studies.html', participant=participant)
 
-@app.route('/participant/my-results')
-def show_participant_their_results():
-    if "user" not in session: return redirect('/')
 
-    participant_id = session['user_id']
-    participant = crud.get_participant_by_id(participant_id)
-    print("participant.studies", participant.studies)
-    return render_template('participant-my-results.html', participant=participant)
-
-@app.route("/email/<participant_id>")
-def send_email(participant_id):
-    participant=crud.get_participant_by_id(participant_id)
-    msg = Message('Hello', sender = 'return.of.results.dev@gmail.com', recipients = [participant.email])
-    msg.body = "Hello Flask message sent from Flask-Mail"
-    mail.send(msg)
-    return "Sent"
 
 
 if __name__ == "__main__":
