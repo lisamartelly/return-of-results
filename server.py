@@ -27,7 +27,6 @@ app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 # email configurations
 mail = Mail(app)
-
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
