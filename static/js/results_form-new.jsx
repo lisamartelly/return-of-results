@@ -27,12 +27,36 @@ function ResultsForm() {
             };
             setAllVisits(visits);
         })   
-        
     }, [studySelected]);
 
     const handleStudySelected = evt => {
         const id = evt.target.value;
         setStudySelected(id);
+    }
+
+    // validate that participant is in study that is selected
+    const [participantId, setParticipantId] = React.useState([]);
+
+    React.useEffect(() => {
+        if (participantId === null) { return }
+        if (studySelected === null) { return }
+        fetch(`/study-participants.json/${studySelected}/${participantId}`)
+        .then(response => response.json())
+        .then(responseData => {
+            document.querySelector('#id_check_msg').innerHTML = responseData.msg;
+            console.log(responseData)
+            if (responseData.code === 1) {
+                document.querySelector('#resultsInput').style.display = "";
+            }
+            else if (responseData.code === 0) {
+                document.querySelector('#resultsInput').style.display = "none";
+            }
+        })
+    }, [participantId]);
+
+    const handleParticipantInput = evt => {
+        const id = document.querySelector('#participantId').value;
+        setParticipantId(id);
     }
 
     // create test input based on selected visit
@@ -74,7 +98,6 @@ function ResultsForm() {
     
     let handleSubmit = (event) => {
         event.preventDefault();
-        const participantId = document.querySelector('#participant_id').value;
 
         const formInputs = {
             participantId : participantId,
@@ -106,8 +129,12 @@ function ResultsForm() {
             </div>
             <div>
                 <label>Participant ID: </label>
-                <input type="text" id="participant_id" name="participant_id" />
-                <label>Study Visit: </label>
+                <input type="text" id="participantId" name="participantId" />
+                <div id="id_check_msg"></div>
+                <button id="checkParticipantIdBtn" onClick={handleParticipantInput}>Next</button>
+            </div> 
+            <div id="resultsInput" style = {{display: "none"}}>
+            <label>Study Visit: </label>
                 <select required id="visit" name="visit" onChange={e => {
                     handleVisitSelected(e);
                     }}>
@@ -115,8 +142,8 @@ function ResultsForm() {
                     {allVisits.map(visit => (
                     <option key={visit} value={visit}> {visit}</option>
                     ))}
-                </select>    
-            </div>  
+                </select>
+
             <h4>Add Results For This Study Visit:</h4>  
             <table>
                 <thead>
@@ -150,6 +177,7 @@ function ResultsForm() {
                 <button className="button add" type="button" onClick={addFormFields}>Add</button>
                 <button className="button submit" onClick={handleSubmit}>Submit</button>
                 <div id="update-success"></div>
+            </div> 
         </div>
         )}
 

@@ -1,28 +1,55 @@
 {% extends 'base.html' %}
 {% block body %}
+
+
 <div class="flex-container-generic">
 
     <div class="page-header">
         <h1> Homepage </h1>
     </div>
 
+    <!-- if logged in as investigator -->
+    {% if session["user_type"] == "investigator" %}
     <div class="flex-row">
-    <div class="flex-box-generic">
-        <p>do something</p>
-    </div>
+        <div class="flex-box-generic">
+            <p>U R INVESTIGATOR</p>
+        </div>
 
-    <div class="flex-box-generic">
-        <p>do something</p>
-    </div>
+        <div class="flex-box-generic">
+            <p>do something</p>
+        </div>
 
-    <div class="flex-box-generic">
-        <p>do something</p>
-    </div>
+        <div class="flex-box-generic">
+            <p>do something</p>
+        </div>
 
-    <div class="flex-box-generic">
-        <p>do something</p>
+        <div class="flex-box-generic">
+            <p>do something</p>
+        </div>
     </div>
-</div>
+    {% endif %}
+
+    <!-- if logged in as participant -->
+    {% if session["user_type"] == "participant" %}
+    <div class="flex-row">
+        <div class="flex-box-generic">
+            <h3>Participant To Do</h3>
+
+        </div>
+
+        <div class="flex-box-generic">
+            <p>do something</p>
+        </div>
+
+        <div class="flex-box-generic">
+            <p>do something</p>
+        </div>
+
+        <div class="flex-box-generic">
+            <p>do something</p>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 

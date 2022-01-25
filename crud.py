@@ -126,7 +126,7 @@ def get_participant_by_id(participant_id):
     return Participant.query.get(participant_id)
 
 def get_rd_by_rp_by_participant(participant_id, result):
-    """ return a participantsstudies link if a participant is already connected to a study"""
+    """ return a participant's return decisions for a study"""
 
     return Return_Decision.query.filter_by(result_plan_id = result.result_plan_id, participant_id = participant_id).all()
 
@@ -137,6 +137,12 @@ def get_participant_by_email(email):
 def get_investigator_by_email(email):
     
     return Investigator.query.filter(Investigator.email == email).first()
+
+def check_study_participant(study_id, participant_id):
+    """ return participant-study link if they're enrolled in a study"""
+
+    return ParticipantsStudies.query.filter_by(study_id = study_id, participant_id = participant_id).first()
+
 
 # UPDATES
 
