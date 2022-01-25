@@ -3,14 +3,21 @@
 {% block body %}
 
 <div class="flex-container-generic">
+    <div class="page-header">
+        <h1> All Participants </h1>
+    </div>
 
-<h1>These are the participants</h1>>
-<p>
-{% for participant in participants %}
-<li><a href="/participants/{{participant.participant_id}}">name: {{participant.fname}} {{participant.lname}}</a></li>
-{% endfor %}
-</p>
+    <input type="text" id="searchInput" onkeyup="searchBar()" placeholder="Search for names.."/>
+    
+    <ul id="itemsList">
+    {% for participant in participants %}
+    <li><a href="/participants/{{participant.participant_id}}">name: {{participant.fname}} {{participant.lname}}</a></li>
+    {% endfor %}
+    </ul>
 
 </div>
+{% endblock %}
 
+{% block js %}
+<script src="/static/js/search-bar.js"></script>
 {% endblock %}
