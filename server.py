@@ -37,6 +37,7 @@ mail = Mail(app)
 
 ############# ROUTES FOR INVESTIGATOR-ONLY PAGES ######################
 
+# HOMEPAGE
 @app.route('/')
 def show_homepage():
     if "user" in session:
@@ -44,66 +45,7 @@ def show_homepage():
     else:
         return render_template('home-logged-out.html')
 
-@app.route('/login', methods=["POST"])
-def login_user():
 
-    email = request.form.get("email")
-    password = request.form.get("password")
-    user_type = request.form.get("user-type")
-
-    if user_type == "investigator":
-        user = crud.get_investigator_by_email(email)
-        if user:
-            user_id = user.investigator_id
-    elif user_type == "participant":
-        user = crud.get_participant_by_email(email)
-        if user:
-            user_id = user.participant_id
-    
-    if user:
-        if password == user.password:
-            session['user'] = user.email
-            session['user_type'] = user_type
-            session['user_id'] = user_id
-            print(session)
-        else:
-            flash("Incorrect password, try again.")
-    else:
-        flash("User not registered.")
-
-    return redirect('/')
-
-@app.route('/register', methods=["POST"])
-def register_user():
-    email = request.form.get("email")
-    password = request.form.get("password")
-    user_type = request.form.get("user-type")
-
-    #check if user in investigator or pt tables
-    if user_type == "investigator":
-        user = crud.get_investigator_by_email(email)
-    elif user_type == "participant":
-        user = crud.get_participant_by_email(email)
-
-    if user:
-        if user.password:
-            flash("Account already registered.")
-        else:
-            crud.add_password(user_type=user_type, email=email, password=password)
-            flash("Account registered, now please login")
-    else:
-        flash("Email not in system or registering under wrong category. Contact administrator to be able to register.")
-    return redirect('/')
-    
-@app.route('/logout')
-def logout_user():
-    if "user" in session:
-        session.pop("user")
-        session.pop("user_type")
-        # session.pop("user_id")
-        return render_template('home-logged-out.html')
-    else:
-        return render_template('home-logged-out.html')
 
 @app.route('/studies')
 def show_studies():
@@ -178,6 +120,71 @@ def show_participant_their_results():
 
 ##################### FORM PROCESSING AND OTHER REDIRECTS #############################
 
+# PROCESS LOGIN INFO
+@app.route('/login', methods=["POST"])
+def login_user():
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+    user_type = request.form.get("user-type")
+
+    if user_type == "investigator":
+        user = crud.get_investigator_by_email(email)
+        if user:
+            user_id = user.investigator_id
+    elif user_type == "participant":
+        user = crud.get_participant_by_email(email)
+        if user:
+            user_id = user.participant_id
+    
+    if user:
+        if password == user.password:
+            session['user'] = user.email
+            session['user_type'] = user_type
+            session['user_id'] = user_id
+            print(session)
+        else:
+            flash("Incorrect password, try again.")
+    else:
+        flash("User not registered.")
+
+    return redirect('/')
+
+# PROCESS REGISTRATION INFO
+@app.route('/register', methods=["POST"])
+def register_user():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    user_type = request.form.get("user-type")
+
+    #check if user in investigator or pt tables
+    if user_type == "investigator":
+        user = crud.get_investigator_by_email(email)
+    elif user_type == "participant":
+        user = crud.get_participant_by_email(email)
+
+    if user:
+        if user.password:
+            flash("Account already registered.")
+        else:
+            crud.add_password(user_type=user_type, email=email, password=password)
+            flash("Account registered, now please login")
+    else:
+        flash("Email not in system or registering under wrong category. Contact administrator to be able to register.")
+    return redirect('/')
+    
+# PROCESS LOGOUT
+@app.route('/logout')
+def logout_user():
+    if "user" in session:
+        session.pop("user")
+        session.pop("user_type")
+        # session.pop("user_id")
+        return render_template('home-logged-out.html')
+    else:
+        return render_template('home-logged-out.html')
+
+# BEGIN STUDY RESULT PLANNING
 @app.route('/planning-1')
 def plan_one():
     """ gather study details"""
@@ -186,6 +193,7 @@ def plan_one():
     investigators = crud.return_all_investigators()
     return render_template('planning-1.html', investigators=investigators)
 
+# SECOND STAGE OF RESULT PLANNING
 @app.route('/planning-2', methods=["POST"])
 def plan_two():
     """ get number of tests per each visit"""
@@ -211,7 +219,7 @@ def plan_two():
         dict_visits = session['visits']
         return render_template('/planning-2.html', dict_visits=dict_visits)
 
-
+# GATHER FINAL STUDY PLANS
 @app.route('/planning-3', methods=["POST"])
 def plan_three():
     """create result plan for each test in each visit"""
@@ -231,6 +239,7 @@ def plan_three():
         dict_visits = session['visits']
         return render_template('/planning-3.html', dict_visits=dict_visits)
 
+# LAST STEP IN RESULT PLANNING AND PROCESSING
 @app.route('/plan-study', methods=["POST"])
 def plan_study():
     """ after getting all needed data, process into result_plans and redirect to study details"""
@@ -472,14 +481,11 @@ def return_study_details(study_id):
 
     return jsonify(results)
 
-
-
-
+# CHECK IF PARTICIPANT IN DB AND RETURN DETAILS OR ERROR MSG
 @app.route('/check-participant.json/<participant_id>')
 def check_participant_id(participant_id):
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
-
     """ json route to check if an inputted participant ID is existing before they are enrolled"""
+    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
     participant = crud.get_participant_by_id(participant_id)
     result = {}
@@ -494,6 +500,7 @@ def check_participant_id(participant_id):
         
     return jsonify(result)
 
+# UPDATE PARTICIPANT OR STUDY IN DB
 @app.route('/update-by-attr.json/<category>/<item_id>', methods=["POST"])
 def update_attr_by_category_and_id(category, item_id):
     """update attributes of participants or studies if already in db"""
@@ -506,10 +513,6 @@ def update_attr_by_category_and_id(category, item_id):
         return 'Changes saved'
     else:
         return 'Error - try again'
-
-
-
-
 
 
 if __name__ == "__main__":
