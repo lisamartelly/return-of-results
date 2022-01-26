@@ -66,32 +66,16 @@
             </tr>
         </thead>
         <tbody>
-            {% for result_decision in participant.return_decisions if result_decision.result_plan.study.study_id == study.study_id %}
+            {% for result in participant.results if result.result_plan.study.study_id == study.study_id %}
             <tr>
-                <td>{{result_decision.result_plan.visit}}</td>
-                <td>{{result_decision.result_plan.test_name}}</td>
-                <td>{{result_decision.result_plan.urgency_potential}}</td>
-                <td>{{result_decision.result_plan.return_plan}}</td>
-                <td>{{result_decision.return_decision}}</td>
-                {% for result in result_decision.participant.results %}
-                {% if result.result_plan_id == result_decision.result_plan.result_plan_id %}
-                <td>
-                    {% for result in result.result_plan.result %}
-                    {{result.result_value}}
-                    {% endfor %}
-                </td>
-                <td>
-                    {% for result in result.result_plan.result %}
-                    {{result.urgent}}
-                    {% endfor %}
-                </td>
-                <td>
-                    {% for result in result.result_plan.result %}
-                    {{result.notified}}
-                    {% endfor %}
-                </td>
-                {% endif %}
-                {% endfor %}
+                <td>{{result.result_plan.visit}}</td>
+                <td>{{result.result_plan.test_name}}</td>
+                <td>{{result.result_plan.urgency_potential}}</td>
+                <td>{{result.result_plan.return_plan}}</td>
+                <td>{{result.receive_decision}}</td>
+                <td>{{result.result_value}}</td>
+                <td>{{result.urgent}} </td>
+                <td>{{result.notified}}</td>
             </tr>
             {% endfor %}
         </tbody>

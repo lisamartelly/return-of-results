@@ -10,12 +10,12 @@
 
 <h3>results that will be returned from {{study.study_name}} and your decisions:</h3>
 <p><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">click here to update decisions</a></p>
-{% for decision in participant.return_decisions %} 
+{% for decision in participant.receive_decisions %} 
     {% for result_plan in study.result_plans %} 
         {% if decision.result_plan_id == result_plan.result_plan_id and result_plan.return_plan == True %}
             <li><b>visit:</b> {{result_plan.visit}}<br>
                 <b>test name:</b> {{decision.result_plan.test_name}}<br>
-                <b>decision:</b> {{decision.return_decision}}</li>
+                <b>decision:</b> {{decision.receive_decision}}</li>
         {% endif %}
     {% endfor %}
 {% endfor %}

@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, Participant, Study, Investigator, Result_Plan, ParticipantsStudies, Return_Decision, Result, connect_to_db
+from model import db, Participant, Study, Investigator, Result_Plan, ParticipantsStudies, Result, connect_to_db
 
 # CREATIONS
 
@@ -70,28 +70,13 @@ def create_result_plan(study_id, result_category, visit, urgency_potential, retu
 
     return result_plan
 
-def create_result_decision(participant_id, result_plan_id, return_decision):
+def create_result(participant_id, result_plan_id, receive_decision):
     """Create and return a new study."""
 
-    rd = Return_Decision(
+    result = Result(
         participant_id=participant_id,
         result_plan_id=result_plan_id,
-        return_decision=return_decision
-    )
-
-    db.session.add(rd)
-    db.session.commit()
-
-    return rd
-
-def create_result(participant_id, result_plan_id, urgent, result_value):
-    """Create and return a new result"""
-
-    result = Result(
-        participant_id = participant_id,
-        result_plan_id = result_plan_id,
-        urgent = urgent,
-        result_value = result_value,        
+        receive_decision=receive_decision
     )
 
     db.session.add(result)
@@ -125,10 +110,14 @@ def get_participant_by_id(participant_id):
 
     return Participant.query.get(participant_id)
 
-def get_rd_by_rp_by_participant(participant_id, result):
+def get_result_by_id(result_id):
+
+    return Result.query.get(result_id)
+
+def get_result_by_result_plan_by_participant(participant_id, result_plan_id):
     """ return a participant's return decisions for a study"""
 
-    return Return_Decision.query.filter_by(result_plan_id = result.result_plan_id, participant_id = participant_id).all()
+    return Result.query.filter_by(result_plan_id = result_plan_id, participant_id = participant_id).first()
 
 def get_participant_by_email(email):
     
@@ -146,11 +135,10 @@ def check_study_participant(study_id, participant_id):
 
 # UPDATES
 
-def update_return_decision(participant_id, result, return_decision):
+def update_receive_decision(participant_id, result_plan_id, receive_decision):
     """Update decision"""
-    # rd = get_rd_by_rp_by_participant(participant_id, result)
-    # rd.update({"return_decision": return_decision})
-    Return_Decision.query.filter_by(result_plan_id = result.result_plan_id, participant_id = participant_id).update({"return_decision": return_decision})
+    
+    Result.query.filter_by(result_plan_id = result_plan_id, participant_id = participant_id).update({"receive_decision": receive_decision})
     db.session.commit()
 
 def add_password(user_type, email, password):
@@ -162,33 +150,85 @@ def add_password(user_type, email, password):
         Participant.query.filter_by(email = email).update({"password": password})
     db.session.commit()
 
-def update_participant(jsondict, participant_id):
+# def update_participant(jsondict, participant_id):
 
-    participant = get_participant_by_id(participant_id)
-    for key in jsondict:
-        setattr(participant, key, jsondict[key])
-    db.session.commit()   
+#     participant = get_participant_by_id(participant_id)
+#     for key in jsondict:
+#         setattr(participant, key, jsondict[key])
+#     db.session.commit()   
 
-def update_study_status(jsondict, study_id):
+# def update_study_status(jsondict, study_id):
 
-    study = get_study_by_id(study_id)
-    for key in jsondict:
-        setattr(study, key, jsondict[key])
-    db.session.commit()
+#     study = get_study_by_id(study_id)
+#     for key in jsondict:
+#         setattr(study, key, jsondict[key])
+#     db.session.commit()
 
-def update_attr_by_category_and_id(jsondict, category, item_id):
+def update_attr_by_category_and_id(input_dict, category, item_id):
     """ update any attribute of participant or study when specifying category and id"""
+
+    print("************item ID: ", item_id)
     if category == "participant":
         item = get_participant_by_id(item_id)
     elif category == "study":
         item = get_study_by_id(item_id)
     
-    for key in jsondict:
-        setattr(item, key, jsondict[key])
+    for key in input_dict:
+        setattr(item, key, input_dict[key])
 
     db.session.commit()
+
     return 'success'
+
+def update_result(results, participant_id):
+    """add in result values for a participant's result"""
+
+    for result in results:
+        result_plan_id = result["result_plan_id"]
+        result_record = get_result_by_result_plan_by_participant(participant_id=participant_id, result_plan_id=result_plan_id)
+        print("$$$$$$$$$$$$$$$$$$$$$$$ result record1: ", result_record.result_value)
+
+        setattr(result_record, 'result_value', result["result_value"])
+        # result_record['result_value'] = result["result_value"]
+        if result["urgent"] is True:
+            setattr(result_record, 'urgent', True)
+            # result_record['urgent'] = True
+        else:
+            setattr(result_record, 'urgent', False)
+            # result_record['urgent'] = False
+
+    print("$$$$$$$$$$$$$$$$$$$$$$$ result record2: ", result_record.result_value)
+    db.session.commit()
+
+    return "help"
+
+
+# def send_email(email):
+#     print("send email function")
+#     msg = Message('Hello', sender = 'return.of.results.dev@gmail.com', recipients = [email])
+#     msg.body = "Hello Flask message sent from Flask-Mail"
+#     mail.send(msg)
+#     # SET NOTIFIED TO TRUE
     
+# # CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT 
+# # THEY CONSENTED TO RECEIVE
+# def check_results_and_notify(participant_id):
+#     participant = get_participant_by_id(participant_id)
+
+#     # check each result
+#     for result in participant.results:
+#         # if they consented to receive and the plan is to return:
+#         if result.receive_decision is True and result.result_plan.return_plan is True:
+#             # if the study timing lines up with the plan timing to return:
+#             print("TIMING: ",result.result_plan.return_timing)
+#             if result.result_plan.return_timing == "during" and result.result_plan.study.status in ['Planning', 'Active']:
+#                 if result.notified is False:
+
+#                     send_email(participant.email)
+#                     # update_attr_by_category()
+#             elif result.result_plan.return_timing == "after" and result.result_plan.study.status in ['Closed/Analysis', 'Published']:
+#                 if result.notified is False:
+#                     send_email(participant.email)
 
 if __name__ == '__main__':
     from server import app

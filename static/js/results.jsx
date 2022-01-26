@@ -13,6 +13,7 @@ function ResultsForm() {
     const [studySelected, setStudySelected] = React.useState(null);
     const [allTests, setAllTests] = React.useState([]);
     const [allVisits, setAllVisits] = React.useState([]);
+    console.log(allTests)
 
     React.useEffect(() => { 
         if (studySelected === null) { return }
@@ -26,6 +27,7 @@ function ResultsForm() {
                 else (visits.push(test.visit))
             };
             setAllVisits(visits);
+            
         })   
     }, [studySelected]);
 

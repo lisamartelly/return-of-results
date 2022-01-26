@@ -1,6 +1,6 @@
 
 from flask import Flask, render_template, redirect, flash, session, request, jsonify
-from flask_mail import Mail, Message
+# from flask_mail import Mail, Message
 from model import connect_to_db
 import jinja2
 import crud
@@ -26,14 +26,14 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 # email configurations
-mail = Mail(app)
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
-app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-mail = Mail(app)
+# mail = Mail(app)
+# app.config['MAIL_SERVER']='smtp.gmail.com'
+# app.config['MAIL_PORT'] = 465
+# app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
+# app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
+# app.config['MAIL_USE_TLS'] = False
+# app.config['MAIL_USE_SSL'] = True
+# mail = Mail(app)
 
 ############# ROUTES FOR INVESTIGATOR-ONLY PAGES ######################
 
@@ -45,8 +45,7 @@ def show_homepage():
     else:
         return render_template('home-logged-out.html')
 
-
-
+# LISTS ALL STUDIES
 @app.route('/studies')
 def show_studies():
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
@@ -54,6 +53,7 @@ def show_studies():
     studies = crud.return_all_studies()
     return render_template('studies.html', studies=studies)
 
+# SHOW STUDY DETAILS
 @app.route('/studies/<study_id>')
 def show_study_details(study_id):
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
@@ -61,6 +61,7 @@ def show_study_details(study_id):
     study = crud.get_study_by_id(study_id)
     return render_template('study_details.html', study=study)
 
+# ENROLL A PARTICIPANT IN A STUDY
 @app.route('/enroll-participant')
 def enroll_participant_form():
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
@@ -68,6 +69,7 @@ def enroll_participant_form():
     studies = crud.return_all_studies()
     return render_template('enroll_participant.html', studies=studies)
 
+# LIST ALL PARTICIPANTS
 @app.route('/participants')
 def show_all_participant():
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
@@ -75,14 +77,18 @@ def show_all_participant():
     participants = crud.return_all_participants()
     return render_template('/participants.html', participants=participants)
 
+# SHOW PARTICIPANT DETAILS
 @app.route('/participants/<participant_id>')
-def show_all_participant_details(participant_id):
+def show_participant_details(participant_id):
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
     participant = crud.get_participant_by_id(participant_id)
-    print("participant.studies", participant.studies)
+
+    for result in participant.results:
+        print("********participant.result:", result)
     return render_template('participant_all_details.html', participant=participant)
 
+# SHOW PAGE FOR CREATING RESULTS
 @app.route('/results')
 def show_add_results_page():
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
@@ -305,7 +311,7 @@ def create_participant_in_db():
 
 # ASK PARTICIPANTS WHICH RESULTS THEY WANT TO RECEIVE
 @app.route('/decisions/<study_id>/<participant_id>')
-def get_result_decisions(study_id, participant_id):
+def get_receive_decisions(study_id, participant_id):
     """ ask participants which results they want to receive"""
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
@@ -316,72 +322,74 @@ def get_result_decisions(study_id, participant_id):
 
 # PROCESS PARTICIPANT DECISION TO RECEIVE RESULTS
 @app.route('/decide/<study_id>/<participant_id>', methods=["POST"])
-def save_result_decisions(study_id, participant_id):
+def save_receive_decisions(study_id, participant_id):
     """ save participant's decisions to receive results or not"""
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
     study=crud.get_study_by_id(study_id)
-    for result in study.result_plans:
-        return_decision_pre = request.form.get(f"{result.result_plan_id}-receive")
-        if return_decision_pre =="yes": 
-            return_decision = True
+    for result_plan in study.result_plans:
+        receive_decision_pre = request.form.get(f"{result_plan.result_plan_id}-receive")
+        if receive_decision_pre =="yes":
+            receive_decision = True
+        elif receive_decision_pre =="no":
+            receive_decision = False
         else: 
-            return_decision = False
+            receive_decision = None
         
         #check if updating or making new
-        if crud.get_rd_by_rp_by_participant(participant_id, result):
-            crud.update_return_decision(participant_id, result, return_decision)
-        else:
-            crud.create_result_decision(
+        if crud.get_result_by_result_plan_by_participant(participant_id, result_plan.result_plan_id):
+            crud.update_receive_decision(
                 participant_id=participant_id,
-                result_plan_id=result.result_plan_id,
-                return_decision=return_decision)
+                result_plan_id=result_plan.result_plan_id,
+                receive_decision=receive_decision)
+        else:
+            crud.create_result(
+                participant_id=participant_id,
+                result_plan_id=result_plan.result_plan_id,
+                receive_decision=receive_decision)
     return redirect(f'/participants/{participant_id}')
 
-# PROCESS FORM TO CREATE A RESULT FOR A PARTICIPANT
+# PROCESS FORM TO UPDATE PARTICIPANT RESULT
 @app.route('/create-result', methods=["POST"])
 def create_result():
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
-
     """ create a single result using participant_id, result_plan_id, urgent, result_value"""
+    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
     participant_id = request.json.get("participantId")
     results = request.json.get("results")
-    for result in results:
-        result_plan_id = result["result_plan_id"]
-        if result["urgent"] is True:
-            urgent = True
-        else:
-            urgent = False
-        result_value = result["result_value"]
-
-        result = crud.create_result(
-            participant_id=participant_id,
-            result_plan_id=result_plan_id,
-            urgent=urgent,
-            result_value=result_value
-            )
     
-    return redirect(f'/check-should-notify/{participant_id}')
+    crud.update_result(results=results, participant_id=participant_id)
+        
+    return redirect(f'/participants/{participant_id}')
 
-# CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT A RESULT
-@app.route('/check-should-notify')
-def check_if_should_notify_about_result(result_id):
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+# @app.route('/email/<participant_id>.')
+# # CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT THEY CONSENTED TO RECEIVE
+# def check_result_notification(participant_id):
+#     def send_email(email):
+#         msg = Message('Hello', sender = 'return.of.results.dev@gmail.com', recipients = [email])
+#         msg.body = "Hello Flask message sent from Flask-Mail"
+#         mail.send(msg)
+#         # SET NOTIFIED TO TRUE
+
+#     participant = crud.get_participant_by_id(participant_id)
+#     # check each result
+#     for result in participant.results:
+#         # if they consented to receive and the plan is to return:
+#         if result.receive_decision is True and result.result_plan.return_plan is True:
+#             # if the study timing lines up with the plan timing to return:
+#             if result.return_plan.return_timing == "during" and result.return_plan.study.status in ['planning', 'active']:
+#                 if result.notified is False:
+#                     send_email(participant.email)
+#             elif result.return_plan.return_timing == "after" and result.return_plan.study.status in ['closed/analysis', 'published']:
+#                 if result.notified is False:
+#                     # NOTIFY THEM
+#     return
+
 
     # after a result is submitted, check if the timing of returning that result matches with the status of that result
     # if it does, double check that participant has not already been notified
     # if they have not, call email participant
-    return
 
-# SEND A NOTIFICATION EMAIL
-@app.route("/email/<participant_id>")
-def send_email(participant_id):
-    participant=crud.get_participant_by_id(participant_id)
-    msg = Message('Hello', sender = 'return.of.results.dev@gmail.com', recipients = [participant.email])
-    msg.body = "Hello Flask message sent from Flask-Mail"
-    mail.send(msg)
-    return "Sent"
 
 ################## JSON ROUTES #############################
 
@@ -429,13 +437,13 @@ def return_visits(study_id):
     study = crud.get_study_by_id(study_id)
     results = []
 
-    for result in study.result_plans:
+    for result_plan in study.result_plans:
         results.append({
-            "result_plan_id": result.result_plan_id, 
-            "test_name" : result.test_name,
-            "visit" : result.visit,
+            "result_plan_id": result_plan.result_plan_id, 
+            "test_name" : result_plan.test_name,
+            "visit" : result_plan.visit,
             })
-            
+    print("~~~~~~~FROM SERVER JSON SENDING VISITS AND TESTS: ", results)
     return jsonify(results)
 
 # RETURN DETAILS ABOUT A PARTICIPANT
@@ -478,7 +486,6 @@ def return_study_details(study_id):
         'investigator_fname' : study.investigator.fname,
         'investigator_lname' : study.investigator.lname,
         }
-
     return jsonify(results)
 
 # CHECK IF PARTICIPANT IN DB AND RETURN DETAILS OR ERROR MSG
@@ -497,23 +504,21 @@ def check_participant_id(participant_id):
         # return if participant is not already in db
         result['code'] = 0
         result['msg'] = 'No participant with that ID exists, please check the ID or enroll as a new participant'
-        
     return jsonify(result)
 
-# UPDATE PARTICIPANT OR STUDY IN DB
+# UPDATE PARTICIPANT OR STUDY OR RESULT IN DB
 @app.route('/update-by-attr.json/<category>/<item_id>', methods=["POST"])
 def update_attr_by_category_and_id(category, item_id):
     """update attributes of participants or studies if already in db"""
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
-    jsondict = request.json
-    update = crud.update_attr_by_category_and_id(jsondict, category, item_id)
+    input_dict = request.json
+    update = crud.update_attr_by_category_and_id(input_dict, category, item_id)
 
     if update == 'success':
         return 'Changes saved'
     else:
         return 'Error - try again'
-
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

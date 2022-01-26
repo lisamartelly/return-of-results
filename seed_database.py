@@ -101,9 +101,9 @@ for participant in participants:
     for study in participant.studies:
         for result in study.result_plans:
             if result.return_plan == True:
-                crud.create_result_decision(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, return_decision=True)
+                crud.create_result(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, receive_decision=True)
             else:
-                crud.create_result_decision(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, return_decision=None)
+                crud.create_result(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, receive_decision=None)
 
 
 #create fake results for each study

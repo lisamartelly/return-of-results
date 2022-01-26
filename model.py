@@ -35,8 +35,8 @@ class Participant(db.Model):
     hcp_practice = db.Column(db.String, nullable=True)
     #relationships
     studies = db.relationship("Study", secondary="participants_studies", back_populates="participants")
-    return_decisions = db.relationship("Return_Decision", back_populates="participant")
-    results = db.relationship("Result", backref="participant")
+    results = db.relationship("Result", back_populates="participant")
+    
 
     def __repr__(self):
         return f'<Participant participant_id={self.participant_id} email={self.email} name={self.fname}>'
@@ -94,43 +94,45 @@ class Result_Plan(db.Model):
     return_timing = db.Column(db.String, nullable=True)
 
     study = db.relationship("Study", back_populates="result_plans")
-    return_decision = db.relationship("Return_Decision", back_populates="result_plan")   
     result = db.relationship("Result", back_populates="result_plan")
 
 
     def __repr__(self):
         return f'<Result Plan result_plan_id={self.result_plan_id} return_plan={self.return_plan} test_name={self.test_name}'
 
-class Return_Decision(db.Model):
-    """ Decision from participant to receive result or not"""
-    __tablename__ = "return_decisions"
-    return_decision_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    participant_id = db.Column(db.Integer, db.ForeignKey("participants.participant_id"), nullable=False)
-    result_plan_id = db.Column(db.Integer, db.ForeignKey("result_plans.result_plan_id"), nullable=False)
-    return_decision = db.Column(db.Boolean, nullable=True)
-
-    result_plan = db.relationship("Result_Plan", back_populates="return_decision")  
-    participant = db.relationship("Participant", back_populates="return_decisions")
-
-    def __repr__(self):
-        return f'<Return Decision return_decision_id={self.return_decision_id} result_plan_id={self.result_plan_id} return_decision={self.return_decision}'
-
 class Result(db.Model):
-    """an individual test result"""
-    __tablename__ ="results"
+    """ Record per result per participant with decision from participant to receive result or not"""
+    __tablename__ = "results"
+
     result_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-   
     participant_id = db.Column(db.Integer, db.ForeignKey("participants.participant_id"), nullable=False)
     result_plan_id = db.Column(db.Integer, db.ForeignKey("result_plans.result_plan_id"), nullable=False)
-    urgent = db.Column(db.Boolean, nullable=False)
+    receive_decision = db.Column(db.Boolean, nullable=True)
+    urgent = db.Column(db.Boolean, nullable=True)
     result_value = db.Column(db.String, nullable=True)
     notified = db.Column(db.Boolean, nullable=True)
 
-    # "participant" backrefs here for all results of a participant
-    result_plan = db.relationship("Result_Plan", back_populates="result")
+    result_plan = db.relationship("Result_Plan", back_populates="result")  
+    participant = db.relationship("Participant", back_populates="results")
 
     def __repr__(self):
         return f'participant: {self.participant.participant_id}, result value: {self.result_value} result id: {self.result_id}'
+
+# class Result(db.Model):
+#     """an individual test result"""
+#     __tablename__ ="results"
+#     result_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+   
+#     participant_id = db.Column(db.Integer, db.ForeignKey("participants.participant_id"), nullable=False)
+#     result_plan_id = db.Column(db.Integer, db.ForeignKey("result_plans.result_plan_id"), nullable=False)
+#     urgent = db.Column(db.Boolean, nullable=False)
+#     result_value = db.Column(db.String, nullable=True)
+
+#     # "participant" backrefs here for all results of a participant
+#     result_plan = db.relationship("Result_Plan", back_populates="result")
+
+#     def __repr__(self):
+#         return f'participant: {self.participant.participant_id}, result value: {self.result_value} result id: {self.result_id}'
 
 def connect_to_db(flask_app, db_uri="postgresql:///irr", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
@@ -149,4 +151,4 @@ if __name__ == "__main__":
     # too annoying; this will tell SQLAlchemy not to print out every
     # query it executes.
 
-    connect_to_db(app)
+    connect_to_db(app, echo=False)
