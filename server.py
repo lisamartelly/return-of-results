@@ -1,6 +1,6 @@
 
 from flask import Flask, render_template, redirect, flash, session, request, jsonify
-# from flask_mail import Mail, Message
+from flask_mail import Mail, Message
 from model import connect_to_db
 import jinja2
 import crud
@@ -26,14 +26,14 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 # email configurations
-# mail = Mail(app)
-# app.config['MAIL_SERVER']='smtp.gmail.com'
-# app.config['MAIL_PORT'] = 465
-# app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
-# app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
-# app.config['MAIL_USE_TLS'] = False
-# app.config['MAIL_USE_SSL'] = True
-# mail = Mail(app)
+mail = Mail(app)
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
+app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 ############# ROUTES FOR INVESTIGATOR-ONLY PAGES ######################
 
@@ -279,7 +279,7 @@ def plan_study():
 
             return_timing = request.form.get(f"{visit}-test{i}-return_timing")
          
-            result_plan = crud.create_result_plan(study_id, result_category, visit, urgency_potential, return_plan, test_name, return_timing)
+            crud.create_result_plan(study_id, result_category, visit, urgency_potential, return_plan, test_name, return_timing)
 
     session['visits'] = ''
     session['study_name'] = ''
@@ -360,6 +360,19 @@ def create_result():
     
     crud.update_result(results=results, participant_id=participant_id)
         
+    return redirect(f'/check-email/{participant_id}')
+
+@app.route('/check-email/<participant_id>')
+def check_if_participant_should_be_notified(participant_id):
+    """ route after result is submitted or study status changes to notify participants about results"""
+    notification = crud.check_if_should_notify(participant_id)
+    participant = crud.get_participant_by_id(participant_id)
+    if notification['code'] != 0:
+        msg = Message('Research Results Available', sender = 'return.of.results.dev@gmail.com', recipients = [participant.email])
+        msg.body = notification['msg']
+        mail.send(msg)
+        crud.mark_notified(participant_id)
+
     return redirect(f'/participants/{participant_id}')
 
 # @app.route('/email/<participant_id>.')
@@ -371,24 +384,7 @@ def create_result():
 #         mail.send(msg)
 #         # SET NOTIFIED TO TRUE
 
-#     participant = crud.get_participant_by_id(participant_id)
-#     # check each result
-#     for result in participant.results:
-#         # if they consented to receive and the plan is to return:
-#         if result.receive_decision is True and result.result_plan.return_plan is True:
-#             # if the study timing lines up with the plan timing to return:
-#             if result.return_plan.return_timing == "during" and result.return_plan.study.status in ['planning', 'active']:
-#                 if result.notified is False:
-#                     send_email(participant.email)
-#             elif result.return_plan.return_timing == "after" and result.return_plan.study.status in ['closed/analysis', 'published']:
-#                 if result.notified is False:
-#                     # NOTIFY THEM
 #     return
-
-
-    # after a result is submitted, check if the timing of returning that result matches with the status of that result
-    # if it does, double check that participant has not already been notified
-    # if they have not, call email participant
 
 
 ################## JSON ROUTES #############################

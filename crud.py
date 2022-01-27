@@ -150,20 +150,6 @@ def add_password(user_type, email, password):
         Participant.query.filter_by(email = email).update({"password": password})
     db.session.commit()
 
-# def update_participant(jsondict, participant_id):
-
-#     participant = get_participant_by_id(participant_id)
-#     for key in jsondict:
-#         setattr(participant, key, jsondict[key])
-#     db.session.commit()   
-
-# def update_study_status(jsondict, study_id):
-
-#     study = get_study_by_id(study_id)
-#     for key in jsondict:
-#         setattr(study, key, jsondict[key])
-#     db.session.commit()
-
 def update_attr_by_category_and_id(input_dict, category, item_id):
     """ update any attribute of participant or study when specifying category and id"""
 
@@ -186,7 +172,6 @@ def update_result(results, participant_id):
     for result in results:
         result_plan_id = result["result_plan_id"]
         result_record = get_result_by_result_plan_by_participant(participant_id=participant_id, result_plan_id=result_plan_id)
-        print("$$$$$$$$$$$$$$$$$$$$$$$ result record1: ", result_record.result_value)
 
         setattr(result_record, 'result_value', result["result_value"])
         # result_record['result_value'] = result["result_value"]
@@ -197,38 +182,52 @@ def update_result(results, participant_id):
             setattr(result_record, 'urgent', False)
             # result_record['urgent'] = False
 
-    print("$$$$$$$$$$$$$$$$$$$$$$$ result record2: ", result_record.result_value)
     db.session.commit()
 
-    return "help"
+    return "success"
 
+  
+# CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT 
+# THEY CONSENTED TO RECEIVE
+def check_if_should_notify(participant_id):
+    participant = get_participant_by_id(participant_id)
+    notification = {'code': 0, 'msg': ''}
+    for result in participant.results:
+    # notify about urgent result no matter what
+        if result.urgent is True:
+            notification['code'] = 1
+            notification['msg'] = "There is an urgent result in your research portal. Please log in immediately to view and call the study investigator listed."
+        # if participant consented to receive and the plan is to return:
+        elif result.receive_decision is True and result.result_plan.return_plan is True:
+            # if the study timing lines up with the plan timing to return:
+            if result.result_plan.return_timing == "during" and result.result_plan.study.status in ['Planning', 'Active']:
+                if result.notified is None:
+                    notification['code'] = 2
+                    notification['msg'] = "Results from your study have been posted to your participant portal. Please login to view."
+            elif result.result_plan.return_timing == "after" and result.result_plan.study.status in ['Closed/Analysis', 'Published']:
+                if result.notified is None:
+                    notification['code'] = 3
+                    notification['msg'] = "Your research study has ended and your results have been made available. Login to view."
+    return notification
 
-# def send_email(email):
-#     print("send email function")
-#     msg = Message('Hello', sender = 'return.of.results.dev@gmail.com', recipients = [email])
-#     msg.body = "Hello Flask message sent from Flask-Mail"
-#     mail.send(msg)
-#     # SET NOTIFIED TO TRUE
-    
-# # CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT 
-# # THEY CONSENTED TO RECEIVE
-# def check_results_and_notify(participant_id):
-#     participant = get_participant_by_id(participant_id)
+def mark_notified(participant_id):
+    """ mark any result as notified after notification was sent that new results were available"""
+    participant = get_participant_by_id(participant_id)
+    print("********************i'm in notified")
 
-#     # check each result
-#     for result in participant.results:
-#         # if they consented to receive and the plan is to return:
-#         if result.receive_decision is True and result.result_plan.return_plan is True:
-#             # if the study timing lines up with the plan timing to return:
-#             print("TIMING: ",result.result_plan.return_timing)
-#             if result.result_plan.return_timing == "during" and result.result_plan.study.status in ['Planning', 'Active']:
-#                 if result.notified is False:
+    for result in participant.results:
+        if result.result_value != None:
+            if result.urgent is True:
+                setattr(result, 'notified', True)
+            elif result.receive_decision is True and result.result_plan.return_plan is True:
+                if result.result_plan.return_timing == "during" and result.result_plan.study.status in ['Planning', 'Active']:
+                    setattr(result, 'notified', True)
+                    print("*******************supposed to be here")
+                elif result.result_plan.return_timing == "after" and result.result_plan.study.status in ['Closed/Analysis', 'Published']:
+                    setattr(result, 'notified', True)
 
-#                     send_email(participant.email)
-#                     # update_attr_by_category()
-#             elif result.result_plan.return_timing == "after" and result.result_plan.study.status in ['Closed/Analysis', 'Published']:
-#                 if result.notified is False:
-#                     send_email(participant.email)
+    db.session.commit()
+                   
 
 if __name__ == '__main__':
     from server import app

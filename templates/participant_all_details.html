@@ -51,14 +51,15 @@
     
     <h2>Participant Results & Decisions</h2>
     {% for study in participant.studies %}
-    <h3>{{study.study_name}}</h3>
+    <h3>{{study.study_name}}c-- Status: {{study.status}}</h3>
     <table>
         <thead>
             <tr>
                 <td><b>Visit</b></td>
                 <td><b>Test Name</b></td>
-                <td><b>Urgency Potential</b></td>
+                <td><b>Urgency<br>Potential</b></td>
                 <td><b>Return Plan</b></td>
+                <td><b>Return Timing</b></td>
                 <td><b>Decision to Receive</b><br><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">(click to update)</a></td>
                 <td><b>Result Value</b></td>
                 <td><b>Urgency</b></td>
@@ -72,6 +73,7 @@
                 <td>{{result.result_plan.test_name}}</td>
                 <td>{{result.result_plan.urgency_potential}}</td>
                 <td>{{result.result_plan.return_plan}}</td>
+                <td>{{result.result_plan.return_timing}}</td>
                 <td>{{result.receive_decision}}</td>
                 <td>{{result.result_value}}</td>
                 <td>{{result.urgent}} </td>

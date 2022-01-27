@@ -58,8 +58,11 @@ for j in range(10):
     for visit in ['recruitment', 'consent', 'study-visit-1']:
         result_category = choice(['actionable','unknwon','personally valuable'])
         urgency_potential = choice([True, False])
-        return_timing = choice(['during', 'after'])
         return_plan = choice([True, False])
+        if return_plan is True:
+            return_timing = choice(['during', 'after'])
+        else:
+            return_timing = 'not applicable'
         result_plan = crud.create_result_plan(
             study_id=study.study_id,
             result_category=result_category,
@@ -68,7 +71,6 @@ for j in range(10):
             return_plan=return_plan,
             test_name=f"{visit} test",
             return_timing=return_timing)
-
 
 # create 10 participants per study
 for k in range(100):

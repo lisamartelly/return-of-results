@@ -98,7 +98,7 @@ class Result_Plan(db.Model):
 
 
     def __repr__(self):
-        return f'<Result Plan result_plan_id={self.result_plan_id} return_plan={self.return_plan} test_name={self.test_name}'
+        return f'<Result Plan result_plan_id={self.result_plan_id} return_plan={self.return_plan} test_name={self.test_name}>'
 
 class Result(db.Model):
     """ Record per result per participant with decision from participant to receive result or not"""
