@@ -2,6 +2,15 @@
 function ResultsForm() {
     // learned a lot from this: https://bapunawarsaddam.medium.com/add-and-remove-form-fields-dynamically-using-react-and-react-hooks-3b033c3c0bf5
     
+    React.useEffect(() => {
+        console.log("loaded!!!")
+        const urlParams = new URLSearchParams(window.location.search);
+        setParticipantId(urlParams.get('participantId'));
+        setStudySelected(urlParams.get('studyId'));
+        document.getElementById('studyId').value = urlParams.get('studyId')
+        document.getElementById('participantId').value = urlParams.get('participantId')
+        }, []);
+
     // create form input of study names in dropdown 
     const [studies, setStudies] = React.useState([]);
     React.useEffect(() =>  {
@@ -47,6 +56,7 @@ function ResultsForm() {
     React.useEffect(() => {
         if (participantId === null) { return }
         if (studySelected === null) { return }
+        console.log('testing button again')
         fetch(`/study-participants.json/${studySelected}/${participantId}`)
         .then(response => response.json())
         .then(responseData => {
@@ -59,28 +69,18 @@ function ResultsForm() {
                 document.querySelector('#resultsInput').style.display = "none";
             }
         })
-    }, [participantId]);
+    }, [participantId, studySelected]);
 
     const handleParticipantInput = evt => {
         const id = document.querySelector('#participantId').value;
         setParticipantId(id);
     }
 
-    React.useEffect(() => {
-        console.log("loaded!!!")
-        const urlParams = new URLSearchParams(window.location.search);
-        setParticipantId(urlParams.get('participantId'));
-        setStudySelected(urlParams.get('studyId'));
-        document.getElementById('studyId').value = urlParams.get('studyId')
-        document.getElementById('participantId').value = urlParams.get('participantId')
-        }, []);
-
     // create test input based on selected visit
     const [visitSelected, setVisitSelected] = React.useState(null);
     const [tests, setTests] = React.useState([]);
 
     React.useEffect(() => { 
-        console.log("test use Effect", visitSelected)
         if (visitSelected === null) { return }
         const tests = []
         for (const visititem of allTests) {
@@ -146,8 +146,8 @@ function ResultsForm() {
             <div>
                 <label>Participant ID: </label>
                 <input type="text" id="participantId" name="participantId" />
+                <button id="checkParticipantIdBtn" onClick={handleParticipantInput}>Load Study Visits</button>
                 <div id="id_check_msg"></div>
-                <button id="checkParticipantIdBtn" onClick={handleParticipantInput}>Next</button>
             </div> 
             <div id="resultsInput" style = {{display: "none"}}>
             <label>Study Visit: </label>
