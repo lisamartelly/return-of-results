@@ -118,22 +118,6 @@ class Result(db.Model):
     def __repr__(self):
         return f'participant: {self.participant.participant_id}, result value: {self.result_value} result id: {self.result_id}'
 
-# class Result(db.Model):
-#     """an individual test result"""
-#     __tablename__ ="results"
-#     result_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-   
-#     participant_id = db.Column(db.Integer, db.ForeignKey("participants.participant_id"), nullable=False)
-#     result_plan_id = db.Column(db.Integer, db.ForeignKey("result_plans.result_plan_id"), nullable=False)
-#     urgent = db.Column(db.Boolean, nullable=False)
-#     result_value = db.Column(db.String, nullable=True)
-
-#     # "participant" backrefs here for all results of a participant
-#     result_plan = db.relationship("Result_Plan", back_populates="result")
-
-#     def __repr__(self):
-#         return f'participant: {self.participant.participant_id}, result value: {self.result_value} result id: {self.result_id}'
-
 def connect_to_db(flask_app, db_uri="postgresql:///irr", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo

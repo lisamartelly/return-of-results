@@ -310,11 +310,11 @@ def create_participant_in_db():
     crud.create_participantsstudies_link(participant.participant_id, study_id)
     return redirect(f'/decisions/{study_id}/{participant.participant_id}')
 
-# ASK PARTICIPANTS WHICH RESULTS THEY WANT TO RECEIVE
+# ASK PARTICIPANTS WHICH RESULTS THEY WANT TO RECEIVE - VIEWABLE TO PARTICIPANTS TOO
 @app.route('/decisions/<study_id>/<participant_id>')
 def get_receive_decisions(study_id, participant_id):
     """ ask participants which results they want to receive"""
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+    if "user" not in session : return redirect('/')
 
     study=crud.get_study_by_id(study_id)
     participant=crud.get_participant_by_id(participant_id)
@@ -363,6 +363,7 @@ def create_result():
         
     return redirect(f'/results-add-email/{participant_id}')
 
+# CHECK AND SEND EMAIL FOR PARTICIPANT AFTER RESULTS INPUT
 @app.route('/results-add-email/<participant_id>')
 def check_and_notify_after_results_added(participant_id):
     """ route after result is submitted to notify participants about results"""
@@ -376,6 +377,7 @@ def check_and_notify_after_results_added(participant_id):
 
     return redirect(f'/participants/{participant_id}')
 
+# CHECK AND SEND EMAIL FOR ALL STUDY PARTICIPANTS AFTER STATUS IS CHANGED
 @app.route('/study-change-email/<study_id>')
 def check_and_notify_after_study_status_changed(study_id):
     """ after a study status is changed check if participants should be notified of results and notify them"""

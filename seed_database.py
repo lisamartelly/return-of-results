@@ -50,7 +50,7 @@ for j in range(10):
     investigator_id = randint(1,10)
     study_name = study_names[j]
     investigational_product = fake.unique.license_plate()
-    status = choice(["Planning", "Active", "Closed/Analysis", "Published"])
+    status = choice(["Planning", "Active"])
     
     study = crud.create_study(investigator_id=investigator_id, study_name=study_name, investigational_product=investigational_product, status=status)
 

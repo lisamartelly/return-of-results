@@ -100,6 +100,12 @@ ul#participant-hcp-info {
     flex-direction: column;
 }
 
+.result-block {
+    border: 2px solid black;
+    padding: 10px;
+    margin: 10px;
+}
+
 .button {
     color: rgb(0, 70, 92);
     font-size:20px;

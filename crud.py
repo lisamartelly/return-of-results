@@ -190,7 +190,6 @@ def update_result(results, participant_id):
     db.session.commit()
 
     return "success"
-
   
 # CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT 
 # THEY CONSENTED TO RECEIVE

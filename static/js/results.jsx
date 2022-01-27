@@ -21,13 +21,10 @@ function ResultsForm() {
         }
     }, []);
         
-        
-    
     // fetch all tests and unique visits based on selected study
     const [studySelected, setStudySelected] = React.useState(null);
     const [allTests, setAllTests] = React.useState([]);
     const [allVisits, setAllVisits] = React.useState([]);
-    
 
     React.useEffect(() => { 
         if (studySelected === null) { return }
@@ -41,7 +38,6 @@ function ResultsForm() {
                 else (visits.push(test.visit))
             };
             setAllVisits(visits);
-            
         })   
     }, [studySelected]);
 
@@ -110,7 +106,6 @@ function ResultsForm() {
         newFormValues[i][e.target.name] = value;
         setFormValues(newFormValues);
       }
-
     
     let handleSubmit = (event) => {
         event.preventDefault();
@@ -128,7 +123,6 @@ function ResultsForm() {
         .then (response => {
             window.location.href =`/participants/${participantId}`;
         })
-        
     }
 
     return (

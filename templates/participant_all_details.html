@@ -28,7 +28,6 @@
         <div id="update-success" class="flex-center"></div><br>
         <button id="update-details-button" class="button">Update Information</button>
 
-
     <h2>studies that participant is in: </h2>
     <table>
         <thead>
@@ -54,6 +53,7 @@
     <h2>Participant Results & Decisions</h2>
     {% for study in participant.studies %}
     <h3>{{study.study_name}}c-- Status: {{study.status}}</h3>
+    <h2>Results that will be returned during the study</h2>
     <table>
         <thead>
             <tr>
@@ -70,6 +70,7 @@
         </thead>
         <tbody>
             {% for result in participant.results if result.result_plan.study.study_id == study.study_id %}
+            {% if result.result_plan.return_timing == 'during' %}
             <tr>
                 <td>{{result.result_plan.visit}}</td>
                 <td>{{result.result_plan.test_name}}</td>
@@ -81,6 +82,7 @@
                 <td>{{result.urgent}} </td>
                 <td>{{result.notified}}</td>
             </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>

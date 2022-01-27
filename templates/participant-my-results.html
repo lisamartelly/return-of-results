@@ -6,30 +6,77 @@
         <h1> Participant Results - {{participant.fname}} {{participant.lname}} </h1>
     </div>
 
-{% for study in participant.studies %}
+    <div>
+        {% for study in participant.studies %}
+        <div class="result-block">
+            <h2>{{study.study_name}} -- Status: {{study.status}}</h2>
+            {% for time_period in ['during', 'after'] %}
+            <h3>Results that will be returned <em>{{time_period}}</em> the study:</h3>
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <td><b>Visit</b></td>
+                        <td><b>Test Name</b></td>
+                        <td><b>Return Plan</b></td>
+                        <td><b>Decision to Receive</b><br><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">(click to update)</a></td>
+                        <td><b>Result Value</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in participant.results if result.result_plan.study.study_id == study.study_id and result.result_plan.return_timing == time_period %}
+                    <tr>
+                        <td>{{result.result_plan.visit}}</td>
+                        <td>{{result.result_plan.test_name}}</td>
+                        <td>{{result.result_plan.return_plan}}</td>
+                        <td>{{result.receive_decision}}</td>
+                        <!-- display results if appropriate: -->
 
-<h3>results that will be returned from {{study.study_name}} and your decisions:</h3>
-<p><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">click here to update decisions</a></p>
-{% for decision in participant.receive_decisions %} 
-    {% for result_plan in study.result_plans %} 
-        {% if decision.result_plan_id == result_plan.result_plan_id and result_plan.return_plan == True %}
-            <li><b>visit:</b> {{result_plan.visit}}<br>
-                <b>test name:</b> {{decision.result_plan.test_name}}<br>
-                <b>decision:</b> {{decision.receive_decision}}</li>
-        {% endif %}
-    {% endfor %}
-{% endfor %}
-{% endfor %}
+                        <!-- if result is urgent display no matter what -->
+                        {% if result.urgent == True %}
+                        <td>{{result.result_value}}</td>
+                        <!-- if participant consented to receive result, potentially display... -->
+                        {% elif result.receive_decision == True and result.result_plan.return_plan == True %}
+                            <!-- check if result has been entered yet -->
+                            {% if result.result_value != None %}
+                                <!-- immediately display a result to be returned during study -->
+                                {% if result.result_plan.return_timing == "during" %}
+                                <td>{{result.result_value}}</td>
+                                <!-- wait for study close to display results for after -->
+                                {% elif study.status in ['Closed/Analysis', 'Published'] and result.result_plan.return_timing == 'after' %}
+                                <td>{{result.result_value}}</td>
+                                <!-- display for existing result but status needs to change -->
+                                {% else %}
+                                <td>Not released yet</td>
+                                {% endif %}
+                            <!-- display if result doesnt exist yet -->
+                            {% else %}
+                                <td>Test not run yet</td>
+                            {% endif %}
+                        <!-- display if they chose not to receive -->
+                        {% else %}
+                            <td>Not shown</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
 
-<h3>results that belong to a participant</h3>
-    {% for result in participant.results %}
-    <li><b>study: {{result.result_plan.study.study_name}}</b>
-        <b>visit:</b> {{result.result_plan.visit}}<br>
-        <b>test name:</b> {{result.result_plan.visit}}<br>
-        <b>test value:</b> {{result.result_value}}</li>
-
-    {% endfor %}
-
+            <h3>Results that will be returned immediately if they are urgent, regardless of plans:</h3>
+            <ul>
+                {% for result in participant.results if result.result_plan.study.study_id == study.study_id and result.result_plan.urgency_potential == True %}
+                <li>
+                    {{result.result_plan.test_name}}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/participant-result-page.js"></script>
 {% endblock %}
