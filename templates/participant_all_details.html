@@ -36,6 +36,7 @@
                 <td><b>Study</b></td>
                 <td><b>Study ID</b></td>
                 <td><b>Study Status</b></td>
+                <td><b>Add Results</b></td>
             </tr>
         </thead>
         <tbody>
@@ -44,6 +45,7 @@
                 <td>{{study.study_name}}</td>
                 <td>{{study.study_id}}</td>
                 <td>{{study.status}}</td>
+                <td><a href="/results?participantId={{participant.participant_id}}&studyId={{study.study_id}}">Add results</a></td>
             </tr>
             {% endfor %}
         </tbody>

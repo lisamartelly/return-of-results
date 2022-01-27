@@ -25,6 +25,7 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 # more useful (you should remove this line in production though)
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
+########## NEED TO RUN SOURCE SECRETS.SH AT START OF EACH TERMINAL FOR EMAIL TO SEND #############
 # email configurations
 mail = Mail(app)
 app.config['MAIL_SERVER']='smtp.gmail.com'
@@ -390,18 +391,6 @@ def check_and_notify_after_study_status_changed(study_id):
             crud.mark_notified(participantstudylink.participant_id)
     
     return 'Participants notified if applicable'
-
-
-# @app.route('/email/<participant_id>.')
-# # CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT THEY CONSENTED TO RECEIVE
-# def check_result_notification(participant_id):
-#     def send_email(email):
-#         msg = Message('Hello', sender = 'return.of.results.dev@gmail.com', recipients = [email])
-#         msg.body = "Hello Flask message sent from Flask-Mail"
-#         mail.send(msg)
-#         # SET NOTIFIED TO TRUE
-
-#     return
 
 
 ################## JSON ROUTES #############################

@@ -1,19 +1,24 @@
+
 function ResultsForm() {
     // learned a lot from this: https://bapunawarsaddam.medium.com/add-and-remove-form-fields-dynamically-using-react-and-react-hooks-3b033c3c0bf5
     
     // create form input of study names in dropdown 
     const [studies, setStudies] = React.useState([]);
     React.useEffect(() =>  {
+        if (participantId != null) {
         fetch('/studies.json')
         .then(response => response.json())
         .then(result => setStudies(result))
-        }, []);
+        }
+    }, []);
+        
+        
     
     // fetch all tests and unique visits based on selected study
     const [studySelected, setStudySelected] = React.useState(null);
     const [allTests, setAllTests] = React.useState([]);
     const [allVisits, setAllVisits] = React.useState([]);
-    console.log(allTests)
+    
 
     React.useEffect(() => { 
         if (studySelected === null) { return }
@@ -60,6 +65,15 @@ function ResultsForm() {
         const id = document.querySelector('#participantId').value;
         setParticipantId(id);
     }
+
+    React.useEffect(() => {
+        console.log("loaded!!!")
+        const urlParams = new URLSearchParams(window.location.search);
+        setParticipantId(urlParams.get('participantId'));
+        setStudySelected(urlParams.get('studyId'));
+        document.getElementById('studyId').value = urlParams.get('studyId')
+        document.getElementById('participantId').value = urlParams.get('participantId')
+        }, []);
 
     // create test input based on selected visit
     const [visitSelected, setVisitSelected] = React.useState(null);
@@ -122,7 +136,7 @@ function ResultsForm() {
             <div>
             <h4>Select Study, Study Visit, and Enter Participant ID:</h4>  
                 <label>Select Study:</label>               
-                    <select id="study_id" name="study" onChange={handleStudySelected}>
+                    <select id="studyId" name="studyId" value={studySelected} onChange={handleStudySelected}>
                         <option>Choose here</option>
                         {studies.map((data) => (
                         <option key={data.study_id} value={data.study_id}> {data.study_name}</option>
