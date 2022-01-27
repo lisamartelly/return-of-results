@@ -360,11 +360,11 @@ def create_result():
     
     crud.update_result(results=results, participant_id=participant_id)
         
-    return redirect(f'/check-email/{participant_id}')
+    return redirect(f'/results-add-email/{participant_id}')
 
-@app.route('/check-email/<participant_id>')
-def check_if_participant_should_be_notified(participant_id):
-    """ route after result is submitted or study status changes to notify participants about results"""
+@app.route('/results-add-email/<participant_id>')
+def check_and_notify_after_results_added(participant_id):
+    """ route after result is submitted to notify participants about results"""
     notification = crud.check_if_should_notify(participant_id)
     participant = crud.get_participant_by_id(participant_id)
     if notification['code'] != 0:
@@ -374,6 +374,23 @@ def check_if_participant_should_be_notified(participant_id):
         crud.mark_notified(participant_id)
 
     return redirect(f'/participants/{participant_id}')
+
+@app.route('/study-change-email/<study_id>')
+def check_and_notify_after_study_status_changed(study_id):
+    """ after a study status is changed check if participants should be notified of results and notify them"""
+    participants = crud.return_all_study_participant_ids(study_id)
+
+    for participantstudylink in participants:
+        notification = crud.check_if_should_notify(participantstudylink.participant_id)
+        participant = crud.get_participant_by_id(participantstudylink.participant_id)
+        if notification['code'] != 0:
+            msg = Message('Research Results Available', sender = 'return.of.results.dev@gmail.com', recipients = [participant.email])
+            msg.body = notification['msg']
+            mail.send(msg)
+            crud.mark_notified(participantstudylink.participant_id)
+    
+    return 'Participants notified if applicable'
+
 
 # @app.route('/email/<participant_id>.')
 # # CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT THEY CONSENTED TO RECEIVE

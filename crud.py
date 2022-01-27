@@ -98,6 +98,11 @@ def return_all_participants():
     """Return all participants"""
     return Participant.query.all()
 
+def return_all_study_participant_ids(study_id):
+    """ return all participant IDs of a given study"""
+
+    return ParticipantsStudies.query.filter(ParticipantsStudies.study_id == study_id).all()
+
 # GET ITEMS
 
 def get_study_by_id(study_id):
@@ -194,20 +199,21 @@ def check_if_should_notify(participant_id):
     notification = {'code': 0, 'msg': ''}
     for result in participant.results:
     # notify about urgent result no matter what
-        if result.urgent is True:
-            notification['code'] = 1
-            notification['msg'] = "There is an urgent result in your research portal. Please log in immediately to view and call the study investigator listed."
-        # if participant consented to receive and the plan is to return:
-        elif result.receive_decision is True and result.result_plan.return_plan is True:
-            # if the study timing lines up with the plan timing to return:
-            if result.result_plan.return_timing == "during" and result.result_plan.study.status in ['Planning', 'Active']:
-                if result.notified is None:
-                    notification['code'] = 2
-                    notification['msg'] = "Results from your study have been posted to your participant portal. Please login to view."
-            elif result.result_plan.return_timing == "after" and result.result_plan.study.status in ['Closed/Analysis', 'Published']:
-                if result.notified is None:
-                    notification['code'] = 3
-                    notification['msg'] = "Your research study has ended and your results have been made available. Login to view."
+        if result.result_value != None:
+            if result.urgent is True and result.notified is None:
+                notification['code'] = 1
+                notification['msg'] = "There is an urgent result in your research portal. Please log in immediately to view and call the study investigator listed."
+            # if participant consented to receive and the plan is to return:
+            elif result.receive_decision is True and result.result_plan.return_plan is True:
+                # if the study timing lines up with the plan timing to return:
+                if result.result_plan.study.status in ['Planning', 'Active'] and result.result_plan.return_timing == "during":
+                    if result.notified is None:
+                        notification['code'] = 2
+                        notification['msg'] = "Results from your study have been posted to your participant portal. Please login to view."
+                elif result.result_plan.study.status in ['Closed/Analysis', 'Published'] and result.result_plan.return_timing in ['during', 'after']:
+                    if result.notified is None:
+                        notification['code'] = 3
+                        notification['msg'] = "Your research study has ended and your results have been made available. Login to view."
     return notification
 
 def mark_notified(participant_id):
@@ -220,10 +226,10 @@ def mark_notified(participant_id):
             if result.urgent is True:
                 setattr(result, 'notified', True)
             elif result.receive_decision is True and result.result_plan.return_plan is True:
-                if result.result_plan.return_timing == "during" and result.result_plan.study.status in ['Planning', 'Active']:
+                if result.result_plan.study.status in ['Planning', 'Active'] and result.result_plan.return_timing == "during":
                     setattr(result, 'notified', True)
                     print("*******************supposed to be here")
-                elif result.result_plan.return_timing == "after" and result.result_plan.study.status in ['Closed/Analysis', 'Published']:
+                elif result.result_plan.study.status in ['Closed/Analysis', 'Published'] and result.result_plan.return_timing in ['during', 'after']:
                     setattr(result, 'notified', True)
 
     db.session.commit()

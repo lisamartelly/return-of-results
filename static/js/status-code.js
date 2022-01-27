@@ -14,4 +14,9 @@ document.querySelector('#change_study_status').addEventListener('click', () => {
     .then(responseText => {
     document.querySelector("#db_status").innerHTML = status;
     })
+    fetch(`/study-change-email/${itemId}`)
+    .then(response => response.text())
+    .then(responseText => {
+        document.querySelector('#update-success').innerHTML = responseText
+    })
 })
