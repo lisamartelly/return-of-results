@@ -6,29 +6,45 @@
     </div>
 
     <div id="planning-form">
+        
         <form id="result-details" action="/planning-2" method="POST">
-            <div class="study">
-                <label>Study name:</label>
-                <input type="text" name="study-name" required>
-                <label for="study-investigator">Investigator:</label>
-                <select id="study-investigator" name="study-investigator">
-                    <option selected disabled>Choose here</option>
-                    {% for investigator in investigators%}
-                    <option value={{investigator.investigator_id}} required>{{investigator.lname}}, {{investigator.fname}}</option>
-                    {% endfor %}
-                </select>
-                <br>At which study visits will you be collecting data?<br>
-                <input type="checkbox" name="visits" value="recruitment">
-                <label for="recruitment">Recruitment</label>
-                <input type="checkbox" name="visits" value="screening">
-                <label for="screening">Screening</label>
-                <input type="checkbox" name="visits" value="consent">
-                <label for="consent">Consent</label><br>
-                
-                <label for="num-visits">How many additional study visits will you have where you collect data?</label>
-                <input type="text" id="num-visits" name="num-visits"min="0" max="100">
+            <div class="flex-plan-row">
+                <div class="planning">
+                    <h3>Enter the name of the study and the name of the principal investigator</h3>
+                </div>
+                <div class="planning">
+                    <label>Study name:</label>
+                    <input type="text" name="study-name" required>
+                    <br>
+                    <label for="study-investigator">Investigator:</label>
+                    <select id="study-investigator" name="study-investigator">
+                        <option selected disabled>Choose here</option>
+                        {% for investigator in investigators%}
+                        <option value={{investigator.investigator_id}} required>{{investigator.lname}}, {{investigator.fname}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-            <input type=submit>
+            <div class="flex-plan-row">
+                <div class="planning">
+                    <h3>Enter the number of study visits that will occur duing this study where data will be collected.
+                        If data will not be collected at a visit then it does not need to be included in this planning process.
+                    </h3>
+                </div>
+                <div class="planning">
+                    <input type="checkbox" name="visits" value="recruitment">
+                    <label for="recruitment">Recruitment</label>
+                    <input type="checkbox" name="visits" value="screening">
+                    <label for="screening">Screening</label>
+                    <input type="checkbox" name="visits" value="consent">
+                    <label for="consent">Consent</label><br>
+                    <label for="num-visits">Additional study visits</label>
+                    <input type="text" id="num-visits" name="num-visits"min="0" max="100">
+                    <br><br>
+                    <input type=submit value="Next">
+                </div>
+            </div>
+            
         </form>
     </div>
 </div>

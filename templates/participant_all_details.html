@@ -80,7 +80,13 @@
                 {% else %}
                 <td>--</td>
                 {% endif %}
+                <!-- return decision display -->
+                {% if result.result_plan.return_timing != 'not applicable' %}
                 <td>{{result.receive_decision}}</td>
+                {% else %}
+                <td>--</td>
+                {% endif %}
+                <!-- result value display -->
                 <td>{{result.result_value}}</td>
                 <!-- urgency status display -->
                 {% if result.urgent != None %}

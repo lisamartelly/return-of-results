@@ -7,7 +7,7 @@ from model import db, Participant, Study, Investigator, Result_Plan, Participant
 def create_participant(email, fname, lname, dob, phone):
     """Create and return a new user."""
 
-    participant = Participant(email=email, fname=fname, lname=lname, dob=dob, phone=phone)
+    participant = Participant(email=email.lower(), fname=fname, lname=lname, dob=dob, phone=phone)
 
     db.session.add(participant)
     db.session.commit()
@@ -17,7 +17,7 @@ def create_participant(email, fname, lname, dob, phone):
 def create_investigator(fname, lname, phone, email):
     """Create and return a new user."""
 
-    investigator = Investigator(fname=fname, lname=lname, email=email, phone=phone)
+    investigator = Investigator(fname=fname, lname=lname, email=email.lower(), phone=phone)
 
     db.session.add(investigator)
     db.session.commit()
@@ -100,8 +100,11 @@ def return_all_participants():
 
 def return_all_study_participant_ids(study_id):
     """ return all participant IDs of a given study"""
-
     return ParticipantsStudies.query.filter(ParticipantsStudies.study_id == study_id).all()
+
+def return_participant_urgent_results(participant_id):
+    """ return all of a participant's urgent results"""
+    return Result.query.filter(Result.participant_id == participant_id, Result.urgent is True).all()
 
 # GET ITEMS
 

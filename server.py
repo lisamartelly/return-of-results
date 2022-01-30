@@ -131,7 +131,7 @@ def show_participant_their_results():
 @app.route('/login', methods=["POST"])
 def login_user():
 
-    email = request.form.get("email")
+    email = request.form.get("email").lower()
     password = request.form.get("password")
     user_type = request.form.get("user-type")
 
@@ -209,7 +209,10 @@ def plan_two():
     dict_visits = {visit: 0 for visit in request.form.getlist("visits")}
     investigator_id = request.form.get("study-investigator")
     study_name = request.form.get("study-name")
-    num_visits = request.form.get('num-visits')
+    if request.form.get('num-visits'):
+        num_visits = request.form.get('num-visits')
+    else:
+        num_visits = 0
 
     for i in range(int(num_visits)):
         dict_visits[f'study-visit-{i+1}'] = 0
@@ -523,6 +526,13 @@ def update_attr_by_category_and_id(category, item_id):
         return 'Changes saved'
     else:
         return 'Error - try again'
+
+@app.route('/participant-urgent-results.json/<participant_id>')
+def return_participant_urgent_results(participant_id):
+    """ return all of a participant's urgent results"""
+
+    results = crud.get_participant_urgent_results(participant_id)
+
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
