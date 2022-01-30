@@ -281,7 +281,10 @@ def plan_study():
             else: 
                 return_plan = False
 
-            return_timing = request.form.get(f"{visit}-test{i}-return_timing")
+            if return_plan == False:
+                return_timing = None
+            else:
+                return_timing = request.form.get(f"{visit}-test{i}-return_timing")
          
             crud.create_result_plan(study_id, result_category, visit, urgency_potential, return_plan, test_name, return_timing)
 

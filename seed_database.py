@@ -62,7 +62,7 @@ for j in range(10):
         if return_plan is True:
             return_timing = choice(['during', 'after'])
         else:
-            return_timing = 'not applicable'
+            return_timing = None
         result_plan = crud.create_result_plan(
             study_id=study.study_id,
             result_category=result_category,

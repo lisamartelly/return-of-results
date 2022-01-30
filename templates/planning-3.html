@@ -37,25 +37,25 @@
         <input type="radio" id="{{visit}}-result_category" name="{{visit}}-test{{i}}-result_category" value="unknown implications">
         <label for="{{visit}}-result_category">Unknown Implications</label>
         <br>
-
+        <br>
         Are you going to return this result?
         <br>
-        <input type="radio" id="{{visit}}-test{{i}}-return_plan" name="{{visit}}-test{{i}}-return_plan" value="yes" required>
+        <input type="radio" class="{{visit}}-test{{i}} return_plan" name="{{visit}}-test{{i}}-return_plan" value="yes" required>
             <label>Yes</label><br>
-        <input type="radio" id="{{visit}}-test{{i}}-return_plan" name="{{visit}}-test{{i}}-return_plan" value="no">
+        <input type="radio" class="{{visit}}-test{{i}} return_plan" name="{{visit}}-test{{i}}-return_plan" value="no">
             <label>No</label><br>
         <br>
         
         <!-- should only display if the answer to above is "yes" -->
-        <div id="return-timing">
+        <div id="return-timing" class="{{visit}}-test{{i}} return-timing">
             When are you going to return this result?     
             <br>
-            <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="during" required>
+            <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="during">
                 <label for="during">During the study</label><br>
-            <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="after">
+            <input type="radio" id="{{visit}}-test{{i}}-return_timing"  name="{{visit}}-test{{i}}-return_timing" value="after">
                 <label for="after">After the study</label><br>
-            <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="na">
-                <label for="na">Not Applicable</label><br><br>
+            <!-- <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="na">
+                <label for="na">Not Applicable</label><br><br> -->
             </div>
     </div>
     {% endfor %}
@@ -70,4 +70,8 @@
 </div>
 
 
+{% endblock %}
+
+{% block js %} 
+<script src="/static/js/planning-form.js"></script>
 {% endblock %}
