@@ -46,14 +46,17 @@
             <label>No</label><br>
         <br>
         
-        When are you going to return this result?     
-        <br>
-        <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="during" required>
-            <label for="during">During the study</label><br>
-        <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="after">
-            <label for="after">After the study</label><br>
-        <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="na">
-            <label for="na">Not Applicable</label><br><br>
+        <!-- should only display if the answer to above is "yes" -->
+        <div id="return-timing">
+            When are you going to return this result?     
+            <br>
+            <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="during" required>
+                <label for="during">During the study</label><br>
+            <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="after">
+                <label for="after">After the study</label><br>
+            <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="na">
+                <label for="na">Not Applicable</label><br><br>
+            </div>
     </div>
     {% endfor %}
 {% endfor %}

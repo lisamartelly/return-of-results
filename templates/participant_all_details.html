@@ -61,7 +61,7 @@
                 <td><b>Urgency<br>Potential</b></td>
                 <td><b>Return Plan</b></td>
                 <td><b>Return Timing</b></td>
-                <td><b>Decision to Receive</b><br><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">(click to update)</a></td>
+                <td><b>Decision to Receive</b></td>
                 <td><b>Result Value</b></td>
                 <td><b>Urgency</b></td>
                 <td><b>Notified</b></td>
@@ -103,6 +103,17 @@
 
             </tr>
             {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">Click to Update Decisions</button></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
         </tbody>
     </table>
     {% endfor %}

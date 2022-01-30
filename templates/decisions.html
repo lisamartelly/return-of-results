@@ -1,26 +1,51 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<div class="flex-container-generic">
+    <div class="page-header">
+        <h1> Result decisions -- {{study.study_name}} study </h1>
+    </div>
 
+    <div id="decision-form" class="flex-center">
+        <div>
+            <h2>Decide which results you want to receive in the {{study.study_name}} study</h2>
+            <p>If you have questions about a result, contact the study investigator:</p>
+            <p>Name: {{study.investigator.fname}} {{study.investigator.lname}}
+                Phone: {{study.investigator.phone}}
+                Email: {{study.investigator.email}}</p>
+        </div>
+    </div>
 
-<h3>Decide which results you want to receive in the {{study.study_name}} study</h3>
-
-<div id="decision-form">
-    <form id="decision-form" name="decision-form" action="/decide/{{study.study_id}}/{{participant.participant_id}}" method="POST" >
-        {% for result in study.result_plans %}
+    <div>
+        <form id="decision-form" name="decision-form" action="/decide/{{study.study_id}}/{{participant.participant_id}}" method="POST" >
+            {% for result in study.result_plans %}
             {% if result.return_plan is sameas true %}
-                Result: {{result.test_name}}<br>
-                Do you want to receive this?<br>
-                <input type="radio" id="{{result.result_plan_id}}-receive" name="{{result.result_plan_id}}-receive" value="yes">
-                <label>Yes</label><br>
-                <input type="radio" id="{{result.result_plan_id}}-receive" name="{{result.result_plan_id}}-receive" value="no">
-                <label>No</label><br>
-            
+            <div class="flex-row result-block">
+                <div class="planning">
+                    <h2>{{result.test_name}}</h2>
+                    <p><b>Visit:</b>{{result.visit}}</p>
+                    <p><b>Timing of return:</b> This would be returned to you {{result.return_timing}} the study</p>
+                    <p><b>Relevant notes about this test: </b> None added by investigator.</p>
+                </div>
+                <div class="planning">
+                    <h3>Do you want to receive this result?</h3>
+                    <div class="flex-row>">
+                        <input type="radio" id="{{result.result_plan_id}}-receive" name="{{result.result_plan_id}}-receive" value="yes">
+                        <label>Yes</label><br>
+                        <input type="radio" id="{{result.result_plan_id}}-receive" name="{{result.result_plan_id}}-receive" value="no">
+                        <label>No</label><br>
+                    </div>
+                    
+                </div>
+            </div>
             {% endif %}
-        {% endfor %}
-
-        <input type="submit">
-    
-    </form>
+            {% endfor %}
+        </form>
+        <div class="flex-center">
+            <input type="submit">
+        </div>
+        
+    </div>
+</div>
 
 {% endblock %}
