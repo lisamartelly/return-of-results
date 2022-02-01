@@ -166,7 +166,7 @@ def update_attr_by_category_and_id(input_dict, category, item_id):
         item = get_participant_by_id(item_id)
     elif category == "study":
         item = get_study_by_id(item_id)
-    
+
     for key in input_dict:
         setattr(item, key, input_dict[key])
 
@@ -182,13 +182,10 @@ def update_result(results, participant_id):
         result_record = get_result_by_result_plan_by_participant(participant_id=participant_id, result_plan_id=result_plan_id)
 
         setattr(result_record, 'result_value', result["result_value"])
-        # result_record['result_value'] = result["result_value"]
         if result["urgent"] is True:
             setattr(result_record, 'urgent', True)
-            # result_record['urgent'] = True
         else:
             setattr(result_record, 'urgent', False)
-            # result_record['urgent'] = False
 
     db.session.commit()
 

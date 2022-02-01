@@ -9,3 +9,7 @@ for (const table of tables){
         table.innerHTML = '<li>No results will be returned during this time period</li>';
     }
 }
+
+const displayUrgentResults = () => {
+    fetch()
+}
