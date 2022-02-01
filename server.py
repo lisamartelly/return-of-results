@@ -420,7 +420,7 @@ def return_studies():
 # CHECK IF PARTICIPANT IS ENROLLED IN STUDY
 @app.route('/study-participants.json/<study_id>/<participant_id>')
 def check_study_participants(study_id, participant_id):
-    """ check if given participant ID is an enrolled study participants"""
+    """ check if given participant ID is an enrolled study participant and include HCP info"""
     if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
 
     participant_study_link = crud.check_study_participant(study_id, participant_id)
@@ -431,6 +431,10 @@ def check_study_participants(study_id, participant_id):
         participant = crud.get_participant_by_id(participant_id)
         result['code'] = 1
         result['msg'] = f'Adding results for: {participant.fname} {participant.lname}'
+        result['hcp_fullname'] = f'{participant.hcp_fullname}'
+        result['hcp_phone'] = f'{participant.hcp_phone}'
+        result['hcp_email'] = f'{participant.hcp_email}'
+        result['hcp_practice'] = f'{participant.hcp_practice}'
     else:
         # return if participant is not enrolled in study
         result['code'] = 0

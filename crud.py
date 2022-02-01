@@ -140,6 +140,17 @@ def check_study_participant(study_id, participant_id):
 
     return ParticipantsStudies.query.filter_by(study_id = study_id, participant_id = participant_id).first()
 
+def get_hcp_info(participant_id):
+    """ return a participant's HCP info in db"""
+    participant = get_participant_by_id(participant_id)
+
+    hcp_info = {}
+    hcp_info['hcp_fullname'] = {participant.hcp_fullname}
+    hcp_info['hcp_phone'] = {participant.hcp_phone}
+    hcp_info['hcp_email'] = {participant.hcp_email}
+    hcp_info['hcp_practice'] = {participant.hcp_practice}
+
+    return hcp_info
 
 # UPDATES
 
