@@ -133,14 +133,16 @@ def login_user():
 
     email = request.form.get("email").lower()
     password = request.form.get("password")
-    user_type = request.form.get("user-type")
+    user_type = request.form.get("user_type")
 
     if user_type == "investigator":
         user = crud.get_investigator_by_email(email)
+        print("user at investigator")
         if user:
             user_id = user.investigator_id
     elif user_type == "participant":
         user = crud.get_participant_by_email(email)
+        print("user at participant")
         if user:
             user_id = user.participant_id
     
@@ -534,11 +536,6 @@ def update_attr_by_category_and_id(category, item_id):
     else:
         return 'Error - try again'
 
-@app.route('/participant-urgent-results.json/<participant_id>')
-def return_participant_urgent_results(participant_id):
-    """ return all of a participant's urgent results"""
-
-    results = crud.get_participant_urgent_results(participant_id)
 
 
 if __name__ == "__main__":

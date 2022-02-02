@@ -118,6 +118,53 @@ class Result(db.Model):
     def __repr__(self):
         return f'participant: {self.participant.participant_id}, result value: {self.result_value} result id: {self.result_id}'
 
+def example_data():
+    """example data created for testing"""
+
+    # In case this is run more than once, empty out existing data
+    Participant.query.delete()
+    # Study.query.delete()
+    # ParticipantsStudies.query.delete()
+
+    # Add participants
+    participant1 = Participant(email="first_participant@test.com", fname="First", lname="Participant", dob="01/01/1991", phone="111-1111", password="password")
+    participant2 = Participant(email="second_participant@test.com", fname="Second", lname="Participant", dob="02/02/1992", phone="222-2222", password="password")
+    db.session.add_all([participant1, participant2])
+
+    # # Add one investigator
+    # investigator = Investigator(fname="Only", lname="Investigator", email="investigator@test.com", phone="333-3333")
+    # db.session.add(investigator)
+
+    # # Add two studies
+    # study1 = Study(investigator_id=1, study_name="first test study", investigational_product="XYZ 123", status="planning")
+    # study2 = Study(investigator_id=1, study_name="second test study", investigational_product="ABC 456", status="planning")
+    # db.session.add_all([study1, study2])
+
+    # # Add result plans for 2 results in each study
+    # result_plan1_1 = Result_Plan(study_id=1, result_category="actionable", visit="recruitment", urgency_potential=True, return_plan=True, test_name="fake first test", return_timing="after")
+    # result_plan1_2 = Result_Plan(study_id=1, result_category="unknown", visit="consent", urgency_potential=False, return_plan=False, test_name="fake second test", return_timing="not applicable")
+    # result_plan2_1 = Result_Plan(study_id=2, result_category="personally valuable", visit="study-visit-1", urgency_potential=False, return_plan=True, test_name="fake third test", return_timing="during")
+    # result_plan2_2 = Result_Plan(study_id=2, result_category="unknwon", visit="study-visit-2", urgency_potential=False, return_plan=False, test_name="fake fourth test", return_timing="not applicable")
+    # db.session.add_all([result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2])
+
+    # # Add result shells and participant decisions
+    # result1 = Result(participant_id=1, result_plan_id=1, receive_decision=True)
+    # result2 = Result(participant_id=1, result_plan_id=2, receive_decision=None)
+    # result3 = Result(participant_id=2, result_plan_id=3, receive_decision=False)
+    # result4 = Result(participant_id=2, result_plan_id=4, receive_decision=None)
+    # db.session.add_all([result1, result2, result3, result4])
+
+    # # Enroll first participant in first study and second participant in second study
+    # ps1 = ParticipantsStudies(participant_id=1, study_id=1)
+    # ps2 = ParticipantsStudies(participant_id=2, study_id=2)
+    # db.session.add_all([ps1, ps2])
+    
+    # db.session.add_all([participant1, participant2, investigator, study1, study2, ps1, ps2, 
+    #     result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2, result1, result2, result3, result4])
+
+    db.session.commit()
+
+
 def connect_to_db(flask_app, db_uri="postgresql:///irr", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
