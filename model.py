@@ -123,41 +123,52 @@ def example_data():
 
     # In case this is run more than once, empty out existing data
     Participant.query.delete()
-    # Study.query.delete()
-    # ParticipantsStudies.query.delete()
+    Study.query.delete()
+    Investigator.query.delete()
+    ParticipantsStudies.query.delete()
 
     # Add participants
-    participant1 = Participant(email="first_participant@test.com", fname="First", lname="Participant", dob="01/01/1991", phone="111-1111", password="password")
-    participant2 = Participant(email="second_participant@test.com", fname="Second", lname="Participant", dob="02/02/1992", phone="222-2222", password="password")
+    participant1 = Participant(participant_id=1, email="first_participant@test.com", fname="First", lname="Participant", dob="01/01/1991", phone="111-1111", password="password")
+    print("****************PARTICIPANT1", participant1)
+    participant2 = Participant(participant_id=2, email="second_participant@test.com", fname="Second", lname="Participant", dob="02/02/1992", phone="222-2222", password="password")
     db.session.add_all([participant1, participant2])
+    db.session.commit()
 
-    # # Add one investigator
-    # investigator = Investigator(fname="Only", lname="Investigator", email="investigator@test.com", phone="333-3333")
-    # db.session.add(investigator)
+    # Add one investigator
+    investigator = Investigator(investigator_id=1, fname="Only", lname="Investigator", email="investigator@test.com", phone="333-3333", password="password")
+    print("**************INVESTIGATOR", investigator)
+    db.session.add(investigator)
+    db.session.commit()
 
-    # # Add two studies
-    # study1 = Study(investigator_id=1, study_name="first test study", investigational_product="XYZ 123", status="planning")
-    # study2 = Study(investigator_id=1, study_name="second test study", investigational_product="ABC 456", status="planning")
-    # db.session.add_all([study1, study2])
+    # Add two studies
+    study1 = Study(study_id=1, investigator_id=1, study_name="first test study", investigational_product="XYZ 123", status="planning")
+    study2 = Study(study_id=2, investigator_id=1, study_name="second test study", investigational_product="ABC 456", status="planning")
+    db.session.add_all([study1, study2])
+    db.session.commit()
 
-    # # Add result plans for 2 results in each study
-    # result_plan1_1 = Result_Plan(study_id=1, result_category="actionable", visit="recruitment", urgency_potential=True, return_plan=True, test_name="fake first test", return_timing="after")
-    # result_plan1_2 = Result_Plan(study_id=1, result_category="unknown", visit="consent", urgency_potential=False, return_plan=False, test_name="fake second test", return_timing="not applicable")
-    # result_plan2_1 = Result_Plan(study_id=2, result_category="personally valuable", visit="study-visit-1", urgency_potential=False, return_plan=True, test_name="fake third test", return_timing="during")
-    # result_plan2_2 = Result_Plan(study_id=2, result_category="unknwon", visit="study-visit-2", urgency_potential=False, return_plan=False, test_name="fake fourth test", return_timing="not applicable")
-    # db.session.add_all([result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2])
+    # Add result plans for 2 results in each study
+    result_plan1_1 = Result_Plan(study_id=1, result_category="actionable", visit="recruitment", urgency_potential=True, return_plan=True, test_name="fake first test", return_timing="after")
+    result_plan1_2 = Result_Plan(study_id=1, result_category="unknown", visit="consent", urgency_potential=False, return_plan=False, test_name="fake second test", return_timing="not applicable")
+    result_plan2_1 = Result_Plan(study_id=2, result_category="personally valuable", visit="study-visit-1", urgency_potential=False, return_plan=True, test_name="fake third test", return_timing="during")
+    result_plan2_2 = Result_Plan(study_id=2, result_category="unknwon", visit="study-visit-2", urgency_potential=False, return_plan=False, test_name="fake fourth test", return_timing="not applicable")
+    db.session.add_all([result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2])
+    db.session.commit()
 
-    # # Add result shells and participant decisions
-    # result1 = Result(participant_id=1, result_plan_id=1, receive_decision=True)
-    # result2 = Result(participant_id=1, result_plan_id=2, receive_decision=None)
-    # result3 = Result(participant_id=2, result_plan_id=3, receive_decision=False)
-    # result4 = Result(participant_id=2, result_plan_id=4, receive_decision=None)
-    # db.session.add_all([result1, result2, result3, result4])
+    # Enroll first participant in first study and second participant in second study
+    ps1 = ParticipantsStudies(participant_id=1, study_id=1)
+    ps2 = ParticipantsStudies(participant_id=2, study_id=2)
+    db.session.add_all([ps1, ps2])
+    db.session.commit()
 
-    # # Enroll first participant in first study and second participant in second study
-    # ps1 = ParticipantsStudies(participant_id=1, study_id=1)
-    # ps2 = ParticipantsStudies(participant_id=2, study_id=2)
-    # db.session.add_all([ps1, ps2])
+    # Add result shells and participant decisions
+    result1 = Result(participant_id=1, result_plan_id=1, receive_decision=True)
+    result2 = Result(participant_id=1, result_plan_id=2, receive_decision=None)
+    result3 = Result(participant_id=2, result_plan_id=3, receive_decision=False)
+    result4 = Result(participant_id=2, result_plan_id=4, receive_decision=None)
+    db.session.add_all([result1, result2, result3, result4])
+    db.session.commit()
+
+    
     
     # db.session.add_all([participant1, participant2, investigator, study1, study2, ps1, ps2, 
     #     result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2, result1, result2, result3, result4])
