@@ -3,7 +3,7 @@ from unittest.mock import patch
 import crud
 from model import connect_to_db, db, example_data
 from server import app
-from flask import session
+from flask import session, json
 
 ####################     UNIT TESTS     ########################
 
@@ -116,28 +116,27 @@ class FlaskTestsLoggedInAsInvestigator(unittest.TestCase):
         result = self.client.get("/participants")
         self.assertIn(b'<li class="detail-link"><a name="participant" id=1 href="#">First Participant</a></li>', result.data)
 
+    def test_enroll_participant(self):
+        """Test enrolling an existing participant"""
 
+        result = self.client.post("/enroll",
+                                  data={"existing": "yes", "participant_id": "1", "study_id": "2"},
+                                  follow_redirects=True)
+        self.assertIn(b"<h1> Result decisions -- second test study study </h1>", result.data)
 
-# class FlaskTestsLoggedOut(TestCase):
-#     """Flask tests with user logged in to session."""
+    def test_add_result(self):
+        """Test route adding a participant's result"""
 
-#     def setUp(self):
-#         """Stuff to do before every test."""
+        result = self.client.post("/create-result",
+                                  data=json.dumps({"participantId":"1","results":[{"result_plan_id":"1","result_value":"TEST-43435-TEST-RESULT-VAL","urgent":"true"}]}),
+                                  content_type='application/json',
+                                  follow_redirects=True)
 
-#         app.config['TESTING'] = True
-#         self.client = app.test_client()
-
-#     def test_important_page(self):
-#         """Test that user can't see important page when logged out."""
-
-#         result = self.client.get("/important", follow_redirects=True)
-#         self.assertNotIn(b"You are a valued user", result.data)
-#         self.assertIn(b"You must be logged in", result.data)
+        self.assertIn(b"<td>TEST-43435-TEST-RESULT-VAL</td>", result.data)
 
 
 
 
 if __name__ == "__main__":
-    import unittest
 
     unittest.main()

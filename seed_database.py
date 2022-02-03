@@ -15,11 +15,11 @@ model.db.create_all()
 
 fake = Faker()
 
-#make specific investigator for testing
+#make specific investigator for development
 investigator = crud.create_investigator(fname="admin fname", lname="admin lname", email="test@test.com", phone="123456")
 investigator.password = "test"
 
-#make specific participant for testing
+#make specific participant for development
 participant = crud.create_participant(email="test@test.com", fname="test fname", lname="test lname", dob="01/01/2020", phone="123456")
 participant.password = "test"
 
