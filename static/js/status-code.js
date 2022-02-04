@@ -5,6 +5,7 @@ document.querySelector('#change_study_status').addEventListener('click', () => {
     const formInputs = { status: status };
     const itemId = document.querySelector('#study-id').innerHTML;
 
+    // update study status in db
     fetch(`/update-by-attr.json/study/${itemId}`, {
     method: 'POST',
     body: JSON.stringify(formInputs),
@@ -14,6 +15,8 @@ document.querySelector('#change_study_status').addEventListener('click', () => {
     .then(responseText => {
     document.querySelector("#db_status").innerHTML = status;
     })
+
+    // notify study participants about results if needed
     fetch(`/study-change-email/${itemId}`)
     .then(response => response.text())
     .then(responseText => {

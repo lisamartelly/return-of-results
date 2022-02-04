@@ -380,6 +380,7 @@ def check_and_notify_after_results_added(participant_id):
     if notification['code'] != 0:
         msg = Message('Research Results Available', sender = 'return.of.results.dev@gmail.com', recipients = [participant.email])
         msg.body = notification['msg']
+        msg.html = render_template('email.html', text=notification['msg'], name=participant.fname)
         mail.send(msg)
         crud.mark_notified(participant_id)
 
@@ -397,6 +398,7 @@ def check_and_notify_after_study_status_changed(study_id):
         if notification['code'] != 0:
             msg = Message('Research Results Available', sender = 'return.of.results.dev@gmail.com', recipients = [participant.email])
             msg.body = notification['msg']
+            msg.html = render_template('email.html', text=notification['msg'], name=participant.fname)
             mail.send(msg)
             crud.mark_notified(participantstudylink.participant_id)
     

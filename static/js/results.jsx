@@ -139,7 +139,7 @@ function ResultsForm() {
             participantId : participantId,
             results : formValues
             }    
-        alert(JSON.stringify(formInputs));
+        // alert(JSON.stringify(formInputs));
         fetch('/create-result', {
         method: 'POST',
         body: JSON.stringify(formInputs),
