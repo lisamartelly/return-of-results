@@ -9,7 +9,7 @@ function showItemDetails(evt) {
     fetch(`/${detailType}-details.json/${id}`)
     .then (response => response.json())
     .then (responseJson => {
-        const content = document.querySelector("#details-content");
+        const content = document.querySelector(".details-container");
 
         // participant detail display
         if (detailType === "participant") {
@@ -45,8 +45,9 @@ function showItemDetails(evt) {
             `
         }
         content.style.display = "";
-    })
-};
+        content.scrollIntoView({behavior: 'smooth'});
+    });
+}
 
 document.querySelector('#details-content').style.display = "none";
 document.querySelectorAll(".detail-link").forEach(item => {
