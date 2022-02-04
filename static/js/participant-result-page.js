@@ -1,5 +1,6 @@
 'use strict';
 
+// hides empty tables on participants details page using the number of rows in the table
 const tables = document.querySelectorAll(".result-table")
 
 for (const table of tables){
@@ -10,6 +11,4 @@ for (const table of tables){
     }
 }
 
-const displayUrgentResults = () => {
-    fetch()
-}
+

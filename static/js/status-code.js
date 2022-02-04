@@ -1,4 +1,6 @@
 'use strict';
+// updates and saves changes to study status on study details page
+// notifies participants if the change of status means results will now be released to them
 
 document.querySelector('#change_study_status').addEventListener('click', () => {
     const status = document.querySelector('#study_status').value

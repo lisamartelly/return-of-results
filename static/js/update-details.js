@@ -1,7 +1,9 @@
 'use strict';
 
-// way to update something on the page, learned from this tutorial: https://www.youtube.com/watch?v=PqAaHf7JKls:
+// update attributes exactly where they're displayed, learned a lot from this tutorial: https://www.youtube.com/watch?v=PqAaHf7JKls:
 
+// takes a attribute display and replaces it with an input box 
+// with the default value being existing attrib value
 function makeEditable(elementId) {
   const node = document.querySelector(`#${elementId}`).firstElementChild;
   const input = document.createElement('input');
@@ -11,6 +13,7 @@ function makeEditable(elementId) {
   node.parentNode.removeChild(node);
 }
 
+// saves everything in inputs as new attribute values
 function processEdits(elementId) {
   const input = document.querySelector(`#${elementId}`).firstElementChild;
   const span = document.createElement('span');
@@ -19,10 +22,12 @@ function processEdits(elementId) {
   input.parentNode.removeChild(input);
 }
 
+// when update button is clicked, makes certain fields editable
 document.querySelector('#update-details-button')?.addEventListener('click', (event) => {
     const button = event.target;    
     if(button.textContent === 'Update Information') {
 
+      // specifies which elements on details page to make editable
       makeEditable('phone')
       makeEditable('email')
       makeEditable('hcp_fullname')
@@ -30,9 +35,13 @@ document.querySelector('#update-details-button')?.addEventListener('click', (eve
       makeEditable('hcp_phone')
       makeEditable('hcp_practice')
 
+      // changes button to save updates if it's in edit mode
       button.textContent = 'Save Updates';
+      
+      // if save button is clicked
     } else if(button.textContent === 'Save Updates') {
 
+      // saves values in each input box
       processEdits('phone')
       processEdits('email')
       processEdits('hcp_fullname')
@@ -40,6 +49,7 @@ document.querySelector('#update-details-button')?.addEventListener('click', (eve
       processEdits('hcp_phone')
       processEdits('hcp_practice')
 
+      // packages form values to send to db
       const formInputs = {
         email: document.querySelector('#email').firstElementChild.textContent,
         phone: document.querySelector('#phone').firstElementChild.textContent,
@@ -51,6 +61,7 @@ document.querySelector('#update-details-button')?.addEventListener('click', (eve
 
       const participantId = document.querySelector('#participant-id').innerHTML;
 
+      // sends attrib values to server
       fetch(`/update-by-attr.json/participant/${participantId}`, {
         method: 'POST',
         body: JSON.stringify(formInputs),

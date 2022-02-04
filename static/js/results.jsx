@@ -121,6 +121,7 @@ function ResultsForm() {
         setFormValues(newFormValues);
       }
 
+    // display the doctor's contact info if a result is marked as urgent
     const handleUrgentValue = e => {
         console.log("e.target.checked", e.target.checked);
         if (e.target.checked === true) {

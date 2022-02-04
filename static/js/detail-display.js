@@ -1,11 +1,15 @@
 'use strict';
 
+// displays/previews an extra-details box when a link is clicked without rendering new page
+// implemented for participant details and study details
 function showItemDetails(evt) {
     evt.preventDefault();
     
+    // gets ID of item and determines whether is participant or study
     const id = evt.target.id
     const detailType = evt.target.name
   
+    // gets details for that item by ID, returns and renders in a detail box
     fetch(`/${detailType}-details.json/${id}`)
     .then (response => response.json())
     .then (responseJson => {
@@ -48,8 +52,10 @@ function showItemDetails(evt) {
         content.scrollIntoView({behavior: 'smooth'});
     });
 }
-
+// hides details content until a link is clicked
 document.querySelector('#details-content').style.display = "none";
+
+// adds scroll to top of detials box when clicked
 document.querySelectorAll(".detail-link").forEach(item => {
     item.addEventListener('click', showItemDetails)
 });
