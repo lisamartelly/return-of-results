@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<div class="page-header">
+    <h1> Plan a study's return of results </h1>
+</div>
+{% endblock %}
+
 {% block body %}
 
 <div class="flex-container-generic">
 
-<p>This is the planning page</p>
-
 <h3>Add each result for each visit:</h3>
 <div id="planning-form">
-{{dict_visits}}
+
 {% for visit in dict_visits %}
 
 <form id="visit-details" action="/planning-3" method="POST">

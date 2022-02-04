@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+
+{% block header %}
+<div class="page-header">
+    <h1> Plan a study's return of results </h1>
+</div>
+{% endblock %}
+
 {% block body %}
 <div class="flex-container-generic">
-    <div class="page-header">
-        <h1> Plan a study's return of results </h1>
-    </div>
-
     <div id="planning-form">
         
         <form id="result-details" action="/planning-2" method="POST">

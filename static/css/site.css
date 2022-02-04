@@ -2,11 +2,14 @@
 body {
     margin: 0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    overflow: hidden;
   }
 
 .flex-container {
     display: flex;
     height: 100vh;
+    flex-grow: 1;  /* ensures that the container will take up the full height of the parent container */
+    overflow-y: auto;  /* adds scroll to this container */
 }
 
 .flex-nav {

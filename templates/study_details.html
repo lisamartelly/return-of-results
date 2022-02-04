@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<div class="page-header">
+    <h1> Study Details - {{study.study_name}} </h1></div>
+{% endblock %}
+
 {% block body %}
 
 <div class="flex-container-generic">
-    <div class="page-header">
-        <h1> Study Details - {{study.study_name}} </h1>
-    </div>
-
     <div>
         <h2>ID: <span id="study-id">{{study.study_id}}</span></h2>
         <h2>Status: <span id="db_status">{{study.status}}</span></h2>

@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<div class="page-header">
+    <h1> Result decisions -- {{study.study_name}} study </h1>
+</div>
+{% endblock %}
+
 {% block body %}
 <div class="flex-container-generic">
-    <div class="page-header">
-        <h1> Result decisions -- {{study.study_name}} study </h1>
-    </div>
-
+    
     <div id="decision-form" class="flex-center">
         <div>
             <h2>Decide which results you want to receive in the {{study.study_name}} study</h2>
