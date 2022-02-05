@@ -64,13 +64,15 @@
                 <div style="color:#1D3557"> 
                     {{session["user"]}}
                 </div> 
-                <a href="/logout"><button  class="button">Log Out</button></a>
+                <a href="/logout"><button  class="button" id="logout-btn">Log Out</button></a>
             </div>
         </div>
-        <div class="bottom page-content">
+        <div class="bottom">
+            <div class="page-content">
             {% block body %}
             BODY OF PAGE GOES HERE
             {% endblock %}
+            </div>
         </div>
     </div>
 

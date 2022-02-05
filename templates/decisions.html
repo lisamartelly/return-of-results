@@ -8,21 +8,14 @@
 
 {% block body %}
 <div class="flex-container-generic">
-    
-    <div id="decision-form" class="flex-center">
-        <div>
-            <h2>Decide which results you want to receive in the {{study.study_name}} study</h2>
-            <p>If you have questions about a result, contact the study investigator:</p>
-            <p>Name: {{study.investigator.fname}} {{study.investigator.lname}}
-                Phone: {{study.investigator.phone}}
-                Email: {{study.investigator.email}}</p>
-        </div>
-    </div>
 
-    <div>
+    <h2>Decide which results you want to receive in the {{study.study_name}} study: </h2>
+
+    
+    <!-- <div>
         <form id="decision-form" name="decision-form" action="/decide/{{study.study_id}}/{{participant.participant_id}}" method="POST" >
             {% for result in study.result_plans %}
-            {% if result.return_plan is sameas true %}
+            {% if result.return_plan is true %}
             <div class="flex-row result-block">
                 <div class="planning">
                     <h2>{{result.test_name}}</h2>
@@ -43,10 +36,71 @@
             </div>
             {% endif %}
             {% endfor %}
+        </form> -->
+
+        <form id="decision-form" name="decision-form" action="/decide/{{study.study_id}}/{{participant.participant_id}}" method="POST" >
+            
+            <table>
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td><b>Which visit is it from?</b></td>
+                        <td><b>When will it be returned?</b></td>
+                        <td><b>How will it be meaningful to you?</b></td>
+                        <td><b>Do you want to receive this result?</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in study.result_plans %}
+                    {% if result.return_plan is true %}
+                    <tr>
+                        <td><h3>{{result.test_name}}</h3></td>
+                        <td>{{result.visit}}</td>
+                        <td><b>{{result.return_timing}}</b> the study</td>
+
+                        <!-- Different messages for different categories -->
+                        {% if result.result_category == "actionable" %}
+                        <td>This result is considered <b>actionable</b>,
+                            meaning it could be useful to you/your doctor and help you improve your health</td>
+                        {% elif result.result_category == "personally valuable" %}
+                        <td>This result is considered <b>personally valuable</b>,
+                            meaning it may not help you improve your health but it could be interesting to know</td>
+                        {% elif result.result_category == "unknown implications" %}
+                        <td>Currently we do not know what the significance of this result is.
+                            Its meaning could be known later on, or it might not.
+                            After the study has ended we cannot update you on new information about this result.
+                        </td>
+                        {% endif %}
+                        <td>                     
+                            <div class="flex-row>">
+                                <input type="radio" id="{{result.result_plan_id}}-receive" name="{{result.result_plan_id}}-receive" value="yes">
+                                <label>Yes</label><br>
+                                <input type="radio" id="{{result.result_plan_id}}-receive" name="{{result.result_plan_id}}-receive" value="no">
+                                <label>No</label><br>
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% endfor %}
+                </tbody>
+
+
+            </table>           
         </form>
+
         <div class="flex-center">
-            <input type="submit">
+            <div>
+                <p>If you have questions about the results returned/not returned in this study, contact the study investigator:</p>
+                <p>Name: {{study.investigator.fname}} {{study.investigator.lname}}
+                    Phone: {{study.investigator.phone}}
+                    Email: {{study.investigator.email}}</p>
+            </div>
         </div>
+
+        <div class="flex-center">
+            <button type="submit" class="button">Submit</button>
+        </div>
+        
         
     </div>
 </div>

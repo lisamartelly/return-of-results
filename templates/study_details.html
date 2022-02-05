@@ -2,18 +2,20 @@
 
 {% block header %}
 <div class="page-header">
-    <h1> Study Details - {{study.study_name}} </h1></div>
+    <h1> Study Details </h1></div>
 {% endblock %}
 
 {% block body %}
 
 <div class="flex-container-generic">
     <div>
-        <h2>ID: <span id="study-id">{{study.study_id}}</span></h2>
-        <h2>Status: <span id="db_status">{{study.status}}</span></h2>
-        <label>Update Status</label>
+        <div class="basic-box">
+        <h3 class="text-color-emphasis">{{study.study_name}}</h3>
+        <h3>ID: <span id="study-id">{{study.study_id}}</span></h3>
+        <h3>Status: <span id="db_status">{{study.status}}</span></h3>
+        <!-- <label>Update Status</label> -->
         <select id="study_status">
-            <option value="none" selected disabled hidden>Change here</option>
+            <option value="none" selected disabled hidden>Update Status</option>
             <option value="Planning">Planning</option>
             <option value="Active">Active</option>
             <option value="Closed/Analysis">Closed/Analysis</option>
@@ -21,8 +23,10 @@
         </select>
         <button id="change_study_status">Submit update</button>
         <div id="update-success"></div>
-
-        <h3>tests and return of results plan:</h3>
+    </div>
+    <br><br>
+    <div class="basic-box">
+        <h3 class="text-color-emphasis">Tests and Result plans:</h3>
         <table>
             <thead>
                 <tr>
@@ -47,10 +51,14 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
 
+        <div class="between-row">
         <h3>Study Participants:</h3>
+        <button class="button">Enroll a new participant</button>
+        </div>
         
-        <input type="text" id="searchInput" onkeyup="searchBar()" placeholder="Search for names.."/>
+        <input type="text" id="searchInput" onkeyup="searchBar()" placeholder="Search for names.."/> 
         <div class="flex-row list-page">
             <ul id="itemsList">
                 {% for participant in study.participants %}

@@ -137,12 +137,10 @@ def login_user():
 
     if user_type == "investigator":
         user = crud.get_investigator_by_email(email)
-        print("user at investigator")
         if user:
             user_id = user.investigator_id
     elif user_type == "participant":
         user = crud.get_participant_by_email(email)
-        print("user at participant")
         if user:
             user_id = user.participant_id
     
@@ -151,7 +149,6 @@ def login_user():
             session['user'] = user.email
             session['user_type'] = user_type
             session['user_id'] = user_id
-            print(session)
         else:
             flash("Incorrect password, try again.")
     else:
