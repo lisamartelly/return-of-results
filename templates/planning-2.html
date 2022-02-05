@@ -15,8 +15,7 @@
 
 {% for visit in dict_visits %}
 
-<form id="visit-details" action="/planning-3" method="POST">
-
+<form class="result-block" id="visit-details" action="/planning-3" method="POST">
     <div class="test" id={{visit}}> 
         <label for="num-tests">How many tests will you run at the {{visit}} visit?</label>
         <input type="text" id="{{visit}}-num-visits" name="{{visit}}-num-visits"min="0" max="100">

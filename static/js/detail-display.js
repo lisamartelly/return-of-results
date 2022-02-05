@@ -13,7 +13,7 @@ function showItemDetails(evt) {
     fetch(`/${detailType}-details.json/${id}`)
     .then (response => response.json())
     .then (responseJson => {
-        const content = document.querySelector(".details-container");
+        const content = document.querySelector("#details-content");
 
         // participant detail display
         if (detailType === "participant") {
@@ -23,15 +23,14 @@ function showItemDetails(evt) {
             <p>Partitipant ID: ${responseJson.id}</p>
             <p>Phone: ${responseJson.phone}</p>
             <p>Email: ${responseJson.email}</p>
-            <a href="/participants/${responseJson.id}">See more details</a>
+            <a href="/participants/${responseJson.id}"><button class="button">See Participant Details</button></a>
             <br>
             <h3>Studies:</h3>
             `
         for (const study of responseJson.studies) {
         content.insertAdjacentHTML("beforeend",
             `<p><b>${study.study_name}</b></p>
-            <p>ID: ${study.study_id} Status: ${study.status}
-            <br>
+            <p>ID: ${study.study_id} Status: ${study.status}</p>
             `
         )};}
 
@@ -40,16 +39,18 @@ function showItemDetails(evt) {
             content.innerHTML =
             `
             <h3>${responseJson.name}</h3>
-            <p>Study ID: ${responseJson.id}</p>
-            <p>Status: ${responseJson.status}</p>
-            <p>Investigational Product: ${responseJson.product}</p>
-            <p>Investigator: ${responseJson.investigator_fname} ${responseJson.investigator_lname}
+            <p><b>Study ID:</b> ${responseJson.id}</p>
+            <p><b>Status:</b> ${responseJson.status}</p>
+            <p><b>Investigational Product:</b> ${responseJson.product}</p>
+            <p><b>Investigator:</b> ${responseJson.investigator_fname} ${responseJson.investigator_lname}</p>
 
-            <a href="/studies/${responseJson.id}">See more details</a>
+            <a href="/studies/${responseJson.id}"><button class="button" >See Study Details</button></a>
+            <br><br>
             `
         }
         content.style.display = "";
-        content.scrollIntoView({behavior: 'smooth'});
+        // scroll up to detail display incase out of view
+        document.querySelector('.details-container').scrollIntoView({behavior: 'smooth'});
     });
 }
 // hides details content until a link is clicked

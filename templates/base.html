@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" crossorigin></script>
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://kit.fontawesome.com/8347360653.js" crossorigin="anonymous"></script>
     
   </head>
   <body>
@@ -18,18 +19,27 @@
 <body>
 
     <div id="left" class="column flex-nav">
-        <div class="top-left"></div>
         {% if "user" in session %}
+        <div id="logo" class="top-left">
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-medical" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5A.5.5 0 0 1 8 4zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+              </svg> -->
+              <img src="/static/img/Logo3.png" width="150" height="70"/>
+        </div>
         <div class="bottom">
             <!-- nav bar for investigator (see everything and everyone) -->
             {% if session["user_type"] == "investigator" %}
             <div id="top-half">
-            <a class="nav-link" href="/"><div class="nav-item">HOME</div></a>
-            <a class="nav-link" href="/planning-1"><div class="nav-item">PLAN STUDY</div></a>
-            <a class="nav-link" href="/studies"><div class="nav-item">STUDIES</div></a> 
-            <a class="nav-link" href="/enroll-participant"><div class="nav-item">ENROLL PARTICIPANT</div></a> 
-            <a class="nav-link" href="/participants"><div class="nav-item">PARTICIPANTS</div></a>
-            <a class="nav-link" href="/results"><div class="nav-item">ADD RESULTS</div></a>
+            <a class="nav-link" href="/"><div class="nav-item">Home</div></a>
+            <p>Studies:</p>
+            <a class="nav-link" href="/planning-1"><div class="nav-item">Plan Study</div></a>
+            <a class="nav-link" href="/studies"><div class="nav-item">View Studies</div></a>
+            <p>Participants:</p>
+            <a class="nav-link" href="/enroll-participant"><div class="nav-item">Enroll Participant</div></a> 
+            <a class="nav-link" href="/participants"><div class="nav-item">View Participants</div></a>
+            <a class="nav-link" href="/results"><div class="nav-item">Add Results</div></a>
             </div>
             {% endif %}
             
@@ -41,14 +51,7 @@
             <a class="nav-link" href="/participant/my-results"><div class="nav-item">MY RESULTS</div></a>
             {% endif %}
 
-            <div id="bottom-half">
-                <div style="padding: 10px"> 
-                    Logged in as: {{session["user"]}}<br>
-                    User type: {{session["user_type"]}}<br>
-                </div> 
-                
-                <a class="nav-link" href="/logout"><div class="nav-item">Log Out</div></a> 
-            </div>
+            
         </div>
         {% endif %}
     </div>
@@ -57,8 +60,14 @@
             {% block header %}
             HEADER GOES HERE
             {% endblock %}
+            <div id="header-right-half">
+                <div style="color:#1D3557"> 
+                    {{session["user"]}}
+                </div> 
+                <a href="/logout"><button  class="button">Log Out</button></a>
+            </div>
         </div>
-        <div class="bottom">
+        <div class="bottom page-content">
             {% block body %}
             BODY OF PAGE GOES HERE
             {% endblock %}
