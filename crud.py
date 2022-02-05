@@ -15,7 +15,7 @@ def create_participant(email, fname, lname, dob, phone):
     return participant
 
 def create_investigator(fname, lname, phone, email):
-    """Create and return a new user."""
+    """Create and return a new investigator."""
 
     investigator = Investigator(fname=fname, lname=lname, email=email.lower(), phone=phone)
 
@@ -71,7 +71,7 @@ def create_result_plan(study_id, result_category, visit, urgency_potential, retu
     return result_plan
 
 def create_result(participant_id, result_plan_id, receive_decision):
-    """Create and return a new study."""
+    """Create and return a shell for forthcoming result and preconceived decision to receive it from participant"""
 
     result = Result(
         participant_id=participant_id,
@@ -201,6 +201,7 @@ def update_result(results, participant_id):
     db.session.commit()
 
     return "success"
+
   
 # CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT 
 # THEY CONSENTED TO RECEIVE
