@@ -127,13 +127,9 @@ def get_result_by_result_plan_by_participant(participant_id, result_plan_id):
 
     return Result.query.filter_by(result_plan_id = result_plan_id, participant_id = participant_id).first()
 
-def get_participant_by_email(email):
+def get_investigator_by_id(investigator_id):
     
-    return Participant.query.filter(Participant.email == email).first()
-
-def get_investigator_by_email(email):
-    
-    return Investigator.query.filter(Investigator.email == email).first()
+    return Investigator.query.get(investigator_id)
 
 def check_study_participant(study_id, participant_id):
     """ return participant-study link if they're enrolled in a study"""

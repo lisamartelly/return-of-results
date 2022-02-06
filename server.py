@@ -42,7 +42,11 @@ mail = Mail(app)
 @app.route('/')
 def show_homepage():
     if "user" in session:
-        return render_template('home.html')
+        if session["user_type"] == "participant":
+            user = crud.get_participant_by_id(session["user_id"])
+        elif session["user_type"] == "investigator":
+            user = crud.get_investigator_by_id(session["user_id"])
+        return render_template('home.html', user=user)
     else:
         return render_template('home-logged-out.html')
 

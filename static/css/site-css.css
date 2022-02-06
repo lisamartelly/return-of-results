@@ -17,6 +17,10 @@ body {
 
 }
 
+a {
+    color: #E63946;
+}
+
 .column {
     height: 100%;
     display: flex;
@@ -84,11 +88,10 @@ body {
     flex-grow: 1;
     overflow-y: auto;  /* adds scroll to this container */
     width: 100%;
-    
 }
 
 .page-content {
-    padding-top: 2.5%;
+    /* padding-top: 2.5%; */
     padding-left: 2.5%;
     width: 95%;
 }
@@ -174,6 +177,8 @@ ul#participant-info {
     margin-left: 0;
 }
 
+
+
 ul#participant-hcp-info {
     list-style-type: none;
     padding-left: 0;
@@ -199,14 +204,35 @@ ul#participant-hcp-info {
     flex-direction: row;
 }
 
-.list-page-item {
+ul#itemsList {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+}
 
+.list-page-item { /* styles for each nav div*/
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left:10px;
+    /* border-bottom: 1px solid rgba(3, 27, 78, 0.685); */
+    margin-bottom: 1px;
+    background-color: rgba(208, 206, 206, 0.4);
+}
+.list-page-item:hover {
+    background-color: rgba(208, 206, 206, 0.8);
+    color: #F1FAEE;
+}
+
+.list-page-item a {
+    text-decoration: none;
+    color: black;
 }
 
 .basic-box {
     padding: 5px 20px;
     border-radius: 10px;
     background-color: white;
+    margin-top: 20px;
 }
 
 .details-container {
@@ -236,14 +262,14 @@ ul#participant-hcp-info {
 .button {
     color: #F1FAEE;
     font-size:16px;
-    background-color: #E63946;
+    background-color: #3B3838;
     padding: 5px;
     border-radius: 5px;
-    border: 2px solid #E63946;
     cursor: pointer;
+    border: none;
 }
 .button:hover {
-    border: 2px solid #F1FAEE;
+    background-color: rgba(59, 56, 56, 0.7);
 }
 
 #update-details-button {

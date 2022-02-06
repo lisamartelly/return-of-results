@@ -7,6 +7,7 @@ document.querySelectorAll('#study_id').forEach(item => {
     item.value = urlParams.get('studyId')
 })
 
+//validate if a participant id is an already enrolled participant
 function checkParticipantId(evt) {
     evt.preventDefault();
 

@@ -10,7 +10,7 @@
 <div class="flex-container-generic">
     <div>
         <div class="basic-box">
-        <h3 class="text-color-emphasis">{{study.study_name}}</h3>
+        <h3>{{study.study_name}}</h3>
         <h3>ID: <span id="study-id">{{study.study_id}}</span></h3>
         <h3>Status: <span id="db_status">{{study.status}}</span></h3>
         <!-- <label>Update Status</label> -->
@@ -24,9 +24,9 @@
         <button id="change_study_status">Submit update</button>
         <div id="update-success"></div>
     </div>
-    <br><br>
+    
     <div class="basic-box">
-        <h3 class="text-color-emphasis">Tests and Result plans:</h3>
+        <h3>Tests and Result plans:</h3>
         <table>
             <thead>
                 <tr>
@@ -62,7 +62,7 @@
         <div class="flex-row list-page">
             <ul id="itemsList">
                 {% for participant in study.participants %}
-                <li class="detail-link"><a name="participant" id={{participant.participant_id}} href="#">{{participant.fname}} {{participant.lname}}</a></li>
+                <li class="detail-link list-page-item"><a name="participant" id={{participant.participant_id}} href="#"><div>{{participant.fname}} {{participant.lname}}</div></a></li>
                 {% endfor %}
             </ul>
             <div class="details-container">

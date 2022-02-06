@@ -8,10 +8,11 @@
 
 {% block body %}
 
-<div class="flex-container-generic">
+<!-- <div class="flex-container-generic"> -->
 
-<h3>Enroll Existing Participant:</h3>
-<div id="existing-enrollment-form">
+
+<div id="existing-enrollment-form" class="basic-box">
+    <h3 >Enroll Existing Participant:</h3>
     <form id="existing-enrollment-form" name="existing-enrollment-form" action="/enroll" method="POST" >
 
         <input type="hidden" id="existing" name="existing" value="yes">
@@ -34,12 +35,14 @@
     
     </form>
 
-<h3>Enroll a New Participant:</h3>
-<div id="enrollment-form">
+</div>
+
+<div id="enrollment-form" class="basic-box">
+    <h3 >Enroll a New Participant:</h3>
     <form id="enrollment-form" name="enrollment-form" action="/enroll" method="POST" >
         <input type="hidden" id="existing" name="existing" value="no">
         What study are you enrolling in?
-        <br>
+        
         <select id="study_id" name="study_id">
             <option selected disabled>Choose here</option>
             {% for study in studies %}

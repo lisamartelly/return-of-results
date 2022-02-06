@@ -6,8 +6,9 @@ function showItemDetails(evt) {
     evt.preventDefault();
     
     // gets ID of item and determines whether is participant or study
-    const id = evt.target.id
-    const detailType = evt.target.name
+    console.log(evt)
+    const id = evt.target.parentElement.id
+    const detailType = evt.target.parentElement.name
   
     // gets details for that item by ID, returns and renders in a detail box
     fetch(`/${detailType}-details.json/${id}`)
@@ -20,17 +21,17 @@ function showItemDetails(evt) {
             content.innerHTML =
             `
             <h3>${responseJson.fname} ${responseJson.lname}</h3>
-            <p>Partitipant ID: ${responseJson.id}</p>
-            <p>Phone: ${responseJson.phone}</p>
-            <p>Email: ${responseJson.email}</p>
+            <p><b>Partitipant ID:</b> ${responseJson.id}</p>
+            <p><b>Phone:</b> ${responseJson.phone}</p>
+            <p><b>Email:</b> ${responseJson.email}</p>
             <a href="/participants/${responseJson.id}"><button class="button">See Participant Details</button></a>
             <br>
-            <h3>Studies:</h3>
+            <h3>Studies ${responseJson.fname} is enrolled in:</h3>
             `
         for (const study of responseJson.studies) {
         content.insertAdjacentHTML("beforeend",
             `<p><b>${study.study_name}</b></p>
-            <p>ID: ${study.study_id} Status: ${study.status}</p>
+            <p><b>ID:</b> ${study.study_id} <b>Status:</b> ${study.status}</p>
             `
         )};}
 

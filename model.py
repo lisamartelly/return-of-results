@@ -168,13 +168,6 @@ def example_data():
     db.session.add_all([result1, result2, result3, result4])
     db.session.commit()
 
-    
-    
-    # db.session.add_all([participant1, participant2, investigator, study1, study2, ps1, ps2, 
-    #     result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2, result1, result2, result3, result4])
-
-    db.session.commit()
-
 
 def connect_to_db(flask_app, db_uri="postgresql:///irr", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
