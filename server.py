@@ -46,6 +46,7 @@ def show_homepage():
             user = crud.get_participant_by_id(session["user_id"])
         elif session["user_type"] == "investigator":
             user = crud.get_investigator_by_id(session["user_id"])
+        print(user)
         return render_template('home.html', user=user)
     else:
         return render_template('home-logged-out.html')
@@ -106,8 +107,8 @@ def show_add_results_page():
 def show_participant_their_details():
     if "user" not in session: return redirect('/')
 
-    participant_id = session['user_id']
-    participant = crud.get_participant_by_id(participant_id)
+    # participant_id = session['user_id']
+    participant = crud.get_participant_by_id(session['user_id'])
     print("participant.studies", participant.studies)
     return render_template('participant-my-details.html', participant=participant)
 
@@ -148,6 +149,7 @@ def login_user():
         if user:
             user_id = user.participant_id
     
+    print("************** LOGIN USER: ", user)
     if user:
         if password == user.password:
             session['user'] = user.email
@@ -165,7 +167,7 @@ def login_user():
 def register_user():
     email = request.form.get("email")
     password = request.form.get("password")
-    user_type = request.form.get("user-type")
+    user_type = request.form.get("user_type")
 
     #check if user in investigator or pt tables
     if user_type == "investigator":
