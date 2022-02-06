@@ -40,7 +40,7 @@ def create_study(investigator_id, study_name, investigational_product, status):
     return study
 
 def create_participantsstudies_link(participant_id, study_id):
-    """Create and return a new study."""
+    """Enroll a participant in a study by creating a link in the join table"""
 
     ps = ParticipantsStudies(
         participant_id=participant_id,
@@ -53,7 +53,7 @@ def create_participantsstudies_link(participant_id, study_id):
     return ps
 
 def create_result_plan(study_id, result_category, visit, urgency_potential, return_plan, test_name, return_timing):
-    """Create and return a new study."""
+    """Create a plan for an individual result/test that will be run for each participant in a study"""
 
     result_plan = Result_Plan(
         study_id=study_id,
@@ -71,7 +71,7 @@ def create_result_plan(study_id, result_category, visit, urgency_potential, retu
     return result_plan
 
 def create_result(participant_id, result_plan_id, receive_decision):
-    """Create and return a shell for forthcoming result and preconceived decision to receive it from participant"""
+    """Create and return a shell for forthcoming result and include the decision to receive it from participant"""
 
     result = Result(
         participant_id=participant_id,
@@ -91,7 +91,7 @@ def return_all_studies():
     return Study.query.all()
 
 def return_all_investigators():
-    """Return all studies"""
+    """Return all investigators"""
     return Investigator.query.all()
 
 def return_all_participants():
@@ -119,6 +119,7 @@ def get_participant_by_id(participant_id):
     return Participant.query.get(participant_id)
 
 def get_result_by_id(result_id):
+    """ return a result shell based on id"""
 
     return Result.query.get(result_id)
 
@@ -128,14 +129,17 @@ def get_result_by_result_plan_by_participant(participant_id, result_plan_id):
     return Result.query.filter_by(result_plan_id = result_plan_id, participant_id = participant_id).first()
 
 def get_investigator_by_id(investigator_id):
+    """ return investigator by id"""
     
     return Investigator.query.get(investigator_id)
 
 def get_investigator_by_email(email):
+    """ return investigator based on email - for login purposes"""
 
     return Investigator.query.filter(Investigator.email == email).first()
 
 def get_participant_by_email(email):
+    """ return participant based on email - for login purposes"""
 
     return Participant.query.filter(Participant.email == email).first()
 
@@ -159,7 +163,7 @@ def get_hcp_info(participant_id):
 # UPDATES
 
 def update_receive_decision(participant_id, result_plan_id, receive_decision):
-    """Update decision"""
+    """Update participant's decision to receive a result"""
     
     Result.query.filter_by(result_plan_id = result_plan_id, participant_id = participant_id).update({"receive_decision": receive_decision})
     db.session.commit()
@@ -174,9 +178,8 @@ def add_password(user_type, email, password):
     db.session.commit()
 
 def update_attr_by_category_and_id(input_dict, category, item_id):
-    """ update any attribute of participant or study when specifying category and id"""
+    """ update attributes of participant or study when specifying object category and id, and providing attributes and values in a dict"""
 
-    print("************item ID: ", item_id)
     if category == "participant":
         item = get_participant_by_id(item_id)
     elif category == "study":
@@ -207,9 +210,9 @@ def update_result(results, participant_id):
     return "success"
 
   
-# CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT 
-# THEY CONSENTED TO RECEIVE
+# CHECK IF A PARTICIPANT HAS BEEN NOTIFIED ABOUT ANY AVAILABLE NON URGENT RESULTS THAT THEY CONSENTED TO RECEIVE
 def check_if_should_notify(participant_id):
+    """ upon results input and study status change, check if a participant should be notified about results in their portal"""
     participant = get_participant_by_id(participant_id)
     notification = {'code': 0, 'msg': ''}
     for result in participant.results:
@@ -234,7 +237,6 @@ def check_if_should_notify(participant_id):
 def mark_notified(participant_id):
     """ mark any result as notified after notification was sent that new results were available"""
     participant = get_participant_by_id(participant_id)
-    print("********************i'm in notified")
 
     for result in participant.results:
         if result.result_value != None:
@@ -243,7 +245,6 @@ def mark_notified(participant_id):
             elif result.receive_decision is True and result.result_plan.return_plan is True:
                 if result.result_plan.study.status in ['Planning', 'Active'] and result.result_plan.return_timing == "during":
                     setattr(result, 'notified', True)
-                    print("*******************supposed to be here")
                 elif result.result_plan.study.status in ['Closed/Analysis', 'Published'] and result.result_plan.return_timing in ['during', 'after']:
                     setattr(result, 'notified', True)
 

@@ -119,7 +119,7 @@ class Result(db.Model):
         return f'participant: {self.participant.participant_id}, result value: {self.result_value} result id: {self.result_id}'
 
 def example_data():
-    """example data created for testing"""
+    """example data created for integration testing"""
 
     # In case this is run more than once, empty out existing data
     Participant.query.delete()
@@ -163,7 +163,7 @@ def example_data():
     db.session.add_all([ps1, ps2])
     db.session.commit()
 
-    # Add result shells and participant decisions
+    # Add result shells and participant decisions for testing result rendering for study 2 when it's in the planning phase
     result1 = Result(participant_id=1, result_plan_id=1, receive_decision=True)
     result2 = Result(participant_id=1, result_plan_id=2, receive_decision=None)
     result3 = Result(participant_id=2, result_plan_id=3, receive_decision=False, result_value="NO CONSENT NOT URGENT - THIS SHOULD NOT DISPLAY", urgent=False)
