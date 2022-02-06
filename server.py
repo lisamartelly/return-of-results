@@ -107,27 +107,21 @@ def show_add_results_page():
 def show_participant_their_details():
     if "user" not in session: return redirect('/')
 
-    # participant_id = session['user_id']
     participant = crud.get_participant_by_id(session['user_id'])
-    print("participant.studies", participant.studies)
     return render_template('participant-my-details.html', participant=participant)
 
 @app.route('/participant/my-studies')
 def show_participant_their_studies():
     if "user" not in session: return redirect('/')
 
-    participant_id = session['user_id']
-    participant = crud.get_participant_by_id(participant_id)
-    print("participant.studies", participant.studies)
+    participant = crud.get_participant_by_id(session['user_id'])
     return render_template('participant-my-studies.html', participant=participant)
 
 @app.route('/participant/my-results')
 def show_participant_their_results():
     if "user" not in session: return redirect('/')
 
-    participant_id = session['user_id']
-    participant = crud.get_participant_by_id(participant_id)
-    print("participant.studies", participant.studies)
+    participant = crud.get_participant_by_id(session['user_id'])
     return render_template('participant-my-results.html', participant=participant)
 
 ##################### FORM PROCESSING AND OTHER REDIRECTS #############################
@@ -140,6 +134,7 @@ def login_user():
     password = request.form.get("password")
     user_type = request.form.get("user_type")
 
+    # check if login-er is a registered user by checking email
     if user_type == "investigator":
         user = crud.get_investigator_by_email(email)
         if user:
@@ -149,7 +144,7 @@ def login_user():
         if user:
             user_id = user.participant_id
     
-    print("************** LOGIN USER: ", user)
+    # if user's email is registered, check if password is correct
     if user:
         if password == user.password:
             session['user'] = user.email
@@ -191,7 +186,6 @@ def logout_user():
     if "user" in session:
         session.pop("user")
         session.pop("user_type")
-        # session.pop("user_id")
         return render_template('home-logged-out.html')
     else:
         return render_template('home-logged-out.html')
@@ -214,6 +208,7 @@ def plan_two():
     dict_visits = {visit: 0 for visit in request.form.getlist("visits")}
     investigator_id = request.form.get("study-investigator")
     study_name = request.form.get("study-name")
+
     if request.form.get('num-visits'):
         num_visits = request.form.get('num-visits')
     else:
@@ -225,8 +220,6 @@ def plan_two():
     session['visits'] = dict_visits
     session['study_name'] = study_name
     session['investigator_id'] = investigator_id
-
-    print("session 2: ",session)
 
     if session['study_name'] == '':
         return redirect('/planning-1')
@@ -464,7 +457,6 @@ def return_visits(study_id):
             "test_name" : result_plan.test_name,
             "visit" : result_plan.visit,
             })
-    print("~~~~~~~FROM SERVER JSON SENDING VISITS AND TESTS: ", results)
     return jsonify(results)
 
 # RETURN DETAILS ABOUT A PARTICIPANT

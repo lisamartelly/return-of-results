@@ -85,22 +85,21 @@
                 </tbody>
 
 
-            </table>           
+            </table>    
+            <div class="flex-center">
+                <div>
+                    <p>If you have questions about the results returned/not returned in this study, contact the study investigator:</p>
+                    <p>Name: {{study.investigator.fname}} {{study.investigator.lname}}
+                        Phone: {{study.investigator.phone}}
+                        Email: {{study.investigator.email}}</p>
+                </div>
+            </div>
+    
+            <div class="flex-center">
+                <button type="submit" class="button">Submit</button>
+            </div>       
         </form>
 
-        <div class="flex-center">
-            <div>
-                <p>If you have questions about the results returned/not returned in this study, contact the study investigator:</p>
-                <p>Name: {{study.investigator.fname}} {{study.investigator.lname}}
-                    Phone: {{study.investigator.phone}}
-                    Email: {{study.investigator.email}}</p>
-            </div>
-        </div>
-
-        <div class="flex-center">
-            <button type="submit" class="button">Submit</button>
-        </div>
-        
         
     </div>
 </div>

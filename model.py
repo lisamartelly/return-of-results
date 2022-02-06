@@ -146,12 +146,14 @@ def example_data():
     db.session.add_all([study1, study2])
     db.session.commit()
 
-    # Add result plans for 2 results in each study
+    # Add result plans for each study
     result_plan1_1 = Result_Plan(study_id=1, result_category="actionable", visit="recruitment", urgency_potential=True, return_plan=True, test_name="fake first test", return_timing="after")
     result_plan1_2 = Result_Plan(study_id=1, result_category="unknown", visit="consent", urgency_potential=False, return_plan=False, test_name="fake second test", return_timing="not applicable")
     result_plan2_1 = Result_Plan(study_id=2, result_category="personally valuable", visit="study-visit-1", urgency_potential=False, return_plan=True, test_name="fake third test", return_timing="during")
     result_plan2_2 = Result_Plan(study_id=2, result_category="unknwon", visit="study-visit-2", urgency_potential=False, return_plan=False, test_name="fake fourth test", return_timing="not applicable")
-    db.session.add_all([result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2])
+    result_plan2_3 = Result_Plan(study_id=2, result_category="actionable", visit="study-visit-2", urgency_potential=True, return_plan=True, test_name="fake test 5", return_timing="after")
+    result_plan2_4 = Result_Plan(study_id=2, result_category="unknown", visit="consent", urgency_potential=True, return_plan=True, test_name="fake test 6", return_timing="during")
+    db.session.add_all([result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2, result_plan2_3, result_plan2_4])
     db.session.commit()
 
     # Enroll first participant in first study and second participant in second study
@@ -163,9 +165,12 @@ def example_data():
     # Add result shells and participant decisions
     result1 = Result(participant_id=1, result_plan_id=1, receive_decision=True)
     result2 = Result(participant_id=1, result_plan_id=2, receive_decision=None)
-    result3 = Result(participant_id=2, result_plan_id=3, receive_decision=False)
-    result4 = Result(participant_id=2, result_plan_id=4, receive_decision=None)
-    db.session.add_all([result1, result2, result3, result4])
+    result3 = Result(participant_id=2, result_plan_id=3, receive_decision=False, result_value="NO CONSENT NOT URGENT - THIS SHOULD NOT DISPLAY", urgent=False)
+    result4 = Result(participant_id=2, result_plan_id=4, receive_decision=None, result_value="URGENT NO RETURN - THIS SHOULD DISPLAY", urgent=True)
+    result5 = Result(participant_id=2, result_plan_id=5, receive_decision=True, result_value="NON URGENT, RETURN AFTER - THIS SHOULD NOT DISPLAY", urgent=False)
+    result6 = Result(participant_id=2, result_plan_id=6, receive_decision=True, result_value="NON URGENT, RETURN DURING, CONSENTED - THIS SHOULD DISPLAY", urgent=False)
+
+    db.session.add_all([result1, result2, result3, result4, result5, result6])
     db.session.commit()
 
 

@@ -1,13 +1,13 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 import crud
 from model import connect_to_db, db, example_data
 from server import app
-from flask import session, json
+from flask import session, json, render_template
 
 ####################     UNIT TESTS     ########################
 
-# mocked 'unit test'
+# mocked db
 @patch('crud.db')
 def test_create_participant(db_mock):
     crud.create_participant(email="123@123.com",
@@ -18,7 +18,6 @@ def test_create_participant(db_mock):
     
     db_mock.session.add.assert_called_once()
     db_mock.session.commit.assert_called_once()
-
 
 ####################  INTEGRATION TESTS  ##################
 
@@ -114,7 +113,7 @@ class FlaskTestsLoggedInAsInvestigator(unittest.TestCase):
         """Test participants page when logged in as investigator."""
 
         result = self.client.get("/participants")
-        self.assertIn(b'<li class="detail-link"><a name="participant" id=1 href="#">First Participant</a></li>', result.data)
+        self.assertIn(b'<li class="detail-link list-page-item"><a name="participant" id=1 href="#"><div>First Participant</div></a></li>', result.data)
 
     def test_enroll_participant(self):
         """Test enrolling an existing participant"""
@@ -134,8 +133,43 @@ class FlaskTestsLoggedInAsInvestigator(unittest.TestCase):
 
         self.assertIn(b"<td>TEST-43435-TEST-RESULT-VAL</td>", result.data)
 
+class FlaskTestsLoggedInAsParticipant(unittest.TestCase):
+    """Flask tests with user logged in to session."""
 
+    def setUp(self):
+        """Stuff to do before every test."""
 
+        app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = 'key'
+        self.client = app.test_client()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user'] = "second_participant@test.com"
+                sess['user_type'] = "participant"
+                sess['user_id'] = 2
+
+        # Connect to test database
+        connect_to_db(app, "postgresql:///testdb")
+
+        # Create tables and add sample data
+        db.create_all()
+        example_data()
+
+    def tearDown(self):
+        """Do at end of every test."""
+
+        db.session.remove()
+        db.drop_all()
+        db.engine.dispose()
+
+    def test_results_render(self):
+
+        result = self.client.get("/participant/my-results")
+        self.assertIn(b'URGENT NO RETURN - THIS SHOULD DISPLAY', result.data)
+        self.assertIn(b'NON URGENT, RETURN DURING, CONSENTED - THIS SHOULD DISPLAY', result.data)
+        self.assertNotIn(b'NO CONSENT NOT URGENT - THIS SHOULD NOT DISPLAY', result.data)
+        self.assertNotIn(b'NON URGENT, RETURN AFTER - THIS SHOULD NOT DISPLAY', result.data)
 
 if __name__ == "__main__":
 
