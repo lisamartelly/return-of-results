@@ -170,6 +170,7 @@ class FlaskTestsLoggedInAsParticipant(unittest.TestCase):
         self.assertIn(b'NON URGENT, RETURN DURING, CONSENTED - THIS SHOULD DISPLAY', result.data)
         self.assertNotIn(b'NO CONSENT NOT URGENT - THIS SHOULD NOT DISPLAY', result.data)
         self.assertNotIn(b'NON URGENT, RETURN AFTER - THIS SHOULD NOT DISPLAY', result.data)
+        self.assertIn(b'URGENT, RETURN AFTER - THIS SHOULD DISPLAY', result.data)
 
 if __name__ == "__main__":
 

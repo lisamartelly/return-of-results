@@ -153,7 +153,8 @@ def example_data():
     result_plan2_2 = Result_Plan(study_id=2, result_category="unknwon", visit="study-visit-2", urgency_potential=False, return_plan=False, test_name="fake fourth test", return_timing="not applicable")
     result_plan2_3 = Result_Plan(study_id=2, result_category="actionable", visit="study-visit-2", urgency_potential=True, return_plan=True, test_name="fake test 5", return_timing="after")
     result_plan2_4 = Result_Plan(study_id=2, result_category="unknown", visit="consent", urgency_potential=True, return_plan=True, test_name="fake test 6", return_timing="during")
-    db.session.add_all([result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2, result_plan2_3, result_plan2_4])
+    result_plan2_5 = Result_Plan(study_id=2, result_category="personally_valuable", visit="recruitment", urgency_potential=False, return_plan=True, test_name="fake test 7", return_timing='after')
+    db.session.add_all([result_plan1_1, result_plan1_2, result_plan2_1, result_plan2_2, result_plan2_3, result_plan2_4, result_plan2_5])
     db.session.commit()
 
     # Enroll first participant in first study and second participant in second study
@@ -169,8 +170,9 @@ def example_data():
     result4 = Result(participant_id=2, result_plan_id=4, receive_decision=None, result_value="URGENT NO RETURN - THIS SHOULD DISPLAY", urgent=True)
     result5 = Result(participant_id=2, result_plan_id=5, receive_decision=True, result_value="NON URGENT, RETURN AFTER - THIS SHOULD NOT DISPLAY", urgent=False)
     result6 = Result(participant_id=2, result_plan_id=6, receive_decision=True, result_value="NON URGENT, RETURN DURING, CONSENTED - THIS SHOULD DISPLAY", urgent=False)
+    result7 = Result(participant_id=2, result_plan_id=7, receive_decision=True, result_value="URGENT, RETURN AFTER - THIS SHOULD DISPLAY", urgent=True)
 
-    db.session.add_all([result1, result2, result3, result4, result5, result6])
+    db.session.add_all([result1, result2, result3, result4, result5, result6, result7])
     db.session.commit()
 
 
