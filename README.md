@@ -68,7 +68,7 @@ Specific Study/Participant pages feature all of the relevant details about a sel
 
 For studies, changing the study status triggers an automatic check for every enrolled participant to see if results can now be displayed to them (if any were withheld until a particular study status). As with results input, this check will notify them of their results and mark them as "notified".
 
-### Most important business need: hiding/displaying results to participants based on heirerarchical factors
+### Most important business need: hiding/displaying results to participants based on hierarchical factors
 
 Conditional logic determines whether and when a result should be displayed to a participant on their portal. This is of paramount importance, as improper results return could un-blind participants and present a serious risk to study integrity, or end in legal ramifications if the participant either did not want to receive information that was given to them or was not informed of an urgent medical situation that the study revealed.
 
