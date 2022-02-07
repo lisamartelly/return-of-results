@@ -33,7 +33,8 @@ Returning Research Results is an app built on a Flask server with a PostgreSQL d
 
 
 ### Login, Registration, Permissions
-Login and registration features differentiate investigators from participants, and page displays are restricted accordingly. Registration is limited to accounts that were created by an investigator or administrator, and reference the tables of existing accounts according to user email.
+
+Login/registration differentiate investigators from participants and restrict pages accordingly. Registration is limited to accounts that were set up by an investigator or administrator.
 
 Participants are restricted from investigator pages and are limited to only viewing information about themselves.
 
@@ -41,9 +42,7 @@ Logged out users are automatically redirected to the log in page.
 
 ### Study and Result Planning with Dynamic Forms
 
-The flexible planning tool gathers all of the information needed to display certain results to participants at the right time, and enable them to make an informed decision as to whether or not they'd like to receive them. It allows for maximum flexibility for both investigators and participants.
-
-This planning process was created using a Flask session and redirects to dynamically create additional form fields based on user input. This was the first feature built in this project - subsequent dynamic forms used javascript and react.
+The planning tool gets all of the required data to create an automated process to display results to participants at the right time (if at all). It allows for maximum flexibility for both investigators and participants and responds dynamically to user input.
 
 ### Enrollment in research studies & gathering participant decisions
 
@@ -52,7 +51,6 @@ Participants can be enrolled in studies as "new" or "existing" participants. The
 When a participant is enrolled in a study, they are immediately offered choices as to whether or not they would like to receive the results that will be returned from the study. This page includes all of the information that could be relevant to a participant to make their decision.
 
 These decisions can be updated by participants themselves at any point, or by investigators if they are instructed to update them by participants.
-
 
 ### Dynamic Results Input Using React + Automated Email Notifications
 
@@ -64,9 +62,9 @@ If a result is marked as urgent, the participant's healthcare provider contact i
 
 ### Detail Display and On-Page Edits using Javascript
 
-On the Studies and Participant pages, the app displays key details of a selected item without loading a new page. It also has an automatic scroll-up feature in case the detail display is loaded out of view.
+On the Studies and Participant pages, the app displays key details of a selected item without loading a new page.
 
-Participant Detail and Study Detail pages feature all of the relevant details about a selected item, and both include methods to update information on that page without reloading.
+Specific Study/Participant pages feature all of the relevant details about a selected item, and both include methods to update information on that page directly, without reloading.
 
 For studies, changing the study status triggers an automatic check for every enrolled participant to see if results can now be displayed to them (if any were withheld until a particular study status). As with results input, this check will notify them of their results and mark them as "notified".
 
@@ -80,7 +78,7 @@ Conditional logic has been worked into the server-side rendering of results to d
 
 A key advantage of this automated process is that the investigator does not need to think through the factors and determine for each result for each participant whether or not it should be returned.
 
-[Integration tests](https://github.com/lmmurray/returning-results/blob/753f154ae90e53c6793eb9f552e756fd545f9930/tests.py#L166) check various combinations of these factors that determine result display.
+[Integration tests](https://github.com/lmmurray/returning-results/blob/753f154ae90e53c6793eb9f552e756fd545f9930/tests.py#L166) check various [combinations](https://github.com/lmmurray/returning-results/blob/753f154ae90e53c6793eb9f552e756fd545f9930/model.py#L152-L156) of these factors that determine result display.
 
 
 ## For Version 2.0
