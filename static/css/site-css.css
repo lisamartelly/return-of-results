@@ -30,10 +30,10 @@ a {
 
 #left {
     flex-shrink: 0;  /* makes sure that content is not cut off in a smaller browser window */
-    background: linear-gradient(200deg, rgba(29,53,87,1) 65%, rgba(69,123,157,1) 100%) !important;
+    background: linear-gradient(200deg, rgba(29,53,87,1) 55%, rgba(69,123,157,1) 100%) !important;
     color:#F1FAEE;
     display: flex;
-    flex: 0 0 160px;
+    flex: 0 0 140px;
     flex-direction: column;
     justify-content: space-around;
     text-decoration: none;
@@ -42,11 +42,15 @@ a {
 
 .top-left { /* where logo goes */
     flex-shrink: 0;
-    justify-content: center;
-
-    height:60px;
+    align-items: center;
+    height:50px;
     background-color: rgba(69,123,157,1);
+    background: linear-gradient(90deg, rgb(15, 39, 63) 60%, rgba(69,123,157,1) 98%);
     display: flex;
+}
+
+.top-left#logo {
+    padding-left: 10px;
 }
 
 /* #logo { MOVED THIS INTO TOP LEFT
@@ -65,10 +69,11 @@ a {
     flex-shrink: 0;
     display: inline-flex;
     justify-content: space-between;
+    align-items: center;
     background: linear-gradient(90deg, rgba(69,123,157,1) 0%, rgba(168,218,220,1) 100%);
     color: #F1FAEE;
-    min-height: 60px;
-    max-height: 60px;
+    min-height: 50px;
+    max-height: 50px;
     display: flex;
     width: 100%;
 }
@@ -88,6 +93,11 @@ a {
     flex-grow: 1;
     overflow-y: auto;  /* adds scroll to this container */
     width: 100%;
+}
+
+#right .bottom{
+    box-shadow: 7px 7px 5px -5px grey inset;
+
 }
 
 .page-content {
@@ -232,6 +242,7 @@ ul#itemsList {
     padding: 5px 20px;
     border-radius: 10px;
     background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-top: 20px;
 }
 
