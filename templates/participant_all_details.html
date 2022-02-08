@@ -47,7 +47,7 @@
         <tbody>
             {% for study in participant.studies %}
             <tr>
-                <td>{{study.study_name}}</td>
+                <td><a href="/studies/{{study.study_id}}">{{study.study_name}}</a></td>
                 <td>{{study.study_id}}</td>
                 <td>{{study.status}}</td>
                 <td><a href="/results?participantId={{participant.participant_id}}&studyId={{study.study_id}}">Add results</a></td>
