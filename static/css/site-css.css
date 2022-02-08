@@ -146,6 +146,10 @@ a.nav-link {
     align-items: flex-start;
 }
 
+#result-details .planning {
+    background-color:rgba(243, 243, 243, 0.8);
+}
+
 .planning-num {
     color: rgba(69,123,157,1);
 }
@@ -154,7 +158,20 @@ a.nav-link {
   width: 30% !important;
 }
 
+#study-details .flex-row {
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
 .plan-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content:flex-start;
+    width: 90%;
+}
+
+.plan-3 {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -200,6 +217,10 @@ ul#participant-hcp-info {
     justify-content: space-between;
 }
 
+.list-page .flex-row {
+    align-items:flex-start;
+}
+
 .list-page {
     justify-content: space-between;
     flex-direction: row;
@@ -230,7 +251,7 @@ ul#itemsList {
 }
 
 .basic-box {
-    padding: 5px 20px;
+    padding: 5px 20px 10px 20px;
     border-radius: 10px;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

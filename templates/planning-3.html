@@ -7,31 +7,31 @@
 {% endblock %}
 
 {% block body %}
-
+<div class= "basic-box">
 <div class="flex-row">
 <h1 class="planning-num">4</h1>
-<h2 class="plan-2">Add each result for each visit:</h2>
+<h2 class="plan-3">Add each result for each visit:</h2>
 </div>
 <div id="planning-form" class="flex-row">
 <div></div>
 
 {% for visit in dict_visits %}
 
-<form id="result-details" class="plan-2" action="/plan-study" method="POST">
+<form id="result-details" class="plan-3" action="/plan-study" method="POST">
     
     <h3> {{ visit }} </h3>
     <div class= "flex-row">
     {% for i in range(dict_visits[visit]) %}
     <div class="basic-box planning" id={{visit}}> 
         <br>
-        Test name:
+        <b>Test name:</b>
         <input type="text" name="{{visit}}-test{{i}}-test-name" required> 
         <br>
 
         Is there a possibility for this test result to be urgent?
         <br>
         <input type="radio" id="{{visit}}-urgency-potential" name="{{visit}}-test{{i}}-urgency-potential" value="yes" required>
-            <label>Yes</label><br>
+            <label>Yes</label>
         <input type="radio" id="{{visit}}-urgency-potential" name="{{visit}}-test{{i}}-urgency-potential" value="no">
             <label>No</label><br>
         <br>
@@ -49,7 +49,7 @@
         Are you going to return this result?
         <br>
         <input type="radio" class="{{visit}}-test{{i}} return_plan" name="{{visit}}-test{{i}}-return_plan" value="yes" required>
-            <label>Yes</label><br>
+            <label>Yes</label>
         <input type="radio" class="{{visit}}-test{{i}} return_plan" name="{{visit}}-test{{i}}-return_plan" value="no">
             <label>No</label><br>
         <br>
@@ -59,12 +59,13 @@
             When are you going to return this result?     
             <br>
             <input type="radio" id="{{visit}}-test{{i}}-return_timing" name="{{visit}}-test{{i}}-return_timing" value="during">
-                <label for="during">During the study</label><br>
+                <label for="during">During the study</label>
             <input type="radio" id="{{visit}}-test{{i}}-return_timing"  name="{{visit}}-test{{i}}-return_timing" value="after">
-                <label for="after">After the study</label><br>
+                <label for="after">After the study</label>
             </div>
     </div>
     {% endfor %}
+    <br><br>
     </div>
 {% endfor %}
 
@@ -74,6 +75,7 @@
     
 </form>
 
+</div>
 </div>
 
 
