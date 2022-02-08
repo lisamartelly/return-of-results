@@ -398,7 +398,7 @@ def check_and_notify_after_study_status_changed(study_id):
             mail.send(msg)
             crud.mark_notified(participantstudylink.participant_id)
     
-    return 'Participants notified if applicable'
+    return 'Status updated and participants notified of results if applicable'
 
 
 ################## JSON ROUTES #############################

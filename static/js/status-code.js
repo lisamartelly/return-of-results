@@ -22,6 +22,7 @@ document.querySelector('#change_study_status').addEventListener('click', () => {
     fetch(`/study-change-email/${itemId}`)
     .then(response => response.text())
     .then(responseText => {
-        document.querySelector('#update-success').innerHTML = responseText
+        // document.querySelector('#update-success').innerHTML = responseText;
+        alert(responseText);
     })
 })

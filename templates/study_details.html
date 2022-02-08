@@ -10,7 +10,7 @@
 <div class="flex-container-generic">
     <div>
         <div class="basic-box">
-        <h3>{{study.study_name}}</h3>
+        <h2>{{study.study_name}}</h2>
         <h3>ID: <span id="study-id">{{study.study_id}}</span></h3>
         <h3>Status: <span id="db_status">{{study.status}}</span></h3>
         <!-- <label>Update Status</label> -->
@@ -21,12 +21,12 @@
             <option value="Closed/Analysis">Closed/Analysis</option>
             <option value="Published">Published</option>
         </select>
-        <button class="button" id="change_study_status">Submit update</button>
-        <div id="update-success"></div>
+        <button class="button" id="change_study_status">Submit update</button><span id="update-success"></span>
+        
     </div>
     
     <div class="basic-box">
-        <h3>Tests and Result plans:</h3>
+        <h2>Tests and Result plans</h2>
         <table>
             <thead>
                 <tr>
@@ -53,12 +53,34 @@
         </table>
         </div>
 
-        <div class="between-row">
-        <h3>Study Participants:</h3>
-        <a href="/enroll-participant?studyId={{study.study_id}}"><button class="button">Enroll a new participant</button></a>
-        </div>
+        <!-- <div class="between-row">
+        <div></div>
+        <a href="/enroll-participant?studyId={{study.study_id}}"><button class="button page-bottom-button">Enroll a new participant</button></a>
+        </div> -->
+
+        <div class="list-page">
+            <div class="flex-row list-page">
+                <div style="width: 40%" class="basic-box">
+                    <h2>Study Participants</h2>
+                    <div >
+                        <b>Search for a Participant: </b><input type="text" id="searchInput" onkeyup="searchBar()" placeholder="Begin tying a name"/>
+                    </div>
+                    <br>
+                    <b>All Participants: </b>
+                    <ul id="itemsList">
+                    {% for participant in study.participants %}
+                    <li class="detail-link list-page-item"><a name="participant" id={{participant.participant_id}} href="#"><div>{{participant.fname}} {{participant.lname}}</div></a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                <div class="details-container">
+                    <a href="/enroll-participant?studyId={{study.study_id}}"><button class="button page-bottom-button">Enroll a new participant in this study</button></a>
         
-        <input type="text" id="searchInput" onkeyup="searchBar()" placeholder="Search for names.."/> 
+                    <div id="details-content" class="basic-box"></div>
+                </div>
+            </div>
+        
+        <!-- <input type="text" id="searchInput" onkeyup="searchBar()" placeholder="Search for names.."/> 
         <div class="flex-row list-page">
             <ul id="itemsList">
                 {% for participant in study.participants %}
@@ -68,7 +90,7 @@
             <div class="details-container">
                 <div id="details-content"></div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 

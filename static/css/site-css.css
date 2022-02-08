@@ -135,6 +135,7 @@ a {
 a.nav-link, .dropdown-button {
     color: #F1FAEE;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .dropdown-container {
@@ -150,6 +151,12 @@ a.nav-link, .dropdown-button {
 }
   
 .bi-chevron-down {
+    float: right;
+    padding-right: 8px;
+    padding-top: 8px;
+  }
+
+.bi-chevron-up {
     float: right;
     padding-right: 8px;
     padding-top: 8px;
@@ -273,7 +280,7 @@ ul#itemsList {
 }
 
 .basic-box {
-    padding: 5px 20px 10px 20px;
+    padding: 1px 20px 20px 20px;
     border-radius: 10px;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -320,6 +327,7 @@ ul#itemsList {
 .page-bottom-button {
     margin-top: 20px;
     margin-bottom: 20px;
+    width: 78%;
 }
 
 #update-details-button {
