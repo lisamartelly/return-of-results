@@ -11,7 +11,8 @@
     <div id="planning-form">
         
         <form id="result-details" action="/planning-2" method="POST">
-            <div class="flex-plan-row">
+            <div class="flex-row basic-box">
+                <div><h1 class="planning-num">1</h1></div>
                 <div class="planning">
                     <h3>Enter the name of the study and the name of the principal investigator</h3>
                 </div>
@@ -28,10 +29,10 @@
                     </select>
                 </div>
             </div>
-            <div class="flex-plan-row">
+            <div class="flex-row basic-box">
+                <div><h1 class="planning-num">2</h1></div>
                 <div class="planning">
-                    <h3>Enter the number of study visits that will occur duing this study where data will be collected.
-                        If data will not be collected at a visit then it does not need to be included in this planning process.
+                    <h3>Select specific visits and/or enter the number of other study visits during this study where ANY data will be collected from participants.
                     </h3>
                 </div>
                 <div class="planning">
@@ -44,7 +45,7 @@
                     <label for="num-visits">Additional study visits</label>
                     <input type="text" id="num-visits" name="num-visits"min="0" max="100">
                     <br><br>
-                    <input type=submit value="Next">
+                    <button type=submit class="button">Next</button>
                 </div>
             </div>
             

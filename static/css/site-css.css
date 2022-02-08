@@ -49,15 +49,9 @@ a {
     display: flex;
 }
 
-.top-left#logo {
+#logo {
     padding-left: 10px;
 }
-
-/* #logo { MOVED THIS INTO TOP LEFT
-    height:60px;
-    background-color: rgba(69,123,157,1);
-    display: flex;
-} */
 
 #right {
     width: 100vw;
@@ -130,7 +124,7 @@ a {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left:10px;
-    border-bottom: 1px solid rgba(241,250,238,.5);
+    /* border-bottom: 1px solid rgba(241,250,238,.5); */
     /* border-bottom: 1px solid #F1FAEE; */
 }
 .nav-item:hover {
@@ -143,43 +137,36 @@ a.nav-link {
     text-decoration: none;
 }
 
-.flex-center {
-    display: flex;
-    justify-content: center;
-}
-
-/* .flex-plan-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: baseline;
-} */
-
 .planning {
     width: 40%;
 }
 
+#result-details .flex-row {
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.planning-num {
+    color: rgba(69,123,157,1);
+}
+
+.test {
+  width: 30% !important;
+}
+
+.plan-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content:flex-start;
+    width: 90%;
+}
+
+
+
 .search {
     padding-top: 20px;
 }
-
-.text-color-emphasis {
-    color: #E63946 !important;
-}
-
-.flex-box-generic {
-    width: 35%;
-    border-radius: 10px;
-    background-color: white;
-    margin: 10px;
-    padding: 10px;
-}
-
-/* ul {
-    display: inline-flex;
-    list-style: none;
-} */
 
 ul#participant-info {
     list-style-type: none;
@@ -187,19 +174,23 @@ ul#participant-info {
     margin-left: 0;
 }
 
-
-
 ul#participant-hcp-info {
     list-style-type: none;
     padding-left: 0;
     margin-left: 0;
 }
 
+.flex-center {
+    display: flex;
+    justify-content: center;
+}
+
 .flex-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .between-row {
@@ -281,6 +272,11 @@ ul#itemsList {
 }
 .button:hover {
     background-color: rgba(59, 56, 56, 0.7);
+}
+
+.page-bottom-button {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #update-details-button {

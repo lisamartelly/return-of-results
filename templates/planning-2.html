@@ -10,23 +10,32 @@
 
 <div class="flex-container-generic">
 
-<h3>Add each result for each visit:</h3>
-<div id="planning-form">
-
-{% for visit in dict_visits %}
+<div id="planning-form" class="basic-box">
+<div class="flex-row">
+<h1 class="planning-num">3</h1>
+<div class=plan-2><h2>Specify the number of tests that will be run at each study visit:</h2>
 
 <form id="visit-details" action="/planning-3" method="POST">
-    <div class="test" id={{visit}}> 
-        <label for="num-tests">How many tests will you run at {{visit}}?</label>
-        <input type="text" id="{{visit}}-num-visits" name="{{visit}}-num-visits"min="0" max="100">
-   
-{% endfor %}
+    <table>
+    {% for visit in dict_visits %}
 
-<div>
-    <input type="submit"> 
-</div>
+    <tr>
+        <td width="30%"><h3>{{visit}}</h3></td>
+        <td width="60%"><p>How many tests will you run at {{visit}}?</p></td>
+        <td width="10%"><input type="number" id="{{visit}}-num-visits" name="{{visit}}-num-visits" placeholder="Enter number" min="0" max="100"></td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td width="30%"></td>
+        <td width="60%"></td>
+        <td><button type="submit" class="button">Next</button></td>
+    </tr>
+    
+</table>
 </form>
-
+</div>
+</div>
+</div>
 </div>
 
 {% endblock %}

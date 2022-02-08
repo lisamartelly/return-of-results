@@ -11,7 +11,7 @@
     <!-- if logged in as investigator -->
     {% if session["user_type"] == "investigator" %}
     <div class="flex-row">
-        <div class="flex-box-generic">
+        <div class="basic-box">
             <p>U R INVESTIGATOR</p>
             Your studies:
             <ul>
@@ -21,15 +21,15 @@
             {% endfor %}
         </div>
 
-        <div class="flex-box-generic">
+        <div class="basic-box">
             <p>do something</p>
         </div>
 
-        <div class="flex-box-generic">
+        <div class="basic-box">
             <p>do something</p>
         </div>
 
-        <div class="flex-box-generic">
+        <div class="basic-box">
             <p>do something</p>
         </div>
     </div>
@@ -38,7 +38,7 @@
     <!-- if logged in as participant -->
     {% if session["user_type"] == "participant" %}
     <div class="flex-row">
-        <div class="flex-box-generic">
+        <div class="basic-box">
             <h3>Participant To Do</h3>
             {% if user.hcp_fullname is none %}
             <a href="#">Add your doctors name</a>
@@ -49,15 +49,15 @@
 
         </div>
 
-        <div class="flex-box-generic">
+        <div class="basic-box">
             <p>do something</p>
         </div>
 
-        <div class="flex-box-generic">
+        <div class="basic-box">
             <p>do something</p>
         </div>
 
-        <div class="flex-box-generic">
+        <div class="basic-box">
             <p>do something</p>
         </div>
     </div>

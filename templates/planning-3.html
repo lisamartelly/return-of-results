@@ -8,18 +8,21 @@
 
 {% block body %}
 
-<div class="flex-container-generic">
-
-<h3>Add each result for each visit:</h3>
-<div id="planning-form">
+<div class="flex-row">
+<h1 class="planning-num">4</h1>
+<h2 class="plan-2">Add each result for each visit:</h2>
+</div>
+<div id="planning-form" class="flex-row">
+<div></div>
 
 {% for visit in dict_visits %}
 
-<form id="result-details" action="/plan-study" method="POST">
+<form id="result-details" class="plan-2" action="/plan-study" method="POST">
     
     <h3> {{ visit }} </h3>
+    <div class= "flex-row">
     {% for i in range(dict_visits[visit]) %}
-    <div class="test result-block" id={{visit}}> 
+    <div class="basic-box planning" id={{visit}}> 
         <br>
         Test name:
         <input type="text" name="{{visit}}-test{{i}}-test-name" required> 
@@ -38,6 +41,7 @@
         <label for="{{visit}}-result_category">Actionable</label>
         <input type="radio" id="{{visit}}-result_category" name="{{visit}}-test{{i}}-result_category" value="personally valuable">
         <label for="{{visit}}-result_category">Personally Valuable</label>
+        <br>
         <input type="radio" id="{{visit}}-result_category" name="{{visit}}-test{{i}}-result_category" value="unknown implications">
         <label for="{{visit}}-result_category">Unknown Implications</label>
         <br>
@@ -61,10 +65,11 @@
             </div>
     </div>
     {% endfor %}
+    </div>
 {% endfor %}
 
 <div>
-    <input type="submit"> 
+    <button class="button page-bottom-button" type=submit>Submit Plan & View Study</button>
 </div>
     
 </form>
