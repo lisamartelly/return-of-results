@@ -12,6 +12,8 @@
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://kit.fontawesome.com/8347360653.js" crossorigin="anonymous"></script>
+
+   
     
   </head>
   <body>
@@ -28,12 +30,20 @@
             {% if session["user_type"] == "investigator" %}
             <div id="top-half">
             <a class="nav-link" href="/"><div class="nav-item">Home</div></a>
-            <p>Studies:</p>
+            <p class="dropdown-button nav-item">Studies <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+              </svg></p>
+            <div class="dropdown-container">
             <a class="nav-link" href="/planning-1"><div class="nav-item">Create</div></a>
             <a class="nav-link" href="/studies"><div class="nav-item">View All</div></a>
-            <p>Participants:</p>
+            </div>
+            <p class="dropdown-button nav-item">Participants <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+              </svg></p>
+            <div class="dropdown-container">
             <a class="nav-link" href="/enroll-participant"><div class="nav-item">Enroll</div></a> 
             <a class="nav-link" href="/participants"><div class="nav-item">View All</div></a>
+            </div>
             <a class="nav-link" href="/results"><div class="nav-item">Add Results</div></a>
             </div>
             {% endif %}
@@ -71,7 +81,11 @@
         </div>
     </div>
 
+<script src="/static/js/nav-bar.js"></script>
+
+
 {% block js %}
+
 {% endblock %}
 
 </body>

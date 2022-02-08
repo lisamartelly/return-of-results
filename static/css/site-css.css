@@ -132,9 +132,31 @@ a {
     color: #F1FAEE;
 }
 
-a.nav-link {
+a.nav-link, .dropdown-button {
     color: #F1FAEE;
     text-decoration: none;
+}
+
+.dropdown-container {
+    display: none;
+    background-color: rgba(99, 133, 134, 0.3);
+    padding-left: 8px;
+  }
+
+.dropdown-button {
+    margin-block-end: 0;
+    margin-bottom: 0;
+    margin-top: 0px;
+}
+  
+.bi-chevron-down {
+    float: right;
+    padding-right: 8px;
+    padding-top: 8px;
+  }
+
+.active {
+    background-color: rgba(99, 133, 134, 0.2)
 }
 
 .planning {
