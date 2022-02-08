@@ -8,37 +8,40 @@
 
 {% block body %}
 <div class="flex-container-generic">
-    <div class="flex-row">
-        <div class="flex-box-generic">
+    <div style="display:flex;flex-direction: row; justify-content: space-between;">
+        <div class="basic-box participant-details">
             <ul id="participant-info">
-                <li><h2>name: {{participant.fname}} {{participant.lname}}</h2></li>
-                <li><h2>participant ID: <span id="participant-id">{{participant.participant_id}}</span></h2></li>
-                <li id="email">email: <span>{{participant.email}}</span></li>
-                <li id="phone">phone: <span>{{participant.phone}}</span></li>
-                <li>dob: {{participant.dob}}</li>
+                <li><h2>{{participant.fname}} {{participant.lname}}</h2></li>
+                <li><h2>ID: <span id="participant-id">{{participant.participant_id}}</span></h2></li>
+                <li id="email">Email: <span>{{participant.email}}</span></li>
+                <li id="phone">Phone: <span>{{participant.phone}}</span></li>
+                <li>Date of Birth: {{participant.dob}}</li>
             </ul>
         </div>
 
-        <div class="flex-box-generic">
+        <div class="basic-box participant-details">
             <ul id="participant-hcp-info">
-                <li><h2 id="hcp_fullname">doctor name: <span>{{participant.hcp_fullname}}</span></h2></li>
-                <li id="hcp_email">email: <span >{{participant.hcp_email}}</span></li>
-                <li id="hcp_phone">phone: <span >{{participant.hcp_phone}}</span></li>
-                <li id="hcp_practice">practice: <span >{{participant.hcp_practice}}</span></li>
+                <li><h2>{{participant.fname}}'s Healthcare Provider</span></h2></li>
+                <li id="hcp_fullname">Name: <span>{{participant.hcp_fullname}}</span></li>
+                <li id="hcp_email">Email: <span >{{participant.hcp_email}}</span></li>
+                <li id="hcp_phone">Phone: <span >{{participant.hcp_phone}}</span></li>
+                <li id="hcp_practice">Practice: <span >{{participant.hcp_practice}}</span></li>
             </ul>
         </div>
     </div>
-        <div id="update-success" class="flex-center"></div><br>
-        <button id="update-details-button" class="button">Update Information</button>
+        <div class="flex-center">
+        <button id="update-details-button" class="button page-bottom-button">Update Information</button>
+    </div><br>
 
-    <h2>studies that participant is in: </h2>
-    <table>
+    <div class="basic-box">
+    <h2> {{participant.fname}}'s Studies</h2>
+    <table id="" class="details-table">
         <thead>
             <tr>
-                <td><b>Study</b></td>
-                <td><b>Study ID</b></td>
-                <td><b>Study Status</b></td>
-                <td><b>Add Results</b></td>
+                <td style="width: 50%;"><b>Study</b></td>
+                <td style="width: 10%;"><b>Study ID</b></td>
+                <td style="width: 20%;"><b>Study Status</b></td>
+                <td style="width: 20%;"><b>Add Results</b></td>
             </tr>
         </thead>
         <tbody>
@@ -52,19 +55,24 @@
             {% endfor %}
         </tbody>
     </table>
+    </div>
     
+    <div class="basic-box">
     <h2>Participant Results & Decisions</h2>
     {% for study in participant.studies %}
-    <h3>{{study.study_name}}c-- Status: {{study.status}}</h3>
-    <table>
+    <h3>Study: {{study.study_name}}</h3>
+    <h3 style="margin-top: -15px; color:rgb(68, 67, 67);">Status: {{study.status}}</h3>
+    <table class="details-table">
         <thead>
             <tr>
                 <td><b>Visit</b></td>
                 <td><b>Test Name</b></td>
                 <td><b>Urgency<br>Potential</b></td>
-                <td><b>Return Plan</b></td>
-                <td><b>Return Timing</b></td>
-                <td><b>Decision to Receive</b></td>
+                <td><b>Return<br>Plan</b></td>
+                <td><b>Return<br>Timing</b></td>
+                <td><b>Decision to<br>Receive</b><br>
+                    <a href="/decisions/{{study.study_id}}/{{participant.participant_id}}"><button class=" button small-button">Click to Update</button></a>
+                </td>
                 <td><b>Result Value</b></td>
                 <td><b>Urgency</b></td>
                 <td><b>Notified</b></td>
@@ -112,7 +120,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><button><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">Click to Update Decisions</button></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -120,6 +128,7 @@
         </tbody>
     </table>
     {% endfor %}
+</div>
 
 {% endblock %}
 

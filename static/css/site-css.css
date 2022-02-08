@@ -287,6 +287,11 @@ ul#itemsList {
     margin-top: 20px;
 }
 
+.basic-box.participant-details {
+    height: 200px;
+    width:45%;
+}
+
 .details-container {
     display: flex none;
     width: 50%;
@@ -303,6 +308,23 @@ ul#itemsList {
 .page-list {
     display: flex;
     flex-direction: column;
+}
+
+.details-table thead {
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+.details-table {
+    width: 100%;
+}
+
+.details-table tbody {
+    font-size: small;
+}
+
+.participant-page-table {
+    
 }
 
 .result-block {
@@ -328,14 +350,14 @@ ul#itemsList {
     margin-top: 20px;
     margin-bottom: 20px;
     width: 78%;
+    margin-top: 20px;
 }
 
 #update-details-button {
-    width: 77%;
-    display: flex;
+    width: 100%;
 }
 
-#logout-btn {
+.small-button {
  font-size: 12px;
  padding: 3px;
 }

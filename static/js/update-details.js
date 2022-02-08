@@ -69,7 +69,8 @@ document.querySelector('#update-details-button')?.addEventListener('click', (eve
         })
       .then(response => response.text())
       .then(responseText => {
-      document.querySelector("#update-success").innerHTML = responseText;
+        alert(responseText)
+      // document.querySelector("#update-success").innerHTML = responseText;
 
       button.textContent = 'Update Information';
     })
