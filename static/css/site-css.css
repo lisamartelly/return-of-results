@@ -97,6 +97,13 @@ a {
     margin-left: -27px;
 }
 
+.homepage-box {
+    width: 80%;
+    background-color: white;
+    border-radius: 15;
+    padding: 5px 20px 15px 20px;
+}
+
 #right .bottom{
     box-shadow: 7px 7px 5px -5px grey inset;
 
@@ -108,9 +115,6 @@ a {
     width: 95%;
 }
 
-body {
-    ;
-}
 
 
 /* .flex-container { THIS DOES NOTHING
