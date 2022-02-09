@@ -523,7 +523,7 @@ def check_participant_id(participant_id):
 @app.route('/update-by-attr.json/<category>/<item_id>', methods=["POST"])
 def update_attr_by_category_and_id(category, item_id):
     """update attributes of participants or studies if already in db"""
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+    if "user" not in session : return redirect('/')
 
     input_dict = request.json
     update = crud.update_attr_by_category_and_id(input_dict, category, item_id)

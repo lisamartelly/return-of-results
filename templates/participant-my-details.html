@@ -7,30 +7,32 @@
 {% endblock %}
 
 {% block body %}
-<div class="flex-container-generic">
-    <div class="flex-row">
-        <div class="flex-box-generic">
-            <ul id="participant-info">
-                <li><h2>name: {{participant.fname}} {{participant.lname}}</h2></li>
-                <li><h2>participant ID: <span id="participant-id">{{participant.participant_id}}</span></h2></li>
-                <li id="email">email: <span>{{participant.email}}</span></li>
-                <li id="phone">phone: <span>{{participant.phone}}</span></li>
-                <li>dob: {{participant.dob}}</li>
-            </ul>
-        </div>
-
-        <div class="flex-box-generic">
-            <ul id="participant-hcp-info">
-                <li><h2 id="hcp_fullname">doctor name: <span>{{participant.hcp_fullname}}</span></h2></li>
-                <li id="hcp_email">email: <span >{{participant.hcp_email}}</span></li>
-                <li id="hcp_phone">phone: <span >{{participant.hcp_phone}}</span></li>
-                <li id="hcp_practice">practice: <span >{{participant.hcp_practice}}</span></li>
-            </ul>
-        </div>
+<div style="display:flex;flex-direction: row; justify-content: space-between;">
+    <div class="basic-box participant-details">
+        <ul id="participant-info">
+            <li><h2>{{participant.fname}} {{participant.lname}}</h2></li>
+            <li><h2>ID: <span id="participant-id">{{participant.participant_id}}</span></h2></li>
+            <li id="email">Email: <span>{{participant.email}}</span></li>
+            <li id="phone">Phone: <span>{{participant.phone}}</span></li>
+            <li>Date of Birth: {{participant.dob}}</li>
+        </ul>
     </div>
-        <div id="update-success" class="flex-center"></div><br>
-        <button id="update-details-button" class="button">Update Information</button>
+
+    <div class="basic-box participant-details">
+        <ul id="participant-hcp-info">
+            <li><h2>{{participant.fname}}'s Healthcare Provider</span></h2></li>
+            <li id="hcp_fullname">Name: <span>{{participant.hcp_fullname}}</span></li>
+            <li id="hcp_email">Email: <span >{{participant.hcp_email}}</span></li>
+            <li id="hcp_phone">Phone: <span >{{participant.hcp_phone}}</span></li>
+            <li id="hcp_practice">Practice: <span >{{participant.hcp_practice}}</span></li>
+        </ul>
+    </div>
 </div>
+    <div class="flex-center">
+    <button id="update-details-button" style="margin-bottom:0px" class="button page-bottom-button">Update Information</button>
+</div>
+
+<div id="update-success"></div>
 
 {% endblock %}
 
