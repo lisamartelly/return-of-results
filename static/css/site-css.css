@@ -99,7 +99,7 @@ a {
 
 .homepage-box {
     width: 300px;
-    background-color: rgba(255, 255, 255, 0.722);
+    background-color: rgba(255, 255, 255, 0.856);
     border-radius: 10px;
     padding: 5px 20px 15px 20px;
 }
@@ -117,6 +117,11 @@ a {
     /* padding-top: 2.5%; */
     padding-left: 2.5%;
     width: 95%;
+}
+
+#logged-out-page {
+    background-image: url('../img/informed-consent-1024x641.png');
+    background-size: cover;
 }
 
 
@@ -287,7 +292,7 @@ ul#participant-hcp-info {
 .flex-col {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     align-items: flex-start;
 }
 

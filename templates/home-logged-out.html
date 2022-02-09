@@ -5,22 +5,82 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
 
     <!-- Your custom styles -->
-    <link rel="stylesheet" href="/static/css/site.css">     
+    <link rel="stylesheet" href="/static/css/site-css.css">     
   </head>
   <body>
 </head>
-<body>
+<body id="logged-out-page" style="display:flex;">
 
-<div class="flex-container-generic">
+  <div style="display:flex; flex-direction: column-reverse; padding-left:40px;">
+    <p>Returning research results is bla bla bla bla</p>
+  </div>
+
+  <div style="display:flex; flex-direction: row; justify-content: flex-end; width:100%; margin-right: 120px;">
+    
+    <div class="flex-col">
+        <img src="/static/img/RRRlogo.png" id="full-logo" width=330px/>
+        <div class="homepage-box">
+          <h2 style="margin-top:5px;">Create an Account</h2>
+          <form action="/register" method="POST">
+            <p>
+                Investigator or Participant?: <br>
+                <input type="radio" id="user_type" name="user_type" value="investigator" required>
+                    <label>Investigator</label><br>
+                <input type="radio" id="user_type" name="user_type" value="participant">
+                    <label>Participant</label><br>
+            </p>  
+            <p>
+              Email <input type="text" name="email">
+            </p>
+            <p>
+              Password <input type="password" name="password">
+            </p>
+              <button type="submit"> Register </button>
+          </form>
+        </div>
+
+        <div class="homepage-box" style="margin-top:10px;" >
+          <h2 style="margin-top:5px;">Log In</h2>
+            <form action="/login" method="POST">
+              <p>
+                  Investigator or Participant?: <br>
+                  <input type="radio" id="user_type" name="user_type" value="investigator" required>
+                      <label>Investigator</label><br>
+                  <input type="radio" id="user_type" name="user_type" value="participant">
+                      <label>Participant</label><br>
+              </p>
+              <p>
+                Email <input type="text" name="email">
+              </p>
+              <p>
+                Password <input type="password" name="password">
+              </p>
+              <p>
+                <button type="submit"> Login </button>
+              </p>
+            </form>
+        </div>
+
+        
+        
+    </div>
+    
+  </div>
+
+
+
+
+
+<!-- <div style="width:100%; display:flex">
   <div class="page-header">
     <h1> Please register or login </h1>
   </div>
-  <div id="flash-msg" class="flex-row">
+  <div id="flash-msg" class="flex-row" >
     {% for msg in get_flashed_messages() %}
     <p>{{ msg }}</p>
   </div>
   {% endfor %}
-  <div class="flex-row">
+  <div class="flex-row" style="justify-content: space-around;">
     <div class="basic-box" >
       <h2>Create an Account</h2>
         <form action="/register" method="POST">
@@ -41,7 +101,7 @@
         </form>
     </div>
 
-  <div class = "flex-box-generic" >
+  <div class="basic-box" >
     <h2>Log In</h2>
       <form action="/login" method="POST">
         <p>
@@ -64,7 +124,7 @@
   </div>
 </div>
 </div>
-
+ -->
 
 
 <script src="/static/js/js.js"></script>
