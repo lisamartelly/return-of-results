@@ -62,11 +62,11 @@ function ResultsForm() {
                 document.querySelector('#resultsInput').style.display = "";
                 document.querySelector('#hcp_info').style.display = "none";
                 document.querySelector('#hcp_info').innerHTML = `
-                <h3>Participant's HCP Contact Info:</h3>
-                <p>HCP Full Name: ${responseData.hcp_phone} </p>
-                <p>HCP Phone: ${responseData.hcp_phone} </p>
-                <p>HCP Email: ${responseData.hcp_email} </p>
-                <p>HCP Practice: ${responseData.hcp_practice} </p>
+                <h3>Participant's Healthcare Provider Contact Info For Urgent Results:</h3>
+                <p><b>HCP Full Name:</b> ${responseData.hcp_phone} </p>
+                <p><b>HCP Phone:</b> ${responseData.hcp_phone} </p>
+                <p><b>HCP Email:</b> ${responseData.hcp_email} </p>
+                <p><b>HCP Practice:</b> ${responseData.hcp_practice} </p>
                 `
             }
             else if (responseData.code === 0) {
@@ -152,40 +152,60 @@ function ResultsForm() {
     }
 
     return (
-        <div>
+        <div class="add-results basic-box">
             <div>
-            <div id ="hcp_info"></div>
-            <h4>Select Study, Study Visit, and Enter Participant ID:</h4>  
-                <label>Select Study:</label>               
-                    <select id="studyId" name="studyId" value={studySelected} onChange={handleStudySelected}>
+            <h2>Add a participant's results from a study visit</h2>
+            <div class="flex-row">
+                <div><h1 class="planning-num">1</h1></div>
+                <div class="plan-results">
+                <label><b>Study:</b></label>          
+                    <select id="studyId" name="studyId" class="react-element-margin" value={studySelected} onChange={handleStudySelected}>
                         <option>Choose here</option>
                         {studies.map((data) => (
                         <option key={data.study_id} value={data.study_id}> {data.study_name}</option>
                         ))}
                     </select>
+                </div>
+                </div>
             </div>
-            <div>
-                <label>Participant ID: </label>
-                <input type="number" id="participantId" name="participantId" />
-                <button id="checkParticipantIdBtn" onClick={handleParticipantInput}>Load Study Visits</button>
-                <div id="id_check_msg"></div>
-            </div> 
+            <div class="flex-row">
+                <div><h1 class="planning-num">2</h1></div>
+                <div class="plan-results">
+                    <label><b>Participant ID:</b> </label>
+                    <input type="number" class="react-element-margin" id="participantId" name="participantId" />
+                    <button id="checkParticipantIdBtn" class="button small-button react-element-margin" onClick={handleParticipantInput}>Load Study Visits</button>
+                </div>    
+                </div>
+                <div class="flex-row">
+                    <div></div>
+                    <div class="plan-results" id="id_check_msg"></div>
+                </div>
+                 
             <div id="resultsInput" style = {{display: "none"}}>
-            <label>Study Visit: </label>
-                <select required id="visit" name="visit" onChange={e => handleVisitSelected(e)}>
-                    <option >Choose here</option>
-                    {allVisits.map(visit => (
-                    <option key={visit} value={visit}> {visit}</option>
-                    ))}
-                </select>
+            <div class="flex-row">
+                <div><h1 class="planning-num">3</h1></div>
+                <div class="plan-results">
+                    <label><b>Study Visit: </b></label>
+                        <select required id="visit" class="react-element-margin" name="visit" onChange={e => handleVisitSelected(e)}>
+                            <option >Choose here</option>
+                            {allVisits.map(visit => (
+                            <option key={visit} value={visit}> {visit}</option>
+                            ))}
+                        </select>
+                </div>
+            </div>
 
-            <h4>Add Results For This Study Visit:</h4>  
+            <div class="flex-row">
+                <div><h1 class="planning-num">4</h1></div>
+
+            <div class="plan-results flex-col">
+            {/* <h4>Enter Result Info:</h4>   */}
             <table>
                 <thead>
                     <tr>
-                        <th>test</th>
-                        <th>test result</th>
-                        <th>is this urgent?</th>
+                        <td width="15%"><b>Test</b></td>
+                        <td width="15%"><b>Test result</b></td>
+                        <td width="15%"><b>Is this urgent?</b></td>
                     </tr>
                 </thead> 
                 <tbody>
@@ -206,15 +226,24 @@ function ResultsForm() {
                             <input type="checkbox" name="urgent" onChange={e => {
                                 handleChange(index, e); 
                                 handleUrgentValue(e)}}/>
+                            Yes
                         </td>
                     </tr>
                 ))}
+                <tr>
+                    <td><button className="button add small-button" type="button" onClick={addFormFields}>Add another result for this visit</button></td>
+                    <td></td>
+                    <td><button className="button submit small-button" onClick={handleSubmit}>Submit results</button></td>
+                        
+                </tr>
                 </tbody>
             </table>
-                <button className="button add" type="button" onClick={addFormFields}>Add</button>
-                <button className="button submit" onClick={handleSubmit}>Submit</button>
-                <div id="update-success"></div>
+                
             </div> 
+            
+            </div>
+            </div>
+            <div id ="hcp_info"></div>
         </div>
         )}
 

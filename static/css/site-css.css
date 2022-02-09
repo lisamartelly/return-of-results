@@ -181,6 +181,8 @@ a.nav-link, .dropdown-button {
 
 .planning-num {
     color: rgba(69,123,157,1);
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .test {
@@ -208,6 +210,29 @@ a.nav-link, .dropdown-button {
     width: 90%;
 }
 
+.plan-results {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin-left: 30px;
+}
+
+.add-results .flex-row {
+    justify-content:center
+}
+
+#id_check_msg {
+    justify-content:flex-start;
+    padding-left: 18px;
+}
+
+#hcp_info {
+    padding-left: 75px;
+}
+
+.react-element-margin {
+    margin-left: 15px;;
+}
 
 
 .search {
@@ -237,6 +262,13 @@ ul#participant-hcp-info {
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .between-row {
