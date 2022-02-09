@@ -7,25 +7,25 @@
 {% endblock %}
 
 {% block body %}
-<div class="flex-container-generic">
+<div class="flex-container-generic participant-details-page">
     <div style="display:flex;flex-direction: row; justify-content: space-between;">
         <div class="basic-box participant-details">
             <ul id="participant-info">
                 <li><h2>{{participant.fname}} {{participant.lname}}</h2></li>
                 <li><h2>ID: <span id="participant-id">{{participant.participant_id}}</span></h2></li>
-                <li id="email">Email: <span>{{participant.email}}</span></li>
-                <li id="phone">Phone: <span>{{participant.phone}}</span></li>
-                <li>Date of Birth: {{participant.dob}}</li>
+                <li class="editable-detail" id="email">Email: <span style="margin-left:5px;" class="editable-detail">{{participant.email}}</span></li>
+                <li class="editable-detail" id="phone">Phone: <span class="editable-detail">{{participant.phone}}</span></li>
+                <li class="editable-detail">Date of Birth: <span>{{participant.dob.strftime('%Y-%m-%d')}}</span></li>
             </ul>
         </div>
 
         <div class="basic-box participant-details">
             <ul id="participant-hcp-info">
                 <li><h2>{{participant.fname}}'s Healthcare Provider</span></h2></li>
-                <li id="hcp_fullname">Name: <span>{{participant.hcp_fullname}}</span></li>
-                <li id="hcp_email">Email: <span >{{participant.hcp_email}}</span></li>
-                <li id="hcp_phone">Phone: <span >{{participant.hcp_phone}}</span></li>
-                <li id="hcp_practice">Practice: <span >{{participant.hcp_practice}}</span></li>
+                <li class="editable-detail" id="hcp_fullname">Name: <span >{{participant.hcp_fullname}}</span></li>
+                <li class="editable-detail" id="hcp_email">Email: <span >{{participant.hcp_email}}</span></li>
+                <li class="editable-detail" id="hcp_phone">Phone: <span >{{participant.hcp_phone}}</span></li>
+                <li class="editable-detail" id="hcp_practice">Practice: <span >{{participant.hcp_practice}}</span></li>
             </ul>
         </div>
     </div>

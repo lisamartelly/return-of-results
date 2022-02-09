@@ -460,9 +460,23 @@ ul#itemsList {
     text-align: center;
 }
 
-.participant-page-table {
-    
+.participant-details-page input[type=text] {
+    margin:0px;
+    padding: 2px;
+    border-radius: 0;
+    background-color: #e3e3e3;
+    border: none;
+    outline: none;
+    font-size:14px;
+    width:50%;
 }
+
+.participant-details-page .editable-detail {
+    margin-top:6px;
+    margin-bottom:6px;
+    /* margin-top:2px; */
+}
+
 
 .result-block {
     border: 2px solid black;
