@@ -406,8 +406,14 @@ ul#itemsList {
 }
 
 .small-button {
- font-size: 12px;
- padding: 3px;
+    font-size: 12px;
+    padding: 3px;
+}
+
+.medium-button {
+    font-size: 14px;
+    padding: 3px 5px;
+    margin: 3px;
 }
 
 .homepage-button {

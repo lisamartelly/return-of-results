@@ -17,11 +17,11 @@
 
         <input type="hidden" id="existing" name="existing" value="yes">
         Participant ID: <input type="number" id="participant_id" name="participant_id" required>
-        <button id="participant_id_check">Next</button>
+        <button id="participant_id_check" class="button medium-button">Next</button>
         <p id="id_check_msg"></p>
 
         <div id="study_selection">
-        What study are you enrolling in?
+        What study is the participant enrolling in?
         <br>
         <select id="study_id" name="study_id">
             <option selected disabled>Choose here</option>
@@ -29,7 +29,7 @@
             <option value="{{study.study_id}}" required>{{study.study_name}}</option>
             {% endfor %} 
         </select><br>
-        <button type="submit">Enroll</button>
+        <button class="button medium-button"type="submit">Enroll</button>
         </div>
         
     
@@ -41,7 +41,7 @@
     <h3 >Enroll a New Participant:</h3>
     <form id="enrollment-form" name="enrollment-form" action="/enroll" method="POST" >
         <input type="hidden" id="existing" name="existing" value="no">
-        What study are you enrolling in?
+        What study is the participant enrolling in?
         
         <select id="study_id" name="study_id">
             <option selected disabled>Choose here</option>
@@ -49,15 +49,15 @@
             <option value="{{study.study_id}}" required>{{study.study_name}}</option>
             {% endfor %} 
         </select><br>
-        Participant First Name: <input type="text" id="fname" name="fname">
-        Participant Last Name: <input type="text" id="lname" name="lname"><br>
-        email: <input type="text" id="email" name="email"><br>
-        phone number: <input type="text" id="phone" name="phone"><br>
-        <label for="dob">date of birth:</label>
+        First Name: <input type="text" id="fname" name="fname">
+        Last Name: <input type="text" id="lname" name="lname"><br>
+        Email: <input type="text" id="email" name="email"><br>
+        Phone Number: <input type="text" id="phone" name="phone"><br>
+        <label for="dob">Date of Birth:</label>
         <input type="date" id="dob" name="dob"
             value="2000-01-01">
 
-        <input type="submit">
+        <button class="button medium-button" type="submit">Enroll</button>
     
     </form>
 
