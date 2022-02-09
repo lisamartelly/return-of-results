@@ -8,7 +8,7 @@
 
 {% block body %}
 
-<!-- <div class="flex-container-generic"> -->
+<div class="flex-container-generic" id="participant-enrollment-page">
 
 
 <div id="existing-enrollment-form" class="basic-box">
@@ -16,9 +16,9 @@
     <form id="existing-enrollment-form" name="existing-enrollment-form" action="/enroll" method="POST" >
 
         <input type="hidden" id="existing" name="existing" value="yes">
-        Participant ID: <input type="number" id="participant_id" name="participant_id" required>
-        <button id="participant_id_check" class="button medium-button">Next</button>
-        <p id="id_check_msg"></p>
+        Participant ID: <input style="margin-left:15px; width:300px;" type="number" id="participant_id" name="participant_id" required>
+        <button style="margin-left:12px" id="participant_id_check" class="button">Next</button>
+        <p style="margin-left:-18px" id="id_check_msg"></p>
 
         <div id="study_selection">
         What study is the participant enrolling in?
@@ -28,8 +28,8 @@
             {% for study in studies %}
             <option value="{{study.study_id}}" required>{{study.study_name}}</option>
             {% endfor %} 
-        </select><br>
-        <button class="button medium-button"type="submit">Enroll</button>
+        </select>
+        <button style="margin-left:12px" class="button"type="submit">Enroll</button>
         </div>
         
     
@@ -42,22 +42,22 @@
     <form id="enrollment-form" name="enrollment-form" action="/enroll" method="POST" >
         <input type="hidden" id="existing" name="existing" value="no">
         What study is the participant enrolling in?
-        
+        <br>
         <select id="study_id" name="study_id">
             <option selected disabled>Choose here</option>
             {% for study in studies %}
             <option value="{{study.study_id}}" required>{{study.study_name}}</option>
             {% endfor %} 
         </select><br>
-        First Name: <input type="text" id="fname" name="fname">
-        Last Name: <input type="text" id="lname" name="lname"><br>
-        Email: <input type="text" id="email" name="email"><br>
-        Phone Number: <input type="text" id="phone" name="phone"><br>
+        First Name: <input style="margin-left:36px;" type="text" id="fname" name="fname"><br>
+        Last Name: <input style="margin-left:37px;" type="text" id="lname" name="lname"><br>
+        Email: <input style="margin-left:74px;" type="text" id="email" name="email"><br>
+        Phone Number: <input style="margin-left:4px;" type="text" id="phone" name="phone"><br>
         <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob"
+        <input style="margin-left:22px; padding-right:-5px;" type="date" id="dob" name="dob"
             value="2000-01-01">
 
-        <button class="button medium-button" type="submit">Enroll</button>
+        <button class="button" type="submit">Enroll</button>
     
     </form>
 
