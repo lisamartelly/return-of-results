@@ -104,6 +104,10 @@ a {
     padding: 5px 20px 15px 20px;
 }
 
+#full-logo {
+    margin-top:20px;
+}
+
 #right .bottom{
     box-shadow: 7px 7px 5px -5px grey inset;
 
