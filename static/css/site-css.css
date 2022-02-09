@@ -125,22 +125,35 @@ a {
 }
 
 
-input[type=text], input[type=password], select {
+input[type=text], input[type=password], input[type=number], select {
     padding: 6px;
     display: inline-block;
     border: 1px solid rgba(59, 56, 56, 1);
     border-radius: 4px;
   }
 
-input[type=text]:focus, input[type=password]:focus {
+input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, select:focus {
     outline: 1px solid rgba(69,123,157,1);
     border: 1px solid rgba(69,123,157,1);
   }
 
- input[type=radio] {
+ input[type=radio], input[type=checkbox] {
     accent-color:rgba(69,123,157,1);
   }
 
+#planning-1-page input[type=text] {
+    margin: 3px;
+    width: 180px;
+}
+
+#planning-1-page select {
+    margin: 3px;
+    width: 194px;
+}
+
+#planning-2-page input[type=number] {
+    width:100px;
+}
 
 
 

@@ -7,11 +7,11 @@
 {% endblock %}
 
 {% block body %}
-<div class="flex-container-generic">
+<div class="flex-container-generic" id="planning-1-page">
     <div id="planning-form">
         
         <form id="study-plan-details" action="/planning-2" method="POST">
-            <div class="flex-row basic-box">
+            <div class="flex-row basic-box" style=padding-bottom:7px>
                 <div><h1 class="planning-num">1</h1></div>
                 <div class="planning">
                     <h3>Enter the name of the study and the name of the principal investigator</h3>
@@ -29,7 +29,7 @@
                     </select>
                 </div>
             </div>
-            <div class="flex-row basic-box">
+            <div class="flex-row basic-box" style="padding-bottom:7px">
                 <div><h1 class="planning-num">2</h1></div>
                 <div class="planning">
                     <h3>Select specific visits and/or enter the number of other study visits during this study where ANY data will be collected from participants.
@@ -44,7 +44,7 @@
                     <label for="consent">Consent</label><br>
                     <label for="num-visits">Additional study visits</label>
                     <input type="text" id="num-visits" name="num-visits"min="0" max="100">
-                    <br><br>
+                    <br>
                     <button type=submit class="button">Next</button>
                 </div>
             </div>

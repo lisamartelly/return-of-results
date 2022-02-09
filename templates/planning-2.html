@@ -8,7 +8,7 @@
 
 {% block body %}
 
-<div class="flex-container-generic">
+<div class="flex-container-generic" id="planning-2-page">
 
 <div id="planning-form" class="basic-box">
 <div class="flex-row">
@@ -20,7 +20,7 @@
 <div class=plan-2>
 
 <form id="visit-details" action="/planning-3" method="POST">
-    <table>
+    <table style="width:90%">
     {% for visit in dict_visits %}
 
     <tr>
