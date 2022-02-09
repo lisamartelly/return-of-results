@@ -10,29 +10,20 @@
 
     <!-- if logged in as investigator -->
     {% if session["user_type"] == "investigator" %}
-    <div style="display:flex; flex-direction: row; justify-content: flex-end; margin-right: 200px;">
+    <div style="display:flex; flex-direction: row; justify-content: flex-end; margin-right: 120px;">
     <div class="flex-col">
+        <h1 style="color:#3B3838;">QUICK ACCESS</h1>
         <div class="homepage-box">
-            <p>U R INVESTIGATOR</p>
-            Your studies:
-            <ul>
+            <h3 style="color:#3B3838;" >Your studies:</h3>
+            <ul id="itemsList">
             {% for study in user.studies %}
-            <li>{{study.study_name}}</li>
-            </ul>
+            <li class="detail-link list-page-item"><a href="#"><div>{{study.study_name}}</div></a></li>
             {% endfor %}
+            </ul>
         </div>
-
-        <div class="homepage-box">
-            <p>do something</p>
-        </div>
-
-        <div class="homepage-box">
-            <p>do something</p>
-        </div>
-
-        <div class="homepage-box">
-            <p>do something</p>
-        </div>
+        <a style="width:100%"><button class="homepage-button">Enroll a Participant</button></a>
+        <a style="width:100%"><button class="homepage-button">Plan a Study</button></a>
+        <a style="width:100%"><button class="homepage-button">Add Results</button></a>
     </div>
     </div>
     {% endif %}

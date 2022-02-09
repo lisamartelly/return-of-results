@@ -18,7 +18,7 @@ body {
 }
 
 a {
-    color: #E63946;
+    color: rgb(56, 101, 129);
 }
 
 .column {
@@ -92,15 +92,15 @@ a {
 #homepage {
     background-image: url('../img/informed-consent-1024x641.png');
     background-size: cover;
-    height: 630px;
-    width: 1134px;
+    min-height: calc(100vh - 50px);
+    width: calc(100vw - 150px);
     margin-left: -27px;
 }
 
 .homepage-box {
-    width: 80%;
-    background-color: white;
-    border-radius: 15;
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.722);
+    border-radius: 10px;
     padding: 5px 20px 15px 20px;
 }
 
@@ -408,5 +408,17 @@ ul#itemsList {
 .small-button {
  font-size: 12px;
  padding: 3px;
+}
+
+.homepage-button {
+    width:100%;
+    margin-top:20px;
+    color: white;
+    background-color: #3B3838;
+    padding: 4px;
+    font-size:20px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
 }
 
