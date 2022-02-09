@@ -374,6 +374,13 @@ ul#itemsList {
 .details-table tbody {
     font-size: small;
 }
+.pt-facing-details-table {
+    width: 100%;
+}
+.pt-facing-details-table thead {
+    background-color: #f4f4f4;
+    text-align: center;
+}
 
 .participant-page-table {
     

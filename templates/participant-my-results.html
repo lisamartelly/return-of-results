@@ -11,33 +11,36 @@
 
     <div>
         {% for study in participant.studies %}
-        <div class="result-block">
-            <h2>{{study.study_name}} -- Status: {{study.status}}</h2>
+        <div class="basic-box">
+            <h3>Study: {{study.study_name}}</h3>
+            <h3 style="margin-top: -15px; color:rgb(68, 67, 67);">Status: {{study.status}}</h3>
             {% for time_period in ['during', 'after'] %}
-            <h3>Results that will be returned <em>{{time_period}}</em> the study {% if time_period == 'after'%}(unless they are urgent){%endif%}:</h3>
-            <table class="result-table">
+            <h4>Results that will be returned <em>{{time_period}}</em> the study {% if time_period == 'after'%}(unless they are urgent){%endif%}:</h4>
+            <table class="pt-facing-details-table">
                 <thead>
                     <tr>
-                        <td><b>Visit</b></td>
-                        <td><b>Test Name</b></td>
-                        <td><b>Return Plan</b></td>
-                        <td><b>Decision to Receive</b><br><a href="/decisions/{{study.study_id}}/{{participant.participant_id}}">(click to update)</a></td>
-                        <td><b>Result Value</b></td>
+                        <td style="width: 15%;"><b>Visit</b></td>
+                        <td style="width: 15%;"><b>Test Name</b></td>
+                        <td style="width: 15%;"><b>Return Plan</b></td>
+                        <td style="width: 20%;"><b>Decision to Receive</b><br>
+                            <a href="/decisions/{{study.study_id}}/{{participant.participant_id}}"><button class=" button small-button">Click to Update</button></a>
+                        </td>
+                        <td style="width: 35%;"><b>Result Value</b></td>
                     </tr>
                 </thead>
                 <tbody>
                     {% for result in participant.results if result.result_plan.study.study_id == study.study_id %}
                     {% if result.result_plan.return_timing == time_period or (time_period == 'during' and result.urgent is true) %}
                     <tr>
-                        <td>{{result.result_plan.visit}}</td>
-                        <td>{{result.result_plan.test_name}}</td>
-                        <td>{{result.result_plan.return_plan}}</td>
-                        <td>{{result.receive_decision}}</td>
+                        <td >{{result.result_plan.visit}}</td>
+                        <td >{{result.result_plan.test_name}}</td>
+                        <td >{{result.result_plan.return_plan}}</td>
+                        <td >{{result.receive_decision}}</td>
                         <!-- display results if appropriate: -->
 
                         <!-- if result is urgent display no matter what -->
                         {% if result.urgent == True %}
-                        <td>{{result.result_value}} <b>THIS HAS BEEN MARKED AS URGENT</b></td>
+                        <td >{{result.result_value}} <b style="color:#E63946">This result was marked urget</b></td>
                         <!-- if participant consented to receive result, potentially display... -->
                         {% elif result.receive_decision == True and result.result_plan.return_plan == True %}
                             <!-- check if result has been entered yet -->
