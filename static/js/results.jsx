@@ -173,7 +173,7 @@ function ResultsForm() {
                 <div class="plan-results">
                     <label><b>Participant ID:</b> </label>
                     <input type="number" class="react-element-margin" id="participantId" name="participantId" />
-                    <button id="checkParticipantIdBtn" class="button small-button react-element-margin" onClick={handleParticipantInput}>Load Study Visits</button>
+                    <button id="checkParticipantIdBtn" class="button medium-button react-element-margin" onClick={handleParticipantInput}>Load Study Visits</button>
                 </div>    
                 </div>
                 <div class="flex-row">
@@ -231,9 +231,9 @@ function ResultsForm() {
                     </tr>
                 ))}
                 <tr>
-                    <td><button className="button add small-button" type="button" onClick={addFormFields}>Add another result for this visit</button></td>
+                    <td><button className="button add medium-button" type="button" onClick={addFormFields}>Add another result for this visit</button></td>
                     <td></td>
-                    <td><button className="button submit small-button" onClick={handleSubmit}>Submit results</button></td>
+                    <td><button className="button submit medium-button" onClick={handleSubmit}>Submit results</button></td>
                         
                 </tr>
                 </tbody>
