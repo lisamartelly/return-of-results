@@ -125,6 +125,24 @@ a {
 }
 
 
+input[type=text], input[type=password], select {
+    padding: 6px;
+    display: inline-block;
+    border: 1px solid rgba(59, 56, 56, 1);
+    border-radius: 4px;
+  }
+
+input[type=text]:focus, input[type=password]:focus {
+    outline: 1px solid rgba(69,123,157,1);
+    border: 1px solid rgba(69,123,157,1);
+  }
+
+ input[type=radio] {
+    accent-color:rgba(69,123,157,1);
+  }
+
+
+
 
 /* .flex-container { THIS DOES NOTHING
     display: flex;
@@ -203,6 +221,15 @@ a.nav-link, .dropdown-button {
 #result-details .planning {
     background-color:rgba(243, 243, 243, 0.8);
 }
+
+.sub-box {
+    background-color:rgba(241, 239, 239, 0.952);
+    padding:1px 10px 10px 10px;
+    border-radius:15px;
+    margin-bottom:10px;
+}
+
+
 
 .planning-num {
     color: rgba(69,123,157,1);
@@ -368,7 +395,7 @@ ul#itemsList {
 }
 
 .details-table thead {
-    background-color: #f4f4f4;
+    background-color: #cccccc;
     text-align: center;
 }
 
@@ -383,7 +410,7 @@ ul#itemsList {
     width: 100%;
 }
 .pt-facing-details-table thead {
-    background-color: #f4f4f4;
+    background-color: #cccccc;
     text-align: center;
 }
 
@@ -424,6 +451,7 @@ ul#itemsList {
 .small-button {
     font-size: 12px;
     padding: 3px;
+    margin-bottom: 3px;
 }
 
 .medium-button {
@@ -436,11 +464,17 @@ ul#itemsList {
     width:100%;
     margin-top:20px;
     color: white;
-    background-color: #3B3838;
+    background-color: rgb(15, 39, 63);
     padding: 4px;
     font-size:20px;
     border-radius: 5px;
     cursor: pointer;
     border: none;
+}
+
+.homepage-button:hover {
+    
+    background-color: rgba(15, 39, 63, 0.8);
+    
 }
 

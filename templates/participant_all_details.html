@@ -60,6 +60,7 @@
     <div class="basic-box">
     <h2>Participant Results & Decisions</h2>
     {% for study in participant.studies %}
+    <div class="sub-box">
     <h3>Study: {{study.study_name}}</h3>
     <h3 style="margin-top: -15px; color:rgb(68, 67, 67);">Status: {{study.status}}</h3>
     <table class="details-table">
@@ -70,7 +71,7 @@
                 <td><b>Urgency<br>Potential</b></td>
                 <td><b>Return<br>Plan</b></td>
                 <td><b>Return<br>Timing</b></td>
-                <td><b>Decision to<br>Receive</b><br>
+                <td><b>Decision to Receive</b><br>
                     <a href="/decisions/{{study.study_id}}/{{participant.participant_id}}"><button class=" button small-button">Click to Update</button></a>
                 </td>
                 <td><b>Result Value</b></td>
@@ -127,6 +128,7 @@
             </tr>
         </tbody>
     </table>
+    </div>
     {% endfor %}
 </div>
 
