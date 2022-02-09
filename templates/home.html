@@ -6,11 +6,12 @@
 {% endblock %}
 {% block body %}
 
-<div class="flex-container-generic">
+<div id="homepage">
 
     <!-- if logged in as investigator -->
     {% if session["user_type"] == "investigator" %}
-    <div class="flex-row">
+    <div style="display:flex; flex-direction: row; justify-content: flex-end; margin-right: 200px;">
+    <div class="flex-col">
         <div class="basic-box">
             <p>U R INVESTIGATOR</p>
             Your studies:
@@ -32,6 +33,7 @@
         <div class="basic-box">
             <p>do something</p>
         </div>
+    </div>
     </div>
     {% endif %}
 

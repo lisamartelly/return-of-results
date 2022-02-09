@@ -89,6 +89,14 @@ a {
     width: 100%;
 }
 
+#homepage {
+    background-image: url('../img/informed-consent-1024x641.png');
+    background-size: cover;
+    height: 630px;
+    width: 1134px;
+    margin-left: -27px;
+}
+
 #right .bottom{
     box-shadow: 7px 7px 5px -5px grey inset;
 
@@ -98,6 +106,10 @@ a {
     /* padding-top: 2.5%; */
     padding-left: 2.5%;
     width: 95%;
+}
+
+body {
+    ;
 }
 
 
