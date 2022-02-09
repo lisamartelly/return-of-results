@@ -1,18 +1,41 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<div class="page-header">
+    <h1> Participant Studies - {{participant.fname}} {{participant.lname}} </h1>
+</div>
+{% endblock %}
+
 {% block body %}
 <div class="flex-container-generic">
     <div class="page-header">
-        <h1> Participant Studies - {{participant.fname}} {{participant.lname}} </h1>
+        
     </div>
 
-<h3>studies that participant is in: </h3>
-    {% for study in participant.studies %}
-    <h3><b>study:</b> {{study.study_name}}</h3> 
-    <p><b>status:</b> {{study.status}}</p> 
-    <p><b>ID:</b> {{study.study_id}}</p> 
-    {% endfor %}
-
-</div>
+    <div class="basic-box">
+        <h2> {{participant.fname}}'s Studies</h2>
+        <table id="" class="details-table">
+            <thead>
+                <tr>
+                    <td style="width: 35%;"><b>Study</b></td>
+                    <td style="width: 10%;"><b>Study ID</b></td>
+                    <td style="width:15%;"><b>Study Status</b></td>
+                    <td style="width: 20%;"><b>Investigator</b></td>
+                    <td style="width: 20%;"><b>Investigator Phone</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for study in participant.studies %}
+                <tr>
+                    <td>{{study.study_name}}</td>
+                    <td>{{study.study_id}}</td>
+                    <td>{{study.status}}</td>
+                    <td>{{study.investigator.fname}} {{study.investigator.lname}}</td>
+                    <td>{{study.investigator.phone}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
 
 {% endblock %}
