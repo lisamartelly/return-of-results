@@ -205,7 +205,7 @@ function ResultsForm() {
                     <tr>
                         <td width="15%"><b>Test</b></td>
                         <td width="15%"><b>Test result</b></td>
-                        <td width="15%"><b>Is this urgent?</b></td>
+                        <td width="30%"><b>Is this urgent?</b></td>
                     </tr>
                 </thead> 
                 <tbody>

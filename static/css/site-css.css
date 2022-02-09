@@ -181,14 +181,30 @@ select#visit {
     margin-left:23px;
 }
 
+#resultsInput {
+    margin-top:15px;
+}
+
 .form-row #test {
     width:298px;
-    margin-right:-104px;
+    margin-right:-21px;
 }
 
 .form-row input[type=text] {
     width: 185px;
 }
+
+.search.study input[type=text] {
+    width:275px;
+}
+
+.search.participants input[type=text] {
+    width:232px;
+}
+
+
+
+
 
 /* .flex-container { THIS DOES NOTHING
     display: flex;
@@ -537,7 +553,7 @@ ul#itemsList {
     margin-top:20px;
     color: white;
     background-color: rgb(15, 39, 63);
-    padding: 4px;
+    padding: 10px;
     font-size:20px;
     border-radius: 5px;
     cursor: pointer;
@@ -547,6 +563,7 @@ ul#itemsList {
 .homepage-button:hover {
     
     background-color: rgba(15, 39, 63, 0.8);
+    padding: 10px;
     
 }
 
