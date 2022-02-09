@@ -166,7 +166,29 @@ input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, in
     margin-top:5px;
 }
 
+select#studyId {
+    width:400px;
+    margin-left:75px;
+}
 
+select#visit {
+    margin-left:38px;
+    width:178px;
+}
+
+#checkParticipantIdBtn {
+    width: 200px;
+    margin-left:23px;
+}
+
+.form-row #test {
+    width:298px;
+    margin-right:-104px;
+}
+
+.form-row input[type=text] {
+    width: 185px;
+}
 
 /* .flex-container { THIS DOES NOTHING
     display: flex;
@@ -451,14 +473,16 @@ ul#itemsList {
 .button {
     color: #F1FAEE;
     font-size:16px;
-    background-color: #3B3838;
+    /* background-color: #3B3838; */
+    background-color: rgba(69,123,157,1);
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;
     border: none;
 }
 .button:hover {
-    background-color: rgba(59, 56, 56, 0.7);
+    /* background-color: rgba(59, 56, 56, 0.7); */
+    background-color: rgba(69,123,157,.8)
 }
 
 .page-bottom-button {
@@ -470,7 +494,17 @@ ul#itemsList {
 
 #update-details-button {
     width: 100%;
+    margin-bottom:0px;
 }
+
+#logout-btn {
+    background-color: #3B3838;
+}
+
+.update-decisions-button {
+    width: 145px;
+}
+
 
 .small-button {
     font-size: 12px;
