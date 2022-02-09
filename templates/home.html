@@ -30,28 +30,21 @@
 
     <!-- if logged in as participant -->
     {% if session["user_type"] == "participant" %}
-    <div class="flex-row">
-        <div class="basic-box">
-            <h3>Participant To Do</h3>
-            {% if user.hcp_fullname is none %}
-            <a href="#">Add your doctors name</a>
-            {% endif %}
-            
-            <p>Has it been a while since you reviewed your decisions to receive results?</p>
-            <p>Review and update your decisions here if necessary</p>
-
+    <div style="display:flex; flex-direction: row; justify-content: flex-end; margin-right: 120px;">
+        <div class="flex-col">
+            <img src="/static/img/RRRlogo.png" id="full-logo" width=330px/>
+            <div class="homepage-box">
+                <h3 style="color:#3B3838;" >Welcome to your research portal!</h3>
+                {% if user.hcp_fullname is none or user.hcp_phone is none or user.hcp_email is none or user.hcp_practice is none %}
+                <p>It looks like you're missing contact information for your doctor or healthcare provider</p>
+                <a style="width:50%"><button class="homepage-button">Click here to update</button></a>
+                {% endif %}
+            </div>
+           
+            <a style="width:100%"><button class="homepage-button">View/Update My Details</button></a>
+            <a style="width:100%"><button class="homepage-button">View My Studies</button></a>
+            <a style="width:100%"><button class="homepage-button">View My Results</button></a>
         </div>
-
-        <div class="basic-box">
-            <p>do something</p>
-        </div>
-
-        <div class="basic-box">
-            <p>do something</p>
-        </div>
-
-        <div class="basic-box">
-            <p>do something</p>
         </div>
     </div>
     {% endif %}
