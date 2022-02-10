@@ -329,7 +329,7 @@ def get_receive_decisions(study_id, participant_id):
 @app.route('/decide/<study_id>/<participant_id>', methods=["POST"])
 def save_receive_decisions(study_id, participant_id):
     """ save participant's decisions to receive results or not"""
-    if "user" not in session or session["user_type"] != "investigator" : return redirect('/')
+    if "user" not in session : return redirect('/')
 
     study=crud.get_study_by_id(study_id)
     for result_plan in study.result_plans:
@@ -352,7 +352,10 @@ def save_receive_decisions(study_id, participant_id):
                 participant_id=participant_id,
                 result_plan_id=result_plan.result_plan_id,
                 receive_decision=receive_decision)
-    return redirect(f'/participants/{participant_id}')
+    if session["user_type"] == 'investigator':
+        return redirect(f'/participants/{participant_id}')
+    elif session["user_type"] == 'participant':
+        return redirect(f'/participant/my-results')
 
 # PROCESS FORM TO UPDATE PARTICIPANT RESULT
 @app.route('/create-result', methods=["POST"])

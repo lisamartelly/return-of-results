@@ -38,7 +38,7 @@
 
                         <!-- if result is urgent display no matter what -->
                         {% if result.urgent == True %}
-                        <td >{{result.result_value}} <b style="color:#E63946">This result was marked urget</b></td>
+                        <td >{{result.result_value}} <b style="color:#E63946">This result was marked urgent</b></td>
                         <!-- if participant consented to receive result, potentially display... -->
                         {% elif result.receive_decision == True and result.result_plan.return_plan == True %}
                             <!-- check if result has been entered yet -->
