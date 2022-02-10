@@ -5,31 +5,30 @@ html {
     height: 100%;
 }
 
+a {
+    color: rgb(56, 101, 129);
+}
+
 /* layout/nav/flexbox styling */
 
 body {
     height: 100%;   
-    overflow: hidden;  /* (add scrolling to the sidebar and main content containers) */
+    overflow: hidden;  /* (will add scrolling to the sidebar and main content containers) */
     display: flex;
     box-sizing: border-box;
     margin: 0;
     font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-}
-
-a {
-    color: rgb(56, 101, 129);
 }
 
 .column {
     height: 100%;
     display: flex;
-    flex-direction: column;  /* places the left and right headers above the bottom content */
+    flex-direction: column;
     width: 100%;
 }
 
 #left {
-    flex-shrink: 0;  /* makes sure that content is not cut off in a smaller browser window */
+    flex-shrink: 0;
     background: linear-gradient(200deg, rgba(29,53,87,1) 55%, rgba(69,123,157,1) 100%) !important;
     color:#F1FAEE;
     display: flex;
@@ -40,7 +39,8 @@ a {
     font-size: 20px;
 }
 
-.top-left { /* where logo goes */
+/* where logo goes */
+.top-left { 
     flex-shrink: 0;
     align-items: center;
     height:50px;
@@ -56,10 +56,10 @@ a {
 #right {
     width: 100vw;
     background-color: #f4f4f4;
-    /* padding-right: 50px; */
 }
 
-.top-right { /* page header styling*/
+/* page header styling*/
+.top-right { 
     flex-shrink: 0;
     display: inline-flex;
     justify-content: space-between;
@@ -76,7 +76,8 @@ a {
     padding-right: 2.5%;
 }
 
-.page-header h1{ /* addtl text header styling*/
+/* addtl text header styling*/
+.page-header h1{ 
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 300;
     font-size:x-large;
@@ -85,10 +86,23 @@ a {
 
 .bottom {
     flex-grow: 1;
-    overflow-y: auto;  /* adds scroll to this container */
+    overflow-y: auto;  /* scroll added here */
     width: 100%;
 }
 
+/* adds shadow effects by nav bars */
+#right .bottom{
+    box-shadow: 7px 7px 5px -5px grey inset;
+}
+
+.page-content {
+    padding-left: 2.5%;
+    width: 95%;
+}
+
+/* //////////////////////  HOMEPAGE STYLING    ///////////////////*/
+
+/* background image */
 #homepage {
     background-image: url('../img/informed-consent-1024x641.png');
     background-size: cover;
@@ -108,23 +122,14 @@ a {
     margin-top:20px;
 }
 
-#right .bottom{
-    box-shadow: 7px 7px 5px -5px grey inset;
-
-}
-
-.page-content {
-    /* padding-top: 2.5%; */
-    padding-left: 2.5%;
-    width: 95%;
-}
-
 #logged-out-page {
     background-image: url('../img/informed-consent-1024x641.png');
     background-size: cover;
 }
 
+/* //////////// VARIOUS FORM INPUT STYLING /////////////////*/
 
+/* general text, password, dropdown, date, and number styling */
 input[type=text], input[type=password], input[type=number], input[type=date], select {
     padding: 6px;
     display: inline-block;
@@ -132,14 +137,19 @@ input[type=text], input[type=password], input[type=number], input[type=date], se
     border-radius: 4px;
   }
 
+/* outline when input is being typed into */
 input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, input[type=date]:focus, select:focus {
     outline: 1px solid rgba(69,123,157,1);
     border: 1px solid rgba(69,123,157,1);
   }
 
+  /* changing color of checkboxes and radio buttons when they're selected */
  input[type=radio], input[type=checkbox] {
     accent-color:rgba(69,123,157,1);
   }
+
+
+/****** Lots of page-specific input styling **********/
 
 #planning-1-page input[type=text] {
     margin: 3px;
@@ -202,6 +212,23 @@ select#visit {
     width:232px;
 }
 
+.participant-details-page input[type=text] {
+    margin:0px;
+    padding: 2px;
+    border-radius: 0;
+    background-color: #e3e3e3;
+    border: none;
+    outline: none;
+    font-size:14px;
+    width:50%;
+}
+
+.participant-details-page .editable-detail {
+    margin-top:6px;
+    margin-bottom:6px;
+    /* margin-top:2px; */
+}
+
 
 
 /* NAVIGATION STYLING */
@@ -221,8 +248,6 @@ select#visit {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left:10px;
-    /* border-bottom: 1px solid rgba(241,250,238,.5); */
-    /* border-bottom: 1px solid #F1FAEE; */
 }
 .nav-item:hover {
     background-color: rgba(168,218,220,.2);
@@ -263,7 +288,7 @@ a.nav-link, .dropdown-button {
     background-color: rgba(99, 133, 134, 0.2)
 }
 
-
+/* page-specific styling */
 
 .planning {
     width: 40%;
@@ -284,8 +309,6 @@ a.nav-link, .dropdown-button {
     border-radius:15px;
     margin-bottom:10px;
 }
-
-
 
 .planning-num {
     color: rgba(69,123,157,1);
@@ -341,7 +364,6 @@ a.nav-link, .dropdown-button {
 .react-element-margin {
     margin-left: 15px;;
 }
-
 
 .search {
     padding-top: 20px;
@@ -401,11 +423,10 @@ ul#itemsList {
     margin-left: 0;
 }
 
-.list-page-item { /* styles for each nav div*/
+.list-page-item { 
     padding-top: 3px;
     padding-bottom: 3px;
     padding-left:10px;
-    /* border-bottom: 1px solid rgba(3, 27, 78, 0.685); */
     margin-bottom: 1px;
     background-color: rgba(208, 206, 206, 0.4);
 }
@@ -470,29 +491,13 @@ ul#itemsList {
     text-align: center;
 }
 
-.participant-details-page input[type=text] {
-    margin:0px;
-    padding: 2px;
-    border-radius: 0;
-    background-color: #e3e3e3;
-    border: none;
-    outline: none;
-    font-size:14px;
-    width:50%;
-}
-
-.participant-details-page .editable-detail {
-    margin-top:6px;
-    margin-bottom:6px;
-    /* margin-top:2px; */
-}
-
-
-.result-block {
+/* .result-block {
     border: 2px solid black;
     padding: 10px;
     margin: 10px;
-}
+} */
+
+/* BUTTON STYLING */
 
 .button {
     color: #F1FAEE;

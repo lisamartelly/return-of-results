@@ -29,14 +29,15 @@
                         <td><b>{{result.return_timing}}</b> the study</td>
 
                         <!-- Different messages for different categories -->
+                        {{result.result_category}}
                         {% if result.result_category == "actionable" %}
                         <td>This result is considered <b>actionable</b>,
                             meaning it could be useful to you/your doctor and help you improve your health</td>
                         {% elif result.result_category == "personally valuable" %}
                         <td>This result is considered <b>personally valuable</b>,
                             meaning it may not help you improve your health but it could be interesting to know</td>
-                        {% elif result.result_category == "unknown implications" %}
-                        <td>Currently we do not know what the significance of this result is.
+                        {% elif result.result_category == "unknown" or "unknwon" or "unknown implications" %}
+                        <td>Currently <b>we do not know</b> what the significance of this result is.
                             Its meaning could be known later on, or it might not.
                             After the study has ended we cannot update you on new information about this result.
                         </td>

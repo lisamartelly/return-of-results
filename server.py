@@ -348,7 +348,7 @@ def save_receive_decisions(study_id, participant_id):
         else:
             crud.create_result(
                 participant_id=participant_id,
-                result_plan_id=result_plan.result_plan_id
+                result_plan_id=result_plan.result_plan_id,
                 receive_decision=receive_decision)
     if session["user_type"] == 'investigator':
         return redirect(f'/participants/{participant_id}')

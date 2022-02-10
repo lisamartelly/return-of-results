@@ -56,7 +56,7 @@ for j in range(10):
 
     #create three results to return per study:
     for visit in ['recruitment', 'consent', 'study-visit-1']:
-        result_category = choice(['actionable','unknwon','personally valuable'])
+        result_category = choice(['actionable','unknown','personally valuable'])
         urgency_potential = choice([True, False])
         return_plan = choice([True, False])
         if return_plan is True:
@@ -107,4 +107,3 @@ for participant in participants:
                 crud.create_result(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, receive_decision=True)
             else:
                 crud.create_result(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, receive_decision=None)
-                
