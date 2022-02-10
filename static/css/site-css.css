@@ -204,14 +204,6 @@ select#visit {
 
 
 
-
-
-/* .flex-container { THIS DOES NOTHING
-    display: flex;
-    flex-direction: column;
-} */
-
-
 /* NAVIGATION STYLING */
 
 #flex-nav { /* overall navbar styling */
@@ -270,6 +262,8 @@ a.nav-link, .dropdown-button {
 .active {
     background-color: rgba(99, 133, 134, 0.2)
 }
+
+
 
 .planning {
     width: 40%;

@@ -7,47 +7,17 @@
 {% endblock %}
 
 {% block body %}
-<div class="flex-container-generic">
-
+<div class="basic-box">
     <h2>Decide which results you want to receive in the {{study.study_name}} study: </h2>
-
-    
-    <!-- <div>
         <form id="decision-form" name="decision-form" action="/decide/{{study.study_id}}/{{participant.participant_id}}" method="POST" >
-            {% for result in study.result_plans %}
-            {% if result.return_plan is true %}
-            <div class="flex-row result-block">
-                <div class="planning">
-                    <h2>{{result.test_name}}</h2>
-                    <p><b>Visit:</b>{{result.visit}}</p>
-                    <p><b>Timing of return:</b> This would be returned to you {{result.return_timing}} the study</p>
-                    <p><b>Relevant notes about this test: </b> None added by investigator.</p>
-                </div>
-                <div class="planning">
-                    <h3>Do you want to receive this result?</h3>
-                    <div class="flex-row>">
-                        <input type="radio" id="{{result.result_plan_id}}-receive" name="{{result.result_plan_id}}-receive" value="yes">
-                        <label>Yes</label><br>
-                        <input type="radio" id="{{result.result_plan_id}}-receive" name="{{result.result_plan_id}}-receive" value="no">
-                        <label>No</label><br>
-                    </div>
-                    
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %}
-        </form> -->
-
-        <form id="decision-form" name="decision-form" action="/decide/{{study.study_id}}/{{participant.participant_id}}" method="POST" >
-            
             <table>
                 <thead>
                     <tr>
-                        <td></td>
-                        <td><b>Which visit is it from?</b></td>
-                        <td><b>When will it be returned?</b></td>
-                        <td><b>How will it be meaningful to you?</b></td>
-                        <td><b>Do you want to receive this result?</b></td>
+                        <td style="width:15%"></td>
+                        <td style="width:15%"><b>Test Visit</b></td>
+                        <td style="width:15%"><b>Return Timing</b></td>
+                        <td style="width:40%"><b>How meaningful it will be</b></td>
+                        <td style="width:20%"><b>Do you want to receive this result?</b></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,18 +56,19 @@
 
 
             </table>    
-            <div class="flex-center">
+            <div class="between-row" style="align-items: center; margin-top:15px; padding: 10px 20px; border-radius: 5px; background-color:rgba(243, 243, 243, 0.8);">
                 <div>
-                    <p>If you have questions about the results returned/not returned in this study, contact the study investigator:</p>
-                    <p>Name: {{study.investigator.fname}} {{study.investigator.lname}}
-                        Phone: {{study.investigator.phone}}
-                        Email: {{study.investigator.email}}</p>
+                    <p>If you have questions about results in this study, contact the study investigator</p>
+                    <p><b>{{study.investigator.fname}} {{study.investigator.lname}}</b><br>
+                        {{study.investigator.phone}}<br>
+                        {{study.investigator.email}} </p>
+                </div>
+                <div style="margin-right:3%">
+                    <button style="width:125px;" type="submit" class="button">Submit</button>
                 </div>
             </div>
     
-            <div class="flex-center">
-                <button type="submit" class="button">Submit</button>
-            </div>       
+                   
         </form>
 
         
