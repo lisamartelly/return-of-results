@@ -22,7 +22,7 @@ class Participant(db.Model):
     participant_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     #personal info:
     #### REMINDER AFTER DEVELOPMENT TO CHANGE BACK TO UNIQUE EMAILS - UNIQUE = TRUE!!!!!
-    email = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=True)
     fname = db.Column(db.String(30), nullable=False)
     lname = db.Column(db.String(30), nullable=False)

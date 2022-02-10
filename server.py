@@ -15,17 +15,15 @@ app = Flask(__name__)
 # A secret key is needed to use Flask sessioning features
 app.secret_key = 'this-should-be-something-unguessable'
 
-# Normally, if you refer to an undefined variable in a Jinja template,
-# Jinja silently ignores this. This makes debugging difficult, so we'll
-# set an attribute of the Jinja environment that says to make this an
-# error.
+# Help with Jinja errors
 app.jinja_env.undefined = jinja2.StrictUndefined
 
-# This configuration option makes the Flask interactive debugger
-# more useful (you should remove this line in production though)
+# make the Flask interactive debugger more useful
+# remove this line in production though)
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 ########## NEED TO RUN SOURCE SECRETS.SH AT START OF EACH TERMINAL FOR EMAIL TO SEND #############
+
 # email configurations
 mail = Mail(app)
 app.config['MAIL_SERVER']='smtp.gmail.com'
@@ -350,7 +348,7 @@ def save_receive_decisions(study_id, participant_id):
         else:
             crud.create_result(
                 participant_id=participant_id,
-                result_plan_id=result_plan.result_plan_id,
+                result_plan_id=result_plan.result_plan_id
                 receive_decision=receive_decision)
     if session["user_type"] == 'investigator':
         return redirect(f'/participants/{participant_id}')

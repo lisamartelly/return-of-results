@@ -15,12 +15,12 @@ model.db.create_all()
 
 fake = Faker()
 
-#make specific investigator for development
-investigator = crud.create_investigator(fname="admin fname", lname="admin lname", email="test@test.com", phone="123456")
+#make specific investigator for development - me!
+investigator = crud.create_investigator(fname="Dr. Lisa", lname="Murray", email="lisamichellemurray@gmail.com", phone="123 456 7589")
 investigator.password = "test"
 
-#make specific participant for development
-participant = crud.create_participant(email="test@test.com", fname="test fname", lname="test lname", dob="01/01/2020", phone="123456")
+#make specific participant for development - me!
+participant = crud.create_participant(email="lisamichellemurray@gmail.com", fname="Lisa", lname="Murray", dob="01/02/1923", phone="123 456-7890")
 participant.password = "test"
 
 #make fake investigators for db, no pws:
@@ -28,8 +28,8 @@ for i in range(10):
     i_fname = fake.first_name()
     i_lname = fake.last_name()
     i_phone = fake.phone_number()
-    i_domain = fake.free_email_domain()
-    i_email = f'{i_lname}.{i_fname}@{i_domain}'
+    # i_domain = fake.free_email_domain()
+    i_email = f'{i_lname}.{i_fname}@test.com'
 
     investigator = crud.create_investigator(fname=i_fname, lname=i_lname, email=i_email, phone=i_phone)
 
@@ -81,8 +81,9 @@ for k in range(100):
     p_phone = fake.phone_number()
     p_domain = fake.free_email_domain()
     p_dob = fake.date_of_birth(minimum_age=0, maximum_age=60)
-    # p_email = f'{p_lname}.{p_fname}@{p_domain}'
-    p_email = 'return.of.results.dev@gmail.com'
+    p_email = f'{p_lname.lower()}.{p_fname.lower()}@test.com'
+    # p_email = f'{p_lname.lower()}.{p_fname.lower()}@{p_domain}'
+    # p_email = 'return.of.results.dev@gmail.com'
 
     crud.create_participant(email=p_email, fname=p_fname, lname=p_lname, dob=p_dob, phone=p_phone)
 
@@ -106,6 +107,4 @@ for participant in participants:
                 crud.create_result(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, receive_decision=True)
             else:
                 crud.create_result(participant_id=participant.participant_id, result_plan_id=result.result_plan_id, receive_decision=None)
-
-
-#create fake results for each study
+                
