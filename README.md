@@ -80,7 +80,7 @@ For studies, changing the study status triggers an automatic check for every enr
 
 ### Most important business need: hiding/displaying results to participants based on hierarchical factors
 
-![Result Display](/static/img/participant-result-view.png "Result Display")
+![Result Display](/static/img/participant-result-view.PNG "Result Display")
 
 Conditional logic determines whether and when a result should be displayed to a participant on their portal. This is of paramount importance, as improper results return could un-blind participants and present a serious risk to study integrity, or end in legal ramifications if the participant either did not want to receive information that was given to them or was not informed of an urgent medical situation that the study revealed.
 
