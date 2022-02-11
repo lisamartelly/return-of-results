@@ -34,6 +34,8 @@ Returning Research Results is an app built on a Flask server with a PostgreSQL d
 
 ### Login, Registration, Permissions
 
+![Login and Registration Page](/static/img/login-page.png "Login and Registration")
+
 Login/registration differentiate investigators from participants and restrict pages accordingly. Registration is limited to accounts that were set up by an investigator or administrator.
 
 Participants are restricted from investigator pages and are limited to only viewing information about themselves.
