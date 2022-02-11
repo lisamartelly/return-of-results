@@ -44,9 +44,13 @@ Logged out users are automatically redirected to the log in page.
 
 ### Study and Result Planning with Dynamic Forms
 
+![Planning Form](/static/img/planning-3.png "Planning Form")
+
 The planning tool gets all of the required data to create an automated process to display results to participants at the right time (if at all). It allows for maximum flexibility for both investigators and participants and responds dynamically to user input.
 
 ### Enrollment in research studies & gathering participant decisions
+
+![Enrollment](/static/img/enrollment.png "Enrollment")
 
 Participants can be enrolled in studies as "new" or "existing" participants. The latter enrollment option includes a validation check to ensure that an input "existing participant" indeed exists and refers to the correct participant.
 
@@ -56,6 +60,8 @@ These decisions can be updated by participants themselves at any point, or by in
 
 ### Dynamic Results Input Using React + Automated Email Notifications
 
+![Results](/static/img/results.png "Results")
+
 The results input includes multiple input validations, auto-filled inputs based on query string parameters, dynamic selection of studies and tests based on the study's result plans, and the ability to add multiple results at once.
 
 After a result is added for a given participant, the app automatically checks whether a participant should be notified of a new result in their portal, sends a notification email if so, and marks the participant as notified.
@@ -64,6 +70,8 @@ If a result is marked as urgent, the participant's healthcare provider contact i
 
 ### Detail Display and On-Page Edits using Javascript
 
+![Details](/static/img/participant-details.png "Details")
+
 On the Studies and Participant pages, the app displays key details of a selected item without loading a new page.
 
 Specific Study/Participant pages feature all of the relevant details about a selected item, and both include methods to update information on that page directly, without reloading.
@@ -71,6 +79,8 @@ Specific Study/Participant pages feature all of the relevant details about a sel
 For studies, changing the study status triggers an automatic check for every enrolled participant to see if results can now be displayed to them (if any were withheld until a particular study status). As with results input, this check will notify them of their results and mark them as "notified".
 
 ### Most important business need: hiding/displaying results to participants based on hierarchical factors
+
+![Result Display](/static/img/participant-result-view.png "Result Display")
 
 Conditional logic determines whether and when a result should be displayed to a participant on their portal. This is of paramount importance, as improper results return could un-blind participants and present a serious risk to study integrity, or end in legal ramifications if the participant either did not want to receive information that was given to them or was not informed of an urgent medical situation that the study revealed.
 
