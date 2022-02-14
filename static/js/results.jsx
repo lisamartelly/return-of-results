@@ -56,7 +56,7 @@ function ResultsForm() {
         fetch(`/study-participants.json/${studySelected}/${participantId}`)
         .then(response => response.json())
         .then(responseData => {
-            console.log(responseData)
+            
             document.querySelector('#id_check_msg').innerHTML = responseData.msg;
             if (responseData.code === 1) {
                 document.querySelector('#resultsInput').style.display = "";
@@ -94,7 +94,7 @@ function ResultsForm() {
             }
         }
         setTests(tests)
-        console.log("TESTS: ", tests)
+        
     }, [visitSelected]);
 
     // set visit based on user input
@@ -123,7 +123,7 @@ function ResultsForm() {
 
     // display the doctor's contact info if a result is marked as urgent
     const handleUrgentValue = e => {
-        console.log("e.target.checked", e.target.checked);
+        
         if (e.target.checked === true) {
             document.querySelector('#hcp_info').style.display = "";
         }

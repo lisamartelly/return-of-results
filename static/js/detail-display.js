@@ -6,7 +6,7 @@ function showItemDetails(evt) {
     evt.preventDefault();
     
     // gets ID of item and determines whether is participant or study
-    console.log(evt)
+    
     const id = evt.target.parentElement.id
     const detailType = evt.target.parentElement.name
   

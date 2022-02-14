@@ -5,7 +5,7 @@ const tables = document.querySelectorAll(".pt-facing-details-table")
 
 for (const table of tables){
     const length = table.rows.length;
-    console.log("table length: ", table, length)
+    
     if (length === 1) {
         table.innerHTML = '<li>No results will be returned</li>';
     }

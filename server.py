@@ -13,14 +13,14 @@ fake = Faker()
 app = Flask(__name__)
 
 # A secret key is needed to use Flask sessioning features
-app.secret_key = 'this-should-be-something-unguessable'
+app.secret_key = 'huilea092243hikgfd08171gcbf72o10998231ujsdfhjkds'
 
 # Help with Jinja errors
-app.jinja_env.undefined = jinja2.StrictUndefined
+# app.jinja_env.undefined = jinja2.StrictUndefined
 
 # make the Flask interactive debugger more useful
 # remove this line in production though)
-app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
+# app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 ########## NEED TO RUN SOURCE SECRETS.SH AT START OF EACH TERMINAL FOR EMAIL TO SEND #############
 
@@ -44,7 +44,7 @@ def show_homepage():
             user = crud.get_participant_by_id(session["user_id"])
         elif session["user_type"] == "investigator":
             user = crud.get_investigator_by_id(session["user_id"])
-        print(user)
+        
         return render_template('home.html', user=user)
     else:
         return render_template('home-logged-out.html')
@@ -88,8 +88,6 @@ def show_participant_details(participant_id):
 
     participant = crud.get_participant_by_id(participant_id)
 
-    for result in participant.results:
-        print("********participant.result:", result)
     return render_template('participant_all_details.html', participant=participant)
 
 # SHOW PAGE FOR CREATING RESULTS

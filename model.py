@@ -21,7 +21,6 @@ class Participant(db.Model):
 
     participant_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     #personal info:
-    #### REMINDER AFTER DEVELOPMENT TO CHANGE BACK TO UNIQUE EMAILS - UNIQUE = TRUE!!!!!
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=True)
     fname = db.Column(db.String(30), nullable=False)
@@ -129,14 +128,14 @@ def example_data():
 
     # Add participants
     participant1 = Participant(participant_id=1, email="first_participant@test.com", fname="First", lname="Participant", dob="01/01/1991", phone="111-1111", password="password")
-    print("****************PARTICIPANT1", participant1)
+    
     participant2 = Participant(participant_id=2, email="second_participant@test.com", fname="Second", lname="Participant", dob="02/02/1992", phone="222-2222", password="password")
     db.session.add_all([participant1, participant2])
     db.session.commit()
 
     # Add one investigator
     investigator = Investigator(investigator_id=1, fname="Only", lname="Investigator", email="investigator@test.com", phone="333-3333", password="password")
-    print("**************INVESTIGATOR", investigator)
+    
     db.session.add(investigator)
     db.session.commit()
 
