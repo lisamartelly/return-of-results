@@ -4,7 +4,9 @@
 
 **Returning Research Results** is a planning and implementation tool for research organizations and sites to use to share important research data to the participants who contribute towards their studies. It features a planning component that offers flexible control over what is shared and when, management components to enroll participants in studies and update their personal details, add their data, and send notifications about available results, and a "portal" for participants to log in and view their results, update their personal details, and obtain information relevant to the study(s) they are enrolled in.
 
-[Returning Research Results](https://returningresearchresults.com) is deployed on AWS. By design it is restricted to "employed" investigators or "already-enrolled" participants. If you would like to demo the app yourself please reach out to [Lisa Murray](mailto:lisamichellemurray@gmail.com) via email for login credentials.
+[Returning Research Results](https://returningresearchresults.com) is deployed on AWS. By design, it is restricted to "employed" investigators or "already-enrolled" participants. If you would like to explore the app yourself, please reach out to [Lisa Murray](mailto:lisamichellemurray@gmail.com) via email for login credentials.
+
+Otherwise, [click here](https://www.youtube.com/watch?v=g_9kZTswXig) for a recorded demo from the developer.
 
 ## About the Developer
 
